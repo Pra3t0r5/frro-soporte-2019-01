@@ -11,12 +11,3 @@ class Rectangulo:
         return self.base*self.altura
 
 
-class Circulo:
-    def __init__(self, radio):
-        self.radio=radio
-
-    def area(self):
-
-
-    def perimetro(self):
-        pass
