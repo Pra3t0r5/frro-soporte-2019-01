@@ -12,23 +12,24 @@
 
 
 class Persona:
-    ultimo_dni = 0.
+    sexosValidos = {"H","M"}
+    
     def __init__(self, nombre, edad, sexo, peso, altura):
         self.nombre = nombre
         self.edad = edad
-        self.sexo = sexo
+        if sexo in self.sexosValidos: 
+            self.sexo 
+        else:
+            raise ValueError("results: debe ser uno de %r." % self.sexosValidos)
         self.peso = peso
         self.altura = altura
-        self.dni = self.generar_dni()
 
     def es_mayor_edad(self):
-        return self.edad >= 18
+        pass
 
     # llamarlo desde __init__
-    @classmethod
-    def __generar_dni(cls):
-        cls.last_dni += 1
-        return str(cls.last_dni).zfill(8)
+    def generar_dni(self):
+        pass
 
     def print_data(self):
-        print(self.nombre,self.edad,self.sexo,self.peso,self.altura)
+        pass
