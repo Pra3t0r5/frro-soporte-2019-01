@@ -112,9 +112,16 @@ print("Protocolo:{0}\nDominio{1}".format(protocolo,dominio))
 #Protocolo: http://
 #Dominio: google.com
 
-#split(separador)
+#split(separador) separa string en elementos
 cadena = "libro, cuaderno, lapiz"
 lista = cadena.split(',') #entrega [libro, cuaderno, lapiz]
+#splitlines() separa por retorno de carro, muy bueno para procesar archivos de texto
+
+# Metodos de Print--------------------------------------
+#Metodos viejos 
+#Metodos nuevos (con format)
+
+
 
 
 
