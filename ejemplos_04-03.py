@@ -102,7 +102,7 @@ sep = '-'
 sep.join(('a','b','c')) #a-b-c
 
 formato_nro_fac = ("N 0000-0","-0000(ID:",")")
-nro=275......................
+#nro=275......................
 
 # Metodos de Division--------------------------------------
 #partition(separador)
