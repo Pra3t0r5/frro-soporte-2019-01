@@ -9,18 +9,25 @@
 
 import sqlite3
 
-connectionObject = sqlite3.connect("weather.db")
+db = sqlite3.connect('mibase.db')
 
-cursorObject = connectionObject.cursor()
+cur = db.cursor()
 
 def crear_tabla():
-    createTable = "CREATE TABLE Persona(idPersona int AUTOINCREMENT, Nombre char, FechaNacimiento Date, Dni int, altura int)"
-    cursorObject.execute(createTable)
+    createTable = "CREATE TABLE IF NOT EXISTS Persona(IdPersona INTEGER PRIMARY KEY ASC,Nombre char(30),FechaNacimiento " \
+                  "Date, DNI INTEGER, Altura INTEGER)"
+    cur.execute(createTable)
 
 
 def borrar_tabla():
     dropTable = "drop table Persona"
-    cursorObject.execute(dropTable)
+    cur.execute(dropTable)
+
+def cerrar_conexión():
+    cur.close()
+    db.commit()
+    db.close()
+
 
 
 # no modificar
