@@ -4,14 +4,19 @@
 import datetime
 
 from . import ejercicio_01 as ej01
-#from practico_03.ejercicio_01 import reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    cSQL= "INSERT into Persona(Nombre,FechaNacimiento,DNI,Altura) VALUES(?,?,?,?)"
-    tdatos = (nombre, nacimiento, dni, altura)
-    ej01.cur.execute(cSQL,tdatos)
-    return ej01.cur.lastrowid
+    conn = ej01.crear_conexion()
+    cur = conn.cursor()
+    csql = "INSERT into persona(nombre, fecha_nacimiento, dni, altura) VALUES(?,?,?,?)"
+    tdatos = (nombre, datetime.datetime.strftime(nacimiento, "%Y-%m-%d"), dni, altura)
+    cur.execute(csql, tdatos)
+    id = cur.lastrowid
+    cur.close()
+    conn.commit()
+    conn.close()
+    return id
 
 @ej01.reset_tabla
 def pruebas():
@@ -19,6 +24,7 @@ def pruebas():
     id_marcela = agregar_persona('marcela gonzalez', datetime.datetime(1980, 1, 25), 12164492, 195)
     assert id_juan > 0
     assert id_marcela > id_juan
+
 
 if __name__ == '__main__':
     pruebas()

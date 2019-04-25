@@ -5,16 +5,18 @@ import datetime
 
 from . import ejercicio_02 as ej02
 from . import ejercicio_01 as ej01
-#from practico_03.ejercicio_01 import reset_tabla
-#from practico_03.ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-    cSQL= "DELETE FROM Persona WHERE IdPersona = ?"
-    ej01.cur.execute(cSQL,id_persona)
-
-    return False
-
+    conn = ej01.crear_conexion()
+    cur = conn.cursor()
+    consulta = "DELETE FROM persona WHERE id_persona = ?"
+    cur.execute(consulta, id_persona)
+    rta = cur.rowcount
+    cur.close()
+    conn.commit()
+    conn.close()
+    return rta == 1
 
 @ej01.reset_tabla
 def pruebas():

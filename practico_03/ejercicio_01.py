@@ -9,25 +9,30 @@
 
 import sqlite3
 
-db = sqlite3.connect('mibase.db')
-
-cur = db.cursor()
+def crear_conexion():
+    conn = sqlite3.connect('mibase.db')
+    return conn
 
 def crear_tabla():
-    createTable = "CREATE TABLE IF NOT EXISTS Persona(IdPersona INTEGER PRIMARY KEY ASC,Nombre char(30),FechaNacimiento " \
-                  "Date, DNI INTEGER, Altura INTEGER)"
-    cur.execute(createTable)
+    conn = crear_conexion()
+    cur = conn.cursor()
+    create_table = "CREATE TABLE IF NOT EXISTS persona(id_persona INTEGER PRIMARY KEY ASC, nombre VARCHAR(30) NULL, fecha_nacimiento " \
+                  "DATETIME NULL, dni INTEGER NULL, altura INTEGER NULL)"
+    cur.execute(create_table)
 
+    cur.close()
+    conn.commit()
+    conn.close()
 
 def borrar_tabla():
-    dropTable = "drop table Persona"
-    cur.execute(dropTable)
+    conn = crear_conexion()
+    cur = conn.cursor()
+    drop_table = "DROP TABLE persona"
+    cur.execute(drop_table)
 
-def cerrar_conexión():
     cur.close()
-    db.commit()
-    db.close()
-
+    conn.commit()
+    conn.close()
 
 
 # no modificar
@@ -37,3 +42,5 @@ def reset_tabla(func):
         func()
         borrar_tabla()
     return func_wrapper
+
+crear_tabla()
