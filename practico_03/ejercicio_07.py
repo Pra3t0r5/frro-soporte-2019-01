@@ -9,17 +9,17 @@
 
 import datetime
 
-from . import ejercicio_01 as ej01
-from . import ejercicio_02 as ej02
-from . import ejercicio_04 as ej04
-from . import ejercicio_06 as ej06
+from frro_soporte_2019_01.practico_03.ejercicio_01 import crear_conexion
+from frro_soporte_2019_01.practico_03.ejercicio_06 import reset_tabla
+from frro_soporte_2019_01.practico_03.ejercicio_02 import agregar_persona
+from frro_soporte_2019_01.practico_03.ejercicio_04 import buscar_persona
 
 
 def agregar_peso(id_persona, fecha, peso):
-    conn = ej01.crear_conexion()
+    conn = crear_conexion()
     cur = conn.cursor()
-    if ej04.buscar_persona(id_persona) and existe_registro_posterior(id_persona, fecha):
-        insert = " INSERT INTO peso(idPersona, fecha, peso) VALUES(?,?,?)"
+    if buscar_persona(id_persona) and existe_registro_posterior(id_persona, fecha):
+        insert = " INSERT INTO PersonaPeso(id_persona, fecha, peso) VALUES(?,?,?)"
         tdatos = (id_persona, datetime.datetime.strftime(
         fecha, "%Y-%m-%d"), peso)
         cur.execute(insert, tdatos)
@@ -35,7 +35,7 @@ def agregar_peso(id_persona, fecha, peso):
 
 
 def existe_registro_posterior(id_persona, fecha):
-    conn = ej01.crear_conexion()
+    conn = crear_conexion()
     cur = conn.cursor()
     select = "SELECT fecha FROM PersonaPeso WHERE id_persona=? ORDER BY fecha DESC"
     cur.execute(select, (id_persona,))
@@ -52,9 +52,9 @@ def existe_registro_posterior(id_persona, fecha):
         return True
 
 
-@ej06.reset_tabla
+@reset_tabla
 def pruebas():
-    id_juan = ej02.agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     assert agregar_peso(id_juan, datetime.datetime(2018, 5, 26), 80) > 0
     # id incorrecto
     assert agregar_peso(200, datetime.datetime(1988, 5, 15), 80) == False

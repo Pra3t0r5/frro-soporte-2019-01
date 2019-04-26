@@ -16,18 +16,18 @@
 
 import datetime
 
-from . import ejercicio_01 as ej01
-from . import ejercicio_02 as ej02
-from . import ejercicio_04 as ej04
-from . import ejercicio_06 as ej06
-from . import ejercicio_07 as ej07
+from frro_soporte_2019_01.practico_03.ejercicio_06 import reset_tabla
+from frro_soporte_2019_01.practico_03.ejercicio_01 import crear_conexion
+from frro_soporte_2019_01.practico_03.ejercicio_02 import agregar_persona
+from frro_soporte_2019_01.practico_03.ejercicio_04 import buscar_persona
+from frro_soporte_2019_01.practico_03.ejercicio_07 import agregar_peso
 
 
 def listar_pesos(id_persona):
-    if ej04.buscar_persona(id_persona):
-        conn = ej01.crear_conexion()
+    if buscar_persona(id_persona):
+        conn = crear_conexion()
         cur = conn.cursor()
-        select = "SELECT fecha, peso FROM Personapeso WHERE id_persona=? ORDER BY fecha ASC"
+        select = "SELECT fecha, peso FROM PersonaPeso WHERE id_persona=? ORDER BY fecha ASC"
         cur.execute(select, (id_persona,))
         rows = cur.fetchall()
         cur.close()
@@ -37,11 +37,11 @@ def listar_pesos(id_persona):
     else:
         return False
 
-@ej06.reset_tabla
+@reset_tabla
 def pruebas():
-    id_juan = ej02.agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
-    ej07.agregar_peso(id_juan, datetime.datetime(2018, 5, 1), 80)
-    ej07.agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
+    agregar_peso(id_juan, datetime.datetime(2018, 5, 1), 80)
+    agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)
     pesos_esperados = [
         ('2018-05-01', 80),

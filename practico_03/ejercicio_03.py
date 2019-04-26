@@ -3,24 +3,28 @@
 
 import datetime
 
-from . import ejercicio_02 as ej02
-from . import ejercicio_01 as ej01
+from frro_soporte_2019_01.practico_03.ejercicio_01 import reset_tabla
+from frro_soporte_2019_01.practico_03.ejercicio_01 import crear_conexion
+from frro_soporte_2019_01.practico_03.ejercicio_02 import agregar_persona
+
+
 
 
 def borrar_persona(id_persona):
-    conn = ej01.crear_conexion()
-    cur = conn.cursor()
-    consulta = "DELETE FROM persona WHERE id_persona = ?"
-    cur.execute(consulta, id_persona)
-    rta = cur.rowcount
-    cur.close()
-    conn.commit()
-    conn.close()
+    conn = crear_conexion()
+
+    with conn:
+        cur = conn.cursor()
+        consulta = "DELETE FROM persona WHERE id_persona = ?"
+        cur.execute(consulta, (id_persona,))
+        rta = cur.rowcount
+        conn.commit()
+
     return rta == 1
 
-@ej01.reset_tabla
+@reset_tabla
 def pruebas():
-    assert borrar_persona(ej02.agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
+    assert borrar_persona(agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
     assert borrar_persona(12345) is False
 
 if __name__ == '__main__':

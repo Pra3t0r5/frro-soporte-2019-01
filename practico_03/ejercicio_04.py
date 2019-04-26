@@ -4,25 +4,40 @@
 
 import datetime
 
-from . import ejercicio_01 as ej01
-from . import ejercicio_02 as ej02
+from frro_soporte_2019_01.practico_03.ejercicio_01 import crear_conexion
+from frro_soporte_2019_01.practico_03.ejercicio_01 import reset_tabla
+from frro_soporte_2019_01.practico_03.ejercicio_02 import agregar_persona
 
 
 def buscar_persona(id_persona):
-    conn = ej01.crear_conexion()
-    cur = conn.cursor()
-    select = "SELECT id_persona, nombre, fecha_nacimiento, dni, altura FROM persona WHERE id_persona = ? ORDER BY id_persona ASC"
-    cur.execute(select, id_persona)
-    filas = cur.fetchall()
-    cur.close()
-    conn.commit()
-    conn.close()
+    conn = crear_conexion()
 
-    return False if not filas else filas[0]
+    with conn:
+        cur = conn.cursor()
+        select = """
+            SELECT id_persona, nombre, fecha_nacimiento, dni, altura 
+            FROM persona 
+            WHERE id_persona = ? 
+            ORDER BY id_persona ASC
+        """
+        tdato = str(id_persona), # la coma es constructor de tuplas
+        cur.execute(select, tdato)
+        filas = cur.fetchall()
 
-@ej01.reset_tabla
+    if not filas:
+        return False
+
+    persona = filas[0]
+
+    id_persona, nombre, fecha_nac, dni, altura = persona
+
+    fecha_nac = datetime.datetime.strptime(fecha_nac, '%Y-%m-%d')
+
+    return (id_persona, nombre, fecha_nac, dni, altura)
+
+@reset_tabla
 def pruebas():
-    juan = buscar_persona(ej02.agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
+    juan = buscar_persona(agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
     assert juan == (1, 'juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     assert buscar_persona(12345) is False
 

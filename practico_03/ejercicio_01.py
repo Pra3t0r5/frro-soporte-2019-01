@@ -27,7 +27,7 @@ def crear_tabla():
 def borrar_tabla():
     conn = crear_conexion()
     cur = conn.cursor()
-    drop_table = "DROP TABLE persona"
+    drop_table = "DROP TABLE if exists persona"
     cur.execute(drop_table)
 
     cur.close()
@@ -38,9 +38,11 @@ def borrar_tabla():
 # no modificar
 def reset_tabla(func):
     def func_wrapper():
+        borrar_tabla()
         crear_tabla()
         func()
         borrar_tabla()
+
     return func_wrapper
 
 crear_tabla()
