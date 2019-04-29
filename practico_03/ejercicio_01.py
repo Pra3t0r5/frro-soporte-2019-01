@@ -38,7 +38,6 @@ def borrar_tabla():
 # no modificar
 def reset_tabla(func):
     def func_wrapper():
-        borrar_tabla()
         crear_tabla()
         func()
         borrar_tabla()
