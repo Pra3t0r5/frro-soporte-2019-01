@@ -2,18 +2,25 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
-
-from . import ejercicio_01 as ej01
-#from practico_03.ejercicio_01 import reset_tabla
+from practico_03.ejercicio_01 import reset_tabla
+from practico_03.ejercicio_01 import crear_conexion
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    cSQL= "INSERT into Persona(Nombre,FechaNacimiento,DNI,Altura) VALUES(?,?,?,?)"
-    tdatos = (nombre, nacimiento, dni, altura)
-    ej01.cur.execute(cSQL,tdatos)
-    return ej01.cur.lastrowid
+    conn = crear_conexion()
+    cur = conn.cursor()
+    consSQL = "INSERT INTO persona(Nombre,FechaNacimiento,DNI,Altura) VALUES (?,?,?,?)"
+    tuplaDatos = (nombre, datetime.datetime.strftime(nacimiento, '%Y-%m-%d'), dni, altura)
+    cur.execute(consSQL,tuplaDatos)
+    id = cur.lastrowid
+    cur.close()
+    conn.commit()
+    conn.close()
+    return id
 
-@ej01.reset_tabla
+
+
+@reset_tabla
 def pruebas():
     id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     id_marcela = agregar_persona('marcela gonzalez', datetime.datetime(1980, 1, 25), 12164492, 195)
