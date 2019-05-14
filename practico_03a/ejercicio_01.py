@@ -1,3 +1,13 @@
+# Implementar la funcion crear_tabla, que cree una tabla Persona con:
+# - IdPersona: Int() (autoincremental)
+# - Nombre: Char(30)
+# - FechaNacimiento: Date()
+# - DNI: Int()
+# - Altura: Int()
+
+# Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
+
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, String, Date, Integer, ForeignKey, create_engine
 from sqlalchemy.orm import relationship, sessionmaker
