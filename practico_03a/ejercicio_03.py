@@ -11,11 +11,13 @@ from frro_soporte_2019_01.practico_03a.ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-
-    if session.query(Persona).filter(Persona.idPersona == id_persona).delete():
-        session.commit()
-        return True
-    return False
+    per=session.query(Persona).filter(Persona.idPersona == id_persona).all()
+    if not per:
+        return False
+    persona = per[0]
+    session.delete(persona)
+    session.commit()
+    return True
 
 
 @reset_tabla

@@ -9,14 +9,14 @@
 
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Table, Column, String, Date, Integer, ForeignKey, create_engine
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy import Column, String, Date, Integer, create_engine
+from sqlalchemy.orm import sessionmaker
 from .config import SQLALCHEMY_DATABASE_URI
 
 Base = declarative_base()
 
 class Persona(Base):
-    __tablename__='personas'
+    __tablename__='persona'
     idPersona = Column(Integer, primary_key=True)
     nombre = Column(String(30))
     fechaNacimiento = Column(Date)
