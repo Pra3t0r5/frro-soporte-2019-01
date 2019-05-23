@@ -13,6 +13,6 @@ Base = declarative_base()
 class Socio(Base):
     __tablename__ = 'socios'
     id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
-    dni = Column(Integer, unique=True)
+    dni = Column(Integer)
     nombre = Column(String(250))
     apellido = Column(String(250))

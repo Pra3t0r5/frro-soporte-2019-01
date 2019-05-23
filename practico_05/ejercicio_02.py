@@ -54,7 +54,7 @@ class DatosSocio(object):
             self.baja(soc.id)
         return True
 
-    def alta(self, socio: Socio):
+    def alta(self, socio):
         """
         Devuelve el Socio luego de darlo de alta.
         :type socio: Socio
@@ -105,8 +105,7 @@ def pruebas():
     assert datos.buscar(socio_2.id) == socio_2
 
     # buscar dni
-    socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
-    assert datos.buscar(socio_2.dni) == socio_2
+    assert datos.buscar_dni(socio_2.dni) == socio_2
 
     # modificacion
     socio_3 = datos.alta(Socio(dni=12345680, nombre='Susana', apellido='Gimenez'))
