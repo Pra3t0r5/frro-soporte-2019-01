@@ -14,6 +14,7 @@ class DatosSocio(object):
         db_session = sessionmaker()
         db_session.bind = engine
         self.session = db_session()
+        Base.metadata.create_all(engine) #Crea la tabla socios
 
     def buscar(self, id_socio):
         """
