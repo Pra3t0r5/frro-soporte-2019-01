@@ -50,14 +50,15 @@ def multiplicacion():
     entry1.set(tx+'*')
 
 def igual():
-    tx = entry1.get()
-    if any(c.isalpha() for c in tx):
-        messagebox.showinfo("Error", "Error de entrada")
-        clean()
-    else:
+    try:
+        tx = entry1.get()
         entry1.set(eval(tx))
-
-
+    except ZeroDivisionError:
+        messagebox.showinfo("Error", "No es posible la division por cero")
+        clean()
+    except:
+        messagebox.showinfo("Error", "Error tipeo")
+        clean()
 def clean():
     entry1.set(str())
 

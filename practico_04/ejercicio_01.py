@@ -5,33 +5,35 @@
 from tkinter import *
 from tkinter import ttk, font, messagebox
 
-def is_float(n1,n2):
-    if type(n1) == "tkinter.DoubleVar" and type(n2)== "tkinter.DoubleVar":
-        return True
-    else:
-        return False
 def suma():
-    n1 = float(oper1.get())
-    n2 = float(oper2.get())
-    print(is_float(n1,n2))
-    if is_float(n1,n2):
+    try:
+        n1 = oper1.get()
+        n2 = oper2.get()
         suma = n1 + n2
-        messagebox.showinfo("Resultado Suma", "El resultado de la suma es: %.2f" % suma)
-    else:
+    except:
         messagebox.showinfo("Error","Error Tipeo")
+    else:
+        messagebox.showinfo("Resultado Suma", "El resultado de la suma es: %.2f" % suma)
 
 
 def resta():
-    n1 = oper1.get()
-    n2 = oper2.get()
-    resta = n1 - n2
-    messagebox.showinfo("Resultado Resta", "El resultado de la resta es %.2f" % resta)
+    try:
+        n1 = oper1.get()
+        n2 = oper2.get()
+        resta = n1 - n2
+    except:
+        messagebox.showinfo("Error","Error Tipeo")
+    else:
+        messagebox.showinfo("Resultado Resta", "El resultado de la resta es %.2f" % resta)
 def multiplicacion():
-    n1 = oper1.get()
-    n2 = oper2.get()
-    multiplicacion = n1 * n2
-    messagebox.showinfo("Resultado Multiplicación", "El resultado de la multiplicacion es: %.2f" % multiplicacion)
-
+    try:
+        n1 = oper1.get()
+        n2 = oper2.get()
+        multiplicacion = n1 * n2
+    except:
+        messagebox.showinfo("Error","Error Tipeo")
+    else:
+        messagebox.showinfo("Resultado Multiplicación", "El resultado de la multiplicacion es: %.2f" % multiplicacion)
 def division():
     try:
         n1 = oper1.get()
@@ -39,6 +41,8 @@ def division():
         division = n1/ n2
     except ZeroDivisionError:
         messagebox.showinfo("Error de entrada", "No es posible la división por cero")
+    except:
+        messagebox.showinfo("Error","Error Tipeo")
     else:
         messagebox.showinfo("Resultado Division", "El resultado de la division es: %.2f" % division)
 
@@ -56,7 +60,7 @@ label1 = Label(root, text="Primer operando", font= fuente)
 label2 = Label(root, text="Segundo Operando", font= fuente)
 botonSuma = ttk.Button(root, text="+",command=suma)
 botonResta = ttk.Button(root, text="-",command=resta)
-botonMultiplicación = ttk.Button(root, text="x",command= multiplicacion)
+botonMultiplicacion = ttk.Button(root, text="x",command= multiplicacion)
 botonDivision = ttk.Button(root, text="/",command= division)
 label1.pack(side=LEFT, expand=True, padx=2, pady=2)
 entry1.pack(side=LEFT, expand=True, padx=2, pady=2)
@@ -64,7 +68,7 @@ label2.pack(side=LEFT, expand=True, padx=2, pady=2)
 entry2.pack(side=LEFT, expand=True, padx=2, pady=2)
 botonSuma.place(x= 10, y= 150)
 botonResta.place(x= 100, y= 150)
-botonMultiplicación.place(x= 190, y= 150)
+botonMultiplicacion.place(x= 190, y= 150)
 botonDivision.place(x= 280, y= 150)
 root.mainloop()
 
