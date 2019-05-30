@@ -46,22 +46,17 @@ def division():
     tx=entry1.get()
     entry1.set(tx+'/')
 def multiplicacion():
-    tx=entry1.get()
-    entry1.set(tx+'x')
-
-def igual(self):
-        try:
-            tx = entry1.get()
-            resultado = eval(tx)
-            entry1.delete(0, END)
-            entry1.insert(END, resultado)
-        except SyntaxError or NameError:
-            entry1.delete(0, END)
-            entry1.insert(END, 'DATA ERRROR')
+    tx = entry1.get()
+    entry1.set(tx+'*')
 
 def igual():
-    tx=entry1.get()
-    entry1.set(eval(tx))
+    tx = entry1.get()
+    if any(c.isalpha() for c in tx):
+        messagebox.showinfo("Error", "Error de entrada")
+        clean()
+    else:
+        entry1.set(eval(tx))
+
 
 def clean():
     entry1.set(str())
