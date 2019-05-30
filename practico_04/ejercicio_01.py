@@ -5,12 +5,20 @@
 from tkinter import *
 from tkinter import ttk, font, messagebox
 
-
+def is_float(n1,n2):
+    if type(n1) == "tkinter.DoubleVar" and type(n2)== "tkinter.DoubleVar":
+        return True
+    else:
+        return False
 def suma():
     n1 = float(oper1.get())
     n2 = float(oper2.get())
-    suma = n1 + n2
-    messagebox.showinfo("Resultado Suma", "El resultado de la suma es: %.2f" % suma)
+    print(is_float(n1,n2))
+    if is_float(n1,n2):
+        suma = n1 + n2
+        messagebox.showinfo("Resultado Suma", "El resultado de la suma es: %.2f" % suma)
+    else:
+        messagebox.showinfo("Error","Error Tipeo")
 
 
 def resta():
