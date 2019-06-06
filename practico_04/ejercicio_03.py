@@ -3,25 +3,23 @@
 import tkinter as tk
 from tkinter import ttk
 
+import tkinter as tk
+from tkinter import *
+from tkinter import ttk
 
-class Application(ttk.Frame):
-
-    def __init__(self, main_window):
-        super().__init__(main_window)
-        main_window.title("CP Search")
-
-        ciudades = {"Rosario":"2000", "Granadero Baigorria":"2152", "Salto":"2742", "Cordoba":"5000", "Mar del Plata":"7600"}
-        self.treeview = ttk.Treeview(self)
-        item = self.treeview.insert("", tk.END, text="Codigos Postales")
-        for k in ciudades:
-            subitem = self.treeview.insert(item, tk.END, text=k)
-            self.treeview.insert(subitem, tk.END, text=ciudades.get(k))
-        
-        self.treeview.pack()
-
-        self.pack()
-
-
-main_window = tk.Tk()
-app = Application(main_window)
-app.mainloop()
+root=tk.Tk()
+root.title("Codigos Postales")
+root.marco=ttk.Frame(root, borderwidth=2, relief="raised", padding=(10,10))
+root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
+root.treeview = ttk.Treeview(root.marco, selectmode=tk.BROWSE)
+root.treeview = ttk.Treeview(root.marco, columns= "cp")
+root.treeview.heading("#0", text="Ciudad")
+root.treeview.heading("cp", text="Codigo Postal")
+root.treeview.insert("", tk.END, text="Rosario", values="2000")
+root.treeview.insert("", tk.END, text="Salto", values="2741")
+root.treeview.insert("", tk.END, text="Cordoba", values="5000")
+root.treeview.insert("", tk.END, text="Mar del Plata", values="7600")
+root.treeview.insert("", tk.END, text="San Lorenzo", values="2200")
+root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
+root.treeview.grid(column=0, row=0, sticky=(E, W),columnspan=3, padx=5, pady=5)
+root.mainloop()
