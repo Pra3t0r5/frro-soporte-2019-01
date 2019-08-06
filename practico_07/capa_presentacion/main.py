@@ -54,8 +54,10 @@ def cargardatos(root,socio):
         ctrlSocio.alta(socio)
     except DniRepetido as dn:
         messagebox.showinfo("Error",dn.args)
+        root.destroy()
     except:
         messagebox.showinfo("Error","Error al intentar dar de alta un nuevo socio")
+        root.destroy()
     else:
         ventanaPrincipal.treeview.insert("", tk.END, text=root.DNI.get(), values=(root.NOM.get(),root.APE.get(),(ctrlSocio.get_by_dni(socio.dni)).id))
         root.destroy()
@@ -65,8 +67,10 @@ def borrardatos(root):
         ctrlSocio.baja(root.DNI.get())
     except NoExisteDni as nodni:
         messagebox.showinfo("Error",nodni.args)
+        root.destroy()
     except:
         messagebox.showinfo("Error","Error al intentar dar de baja un socio")
+        root.destroy()
     else:
         root.destroy()
         mapearAForm(ventanaPrincipal)
@@ -114,6 +118,10 @@ def editardatos(root,socio):
         ctrlSocio.modificacion(socio)
     except NoExisteDni as nondni:
         messagebox.showinfo("Error",nondni.args)
+        root.destroy()
+    except:
+        messagebox.showinfo("Error","Error al intentar modificar un socio")
+        root.destroy()
     else:
         root.destroy()
         mapearAForm(ventanaPrincipal)
