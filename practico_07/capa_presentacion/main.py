@@ -40,7 +40,8 @@ def alta():
     root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
     root.NOM=ttk.Entry(root.marco, textvariable=root.nombre)
     root.APE=ttk.Entry(root.marco, textvariable=root.apellido)
-    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: cargardatos(root,mapearDeForm(root)))
+    root.bot=ttk.Button(root.marco, text="Guardar", command=lambda: cargardatos(root,mapearDeForm(root)))
+    root.bot2=ttk.Button(root.marco, text="Cancelar", command=lambda: root.destroy())
     root.ldni.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
     root.lnom.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
     root.lape.grid(column=0, row=3, sticky=(E, W), padx=5, pady=5)
@@ -48,6 +49,7 @@ def alta():
     root.NOM.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
     root.APE.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
     root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
+    root.bot2.grid(column=2, row=4, sticky=(E, W), padx=5, pady=5)
     root.mainloop()
 def cargardatos(root,socio):
     try:
@@ -86,8 +88,10 @@ def baja():
     root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
     root.ldni.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
     root.DNI.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
-    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: borrardatos(root))
+    root.bot=ttk.Button(root.marco, text="Eliminar", command=lambda: borrardatos(root))
+    root.bot2=ttk.Button(root.marco, text="Cancelar", command=lambda: root.destroy())
     root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
+    root.bot2.grid(column=2, row=4, sticky=(E, W), padx=5, pady=5)
     root.mainloop()
 def modificacion():
     root=tk.Tk()
@@ -110,7 +114,9 @@ def modificacion():
     root.NOM.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
     root.APE.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
     root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: editardatos(root,mapearDeForm(root)))
+    root.bot2=ttk.Button(root.marco, text="Cancelar", command=lambda: root.destroy())
     root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
+    root.bot2.grid(column=2, row=4, sticky=(E, W), padx=5, pady=5)
     root.mainloop()
 
 def editardatos(root,socio):
