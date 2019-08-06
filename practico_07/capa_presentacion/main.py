@@ -1,7 +1,29 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+from frro_soporte_2019_01.practico_07.capa_negocio.controlador import ControllerSocio
+from frro_soporte_2019_01.practico_07.capa_datos.entidad import Socio
 
+ctrlSocio = ControllerSocio()
+
+def limpiar():
+    for i in ventanaPrincipal.treeview.get_children():
+        ventanaPrincipal.treeview.delete(i)
+
+
+def mapearAForm(ventanaPrincipal):
+    limpiar()
+    listaSocios = ctrlSocio.get_all()
+    for ls in listaSocios:
+        ventanaPrincipal.treeview.insert("", tk.END, text=ls.dni, values=(ls.nombre,ls.apellido,ls.id))
+
+
+def mapearDeForm(root):
+    socio = Socio()
+    socio.dni = root.DNI.get()
+    socio.nombre = root.NOM.get()
+    socio.apellido = root.APE.get()
+    return socio
 
 def alta():
     root=tk.Tk()
@@ -17,7 +39,7 @@ def alta():
     root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
     root.NOM=ttk.Entry(root.marco, textvariable=root.nombre)
     root.APE=ttk.Entry(root.marco, textvariable=root.apellido)
-    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: cargardatos(root))
+    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: cargardatos(root,mapearDeForm(root)))
     root.ldni.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
     root.lnom.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
     root.lape.grid(column=0, row=3, sticky=(E, W), padx=5, pady=5)
@@ -26,43 +48,67 @@ def alta():
     root.APE.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
     root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
     root.mainloop()
-
-def cargardatos(root):
-    ventanaPrincipal.treeview.insert("", tk.END, text=root.DNI.get(), values=(root.NOM.get(),root.APE.get()))
+def cargardatos(root,socio):
+    ctrlSocio.alta(socio)
+    ventanaPrincipal.treeview.insert("", tk.END, text=root.DNI.get(), values=(root.NOM.get(),root.APE.get(),(ctrlSocio.get_by_dni(socio.dni)).id))
     root.destroy()
+
+def borrardatos(root):
+    ctrlSocio.baja((ctrlSocio.get_by_dni((root.DNI.get()))).id)
+    root.destroy()
+    mapearAForm(ventanaPrincipal)
 
 
 def baja():
-    elementoSeleccionado=ventanaPrincipal.treeview.focus()
-    ventanaPrincipal.treeview.delete(elementoSeleccionado)
-
-def modificacion():
     root=tk.Tk()
-    root.title("Modificar Socio")
+    root.title("Baja Socio")
     root.marco=ttk.Frame(root, borderwidth=2, relief="raised", padding=(10,10))
     root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-    root.dni=StringVar()
-
-    root.nDNI=Label(root.marco, text= "DNI:")
-    root.EDNI=ttk.Entry(root.marco, textvariable=root.dni)
-    root.bot=ttk.Button(root.marco, text="Buscar", command=lambda: editar(root))
-
-    root.nDNI.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
-    root.EDNI.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
-    root.bot.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
+    root.dni= StringVar()
+    root.ldni=Label(root.marco, text= "Dni:")
+    root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
+    root.ldni.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
+    root.DNI.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
+    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: borrardatos(root))
+    root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
+    root.mainloop()
+def modificacion():
+    root=tk.Tk()
+    root.title("Modificación Socio")
+    root.marco=ttk.Frame(root, borderwidth=2, relief="raised", padding=(10,10))
+    root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
+    root.dni= StringVar()
+    root.nombre=StringVar()
+    root.apellido=StringVar()
+    root.ldni=Label(root.marco, text= "Dni:")
+    root.lnom=Label(root.marco, text= "Nombre:")
+    root.lape=Label(root.marco, text= "Apellido:")
+    root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
+    root.NOM=ttk.Entry(root.marco, textvariable=root.nombre)
+    root.APE=ttk.Entry(root.marco, textvariable=root.apellido)
+    root.ldni.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
+    root.lnom.grid(column=0, row=2, sticky=(E, W), padx=5, pady=5)
+    root.lape.grid(column=0, row=3, sticky=(E, W), padx=5, pady=5)
+    root.DNI.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
+    root.NOM.grid(column=1, row=2, sticky=(E, W), padx=5, pady=5)
+    root.APE.grid(column=1, row=3, sticky=(E, W), padx=5, pady=5)
+    root.bot=ttk.Button(root.marco, text="Aceptar", command=lambda: editardatos(root,mapearDeForm(root)))
+    root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
     root.mainloop()
 
-def editar(root):
-    elementoSeleccionado=ventanaPrincipal.treeview.focus()
-    ventanaPrincipal.treeview.item(elementoSeleccionado, values=root.ECod.get())
+def editardatos(root,socio):
+    socio.id = (ctrlSocio.get_by_dni(socio.dni)).id
+    ctrlSocio.modificacion(socio)
     root.destroy()
+    mapearAForm(ventanaPrincipal)
+
 
 ventanaPrincipal = tk.Tk()
 
 ventanaPrincipal.title("Gestión Socios")
 ventanaPrincipal.marco=ttk.Frame(ventanaPrincipal, borderwidth=2, relief="raised", padding=(10,10))
 ventanaPrincipal.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-ventanaPrincipal.treeview = ttk.Treeview( ventanaPrincipal.marco, height=17, columns=('dni', 'nombre', 'apellido', 'id'), selectmode="extend")
+ventanaPrincipal.treeview = ttk.Treeview( ventanaPrincipal.marco, height=17, columns=('dni', 'nombre', 'apellido', 'id'), selectmode=tk.BROWSE)
 ventanaPrincipal.treeview.heading('#0', text='dni', anchor=tk.CENTER)
 ventanaPrincipal.treeview.heading('#1', text='nombre', anchor=tk.CENTER)
 ventanaPrincipal.treeview.heading('#2', text='apellido', anchor=tk.CENTER)
@@ -79,4 +125,7 @@ ventanaPrincipal.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W)
 ventanaPrincipal.btAlta.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
 ventanaPrincipal.btBaja.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
 ventanaPrincipal.btModif.grid(column=2, row=1, sticky=(E, W), padx=5, pady=5)
+mapearAForm(ventanaPrincipal)
 ventanaPrincipal.mainloop()
+
+
