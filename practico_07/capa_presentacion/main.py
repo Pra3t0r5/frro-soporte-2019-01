@@ -28,7 +28,7 @@ def alta():
     root.mainloop()
 
 def cargardatos(root):
-    ventanaPrincipal.treeview.insert("", tk.END, text=root.EC.get(), values=root.ECod.get())
+    ventanaPrincipal.treeview.insert("", tk.END, text=root.DNI.get(), values=(root.NOM.get(),root.APE.get()))
     root.destroy()
 
 
@@ -62,24 +62,21 @@ ventanaPrincipal = tk.Tk()
 ventanaPrincipal.title("Gestión Socios")
 ventanaPrincipal.marco=ttk.Frame(ventanaPrincipal, borderwidth=2, relief="raised", padding=(10,10))
 ventanaPrincipal.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-ventanaPrincipal.treeview = ttk.Treeview(ventanaPrincipal.marco, selectmode=tk.BROWSE)
-ventanaPrincipal.treeview = ttk.Treeview(ventanaPrincipal.marco, columns= "cp")
-ventanaPrincipal.treeview.heading("#0", text="Ciudad")
-ventanaPrincipal.treeview.heading("cp", text="Codigo Postal")
-ventanaPrincipal.treeview.insert("", tk.END, text="Rosario", values="2000")
-ventanaPrincipal.treeview.insert("", tk.END, text="Salto", values="2741")
-ventanaPrincipal.treeview.insert("", tk.END, text="Cordoba", values="5000")
-ventanaPrincipal.treeview.insert("", tk.END, text="Mar del Plata", values="7600")
-ventanaPrincipal.treeview.insert("", tk.END, text="San Lorenzo", values="2200")
-
+ventanaPrincipal.treeview = ttk.Treeview( ventanaPrincipal.marco, height=17, columns=('dni', 'nombre', 'apellido', 'id'), selectmode="extend")
+ventanaPrincipal.treeview.heading('#0', text='dni', anchor=tk.CENTER)
+ventanaPrincipal.treeview.heading('#1', text='nombre', anchor=tk.CENTER)
+ventanaPrincipal.treeview.heading('#2', text='apellido', anchor=tk.CENTER)
+ventanaPrincipal.treeview.heading('#3', text='id', anchor=tk.CENTER)
+ventanaPrincipal.treeview.column('#1', stretch=tk.YES, minwidth=50, width=100)
+ventanaPrincipal.treeview.column('#2', stretch=tk.YES, minwidth=50, width=100)
+ventanaPrincipal.treeview.column('#3', stretch=tk.YES, minwidth=50, width=100)
+ventanaPrincipal.treeview.column('#0', stretch=tk.YES, minwidth=50, width=100)
+ventanaPrincipal.treeview.grid(column=0, row=0, sticky=(E, W),columnspan=3, padx=5, pady=5)
 ventanaPrincipal.btAlta=Button(ventanaPrincipal.marco, text="Alta", command=alta)
 ventanaPrincipal.btBaja=Button(ventanaPrincipal.marco, text="Baja", command=baja)
 ventanaPrincipal.btModif=Button(ventanaPrincipal.marco, text="Modificación", command=modificacion)
-
 ventanaPrincipal.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
-ventanaPrincipal.treeview.grid(column=0, row=0, sticky=(E, W),columnspan=3, padx=5, pady=5)
 ventanaPrincipal.btAlta.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
 ventanaPrincipal.btBaja.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
 ventanaPrincipal.btModif.grid(column=2, row=1, sticky=(E, W), padx=5, pady=5)
-
 ventanaPrincipal.mainloop()
