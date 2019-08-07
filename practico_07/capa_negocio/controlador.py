@@ -1,4 +1,5 @@
 from frro_soporte_2019_01.practico_07.capa_datos.conexion import DatosSocio
+from frro_soporte_2019_01.practico_07.util.exceptions import DniRepetido,NoExisteDni
 
 class ControllerSocio(object):
     def __init__(self):
@@ -31,22 +32,33 @@ class ControllerSocio(object):
         """
         Da de alta un socio.
         :type socio: Socio
-        :rtype: bool
         """
-        self.datos.alta(socio)
+        try:
+            self.datos.alta(socio)
+        except DniRepetido:
+            raise
+        except:
+            raise
 
-    def baja(self, id_socio):
+    def baja(self, dni_socio):
         """
-        Borra el socio especificado por el id.
-        Devuelve True si el borrado fue exitoso.
-        :rtype: bool
+        Borra el socio especificado por el dni.
         """
-        return self.datos.baja(id_socio)
+        try:
+            self.datos.baja(dni_socio)
+        except NoExisteDni:
+            raise
+        except:
+            raise
 
     def modificacion(self, socio):
         """
         Modifica un socio.
         :type socio: Socio
-        :rtype: bool
         """
-        self.datos.modificacion(socio)
+        try:
+            self.datos.modificacion(socio)
+        except NoExisteDni:
+            raise
+        except:
+            raise

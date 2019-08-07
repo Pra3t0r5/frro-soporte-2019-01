@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from frro_soporte_2019_01.practico_07.capa_datos.entidad import Base, Socio
+from frro_soporte_2019_01.practico_07.util.exceptions import NoExisteDni,DniRepetido
 
 
 class DatosSocio(object):
@@ -27,7 +28,15 @@ class DatosSocio(object):
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return self.session.query(Socio).filter(Socio.dni == dni_socio).first()
+
+        soc = self.session.query(Socio).filter(Socio.dni == dni_socio).all()
+        try:
+            if not soc:
+                raise NoExisteDni
+        except:
+            raise
+        else:
+            return self.session.query(Socio).filter(Socio.dni == dni_socio).first()
 
     def get_all(self):
         """
@@ -53,34 +62,47 @@ class DatosSocio(object):
 
     def alta(self, socio):
         """
-        Devuelve el Socio luego de darlo de alta.
+        Da de alta un nuevo socio
         :type socio: Socio
         :rtype: Socio
         """
-        self.session.add(socio)
-        self.session.commit()
+        soc = self.session.query(Socio).filter(Socio.dni == socio.dni).all()
+        try:
+            if soc:
+                raise DniRepetido
+            self.session.add(socio)
+        except:
+            raise
+        else:
+            self.session.commit()
 
 
-    def baja(self, id_socio):
+    def baja(self, dni_socio):
         """
-        Borra el socio especificado por el id.
-        Devuelve True si el borrado fue exitoso.
+        Borra el socio especificado por el dni.
         :rtype: bool
         """
-        socio = self.buscar(id_socio)
-        if socio == None:
-            return False
-        self.session.delete(socio)
-        self.session.commit()
-        return True
+        try:
+            self.session.delete(self.buscar_dni(dni_socio))
+        except DniRepetido:
+            raise
+        except:
+            raise
+        else:
+            self.session.commit()
 
     def modificacion(self, socio):
         """
         Guarda un socio con sus datos modificados.
-        Devuelve el Socio modificado.
         :type socio: Socio
-        :rtype: Socio
         """
-        self.session.query(Socio).filter(Socio.id == socio.id).update({Socio.dni:socio.dni, Socio.nombre:socio.nombre, Socio.apellido:socio.apellido})
-        self.session.commit()
+        soc = self.session.query(Socio).filter(Socio.dni == socio.dni).all()
+        try:
+            if not soc:
+                raise NoExisteDni
+            self.session.query(Socio).filter(Socio.dni == socio.dni).update({Socio.nombre:socio.nombre, Socio.apellido:socio.apellido})
+        except:
+            raise
+        else:
+            self.session.commit()
 

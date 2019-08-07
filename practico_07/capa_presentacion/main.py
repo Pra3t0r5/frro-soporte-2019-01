@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from frro_soporte_2019_01.practico_07.capa_negocio.controlador import ControllerSocio
 from frro_soporte_2019_01.practico_07.capa_datos.entidad import Socio
+from frro_soporte_2019_01.practico_07.util.exceptions import DniRepetido,NoExisteDni
 
 ctrlSocio = ControllerSocio()
 
@@ -27,13 +28,13 @@ def mapearDeForm(root):
 
 def alta():
     root=tk.Tk()
-    root.title("Nueva Socio")
+    root.title("Nuevo Socio")
     root.marco=ttk.Frame(root, borderwidth=2, relief="raised", padding=(10,10))
     root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
     root.dni= StringVar()
     root.nombre=StringVar()
     root.apellido=StringVar()
-    root.ldni=Label(root.marco, text= "Dni:")
+    root.ldni=Label(root.marco, text= "Dni del nuevo socio:")
     root.lnom=Label(root.marco, text= "Nombre:")
     root.lape=Label(root.marco, text= "Apellido:")
     root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
@@ -49,14 +50,26 @@ def alta():
     root.bot.grid(column=1, row=4, sticky=(E, W), padx=5, pady=5)
     root.mainloop()
 def cargardatos(root,socio):
-    ctrlSocio.alta(socio)
-    ventanaPrincipal.treeview.insert("", tk.END, text=root.DNI.get(), values=(root.NOM.get(),root.APE.get(),(ctrlSocio.get_by_dni(socio.dni)).id))
-    root.destroy()
+    try:
+        ctrlSocio.alta(socio)
+    except DniRepetido as dn:
+        messagebox.showinfo("Error",dn.args)
+    except:
+        messagebox.showinfo("Error","Error al intentar dar de alta un nuevo socio")
+    else:
+        ventanaPrincipal.treeview.insert("", tk.END, text=root.DNI.get(), values=(root.NOM.get(),root.APE.get(),(ctrlSocio.get_by_dni(socio.dni)).id))
+        root.destroy()
 
 def borrardatos(root):
-    ctrlSocio.baja((ctrlSocio.get_by_dni((root.DNI.get()))).id)
-    root.destroy()
-    mapearAForm(ventanaPrincipal)
+    try:
+        ctrlSocio.baja(root.DNI.get())
+    except NoExisteDni as nodni:
+        messagebox.showinfo("Error",nodni.args)
+    except:
+        messagebox.showinfo("Error","Error al intentar dar de baja un socio")
+    else:
+        root.destroy()
+        mapearAForm(ventanaPrincipal)
 
 
 def baja():
@@ -65,7 +78,7 @@ def baja():
     root.marco=ttk.Frame(root, borderwidth=2, relief="raised", padding=(10,10))
     root.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
     root.dni= StringVar()
-    root.ldni=Label(root.marco, text= "Dni:")
+    root.ldni=Label(root.marco, text= "Dni del socio a borrar:")
     root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
     root.ldni.grid(column=0, row=1, sticky=(E, W), padx=5, pady=5)
     root.DNI.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
@@ -80,7 +93,7 @@ def modificacion():
     root.dni= StringVar()
     root.nombre=StringVar()
     root.apellido=StringVar()
-    root.ldni=Label(root.marco, text= "Dni:")
+    root.ldni=Label(root.marco, text= "Dni del socio a modificar:")
     root.lnom=Label(root.marco, text= "Nombre:")
     root.lape=Label(root.marco, text= "Apellido:")
     root.DNI=ttk.Entry(root.marco, textvariable=root.dni)
@@ -97,14 +110,16 @@ def modificacion():
     root.mainloop()
 
 def editardatos(root,socio):
-    socio.id = (ctrlSocio.get_by_dni(socio.dni)).id
-    ctrlSocio.modificacion(socio)
-    root.destroy()
-    mapearAForm(ventanaPrincipal)
+    try:
+        ctrlSocio.modificacion(socio)
+    except NoExisteDni as nondni:
+        messagebox.showinfo("Error",nondni.args)
+    else:
+        root.destroy()
+        mapearAForm(ventanaPrincipal)
 
 
 ventanaPrincipal = tk.Tk()
-
 ventanaPrincipal.title("Gestión Socios")
 ventanaPrincipal.marco=ttk.Frame(ventanaPrincipal, borderwidth=2, relief="raised", padding=(10,10))
 ventanaPrincipal.marco.grid(column=0, row=0, padx=5, pady=5, sticky=(N, S, E, W))
@@ -127,5 +142,7 @@ ventanaPrincipal.btBaja.grid(column=1, row=1, sticky=(E, W), padx=5, pady=5)
 ventanaPrincipal.btModif.grid(column=2, row=1, sticky=(E, W), padx=5, pady=5)
 mapearAForm(ventanaPrincipal)
 ventanaPrincipal.mainloop()
+
+
 
 
