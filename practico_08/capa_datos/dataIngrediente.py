@@ -1,7 +1,4 @@
-from frro_soporte_2019_01.practico_08.capa_datos.conexion import *
-from frro_soporte_2019_01.practico_08.util.exceptions import NoExisteDni,DniRepetido
-
-class DataUsuario(object):
+class DataIngrediente(object):
 
     def buscar_id(self, id_usuario):
         """

@@ -1,95 +1,86 @@
 from frro_soporte_2019_01.practico_08.capa_datos.conexion import *
-from frro_soporte_2019_01.practico_08.util.exceptions import NoExisteDni,DniRepetido
+from frro_soporte_2019_01.practico_08.util.exceptions import NoExisteId,IdRepetido
 
 class DataTipoUsuario(object):
 
-    def buscar(self, id_tipo_usuario):
+    def buscar_id(self, id_tipo_usuario):
         """
         Devuelve la instancia del tipoUsuario, dado su id.
         Devuelve None si no encuentra nada.
         :rtype: Usuario
         """
-        return self.session.query(TipoUsuario).filter(TipoUsuario.id_tipo_usuario == id_tipo_usuario).first()
-
-    def buscar_dni(self, dni_usuario):
-        """
-        Devuelve la instancia del usuario, dado su dni.
-        Devuelve None si no encuentra nada.
-        :rtype: Usuario
-        """
-
-        usu = self.session.query(Usuario).filter(Usuario.dni == dni_usuario).all()
+        tipo = self.session.query(TipoUsuario).filter(TipoUsuario.id_tipo_usuario == id_tipo_usuario).all()
         try:
-            if not usu:
-                raise NoExisteDni
+            if not tipo:
+                raise NoExisteId
         except:
             raise
         else:
-            return self.session.query(Usuario).filter(Usuario.dni == dni_usuario).first()
+            return self.session.query(TipoUsuario).filter(TipoUsuario.id_tipo_usuario == id_tipo_usuario).first()
 
     def get_all(self):
         """
-        Devuelve listado de todos los usuarios en la base de datos.
+        Devuelve listado de todos los tipos de usuarios en la base de datos.
         :rtype: list
         """
-        return self.session.query(Usuario).all()
+        return self.session.query(TipoUsuario).all()
 
     def borrar_todos(self):
 
         """
-        Borra todos los usuarios de la base de datos.
+        Borra todos los Tipos de usuarios de la base de datos.
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        usuarios = self.todos()
+        tipos_usuarios = self.todos()
 
-        if not usuarios:
+        if not tipos_usuarios:
             return False
-        for usu in usuarios:
-            self.baja(usu.id_usuario)
+        for tip in tipos_usuarios:
+            self.baja(tip.id_tipo_usuario)
         return True
 
-    def alta(self, usuario):
+    def alta(self, tipo_usuario):
         """
-        Da de alta un nuevo usuario
-        :type usuario: Usuario
-        :rtype: Usuario
+        Da de alta un nuevo tipo usuario
+        :type tipo_usuario: TipoUsuario
+        :rtype: TipoUsuario
         """
-        usu = self.session.query(Usuario).filter(Usuario.dni == usuario.dni).all()
+        tipos = self.session.query(TipoUsuario).filter(TipoUsuario.id_tipo_usuario == tipo_usuario.id_tipo_usuario).all()
         try:
-            if usu:
-                raise DniRepetido
-            self.session.add(usuario)
+            if tipos:
+                raise IdRepetido
+            self.session.add(tipo_usuario)
         except:
             raise
         else:
             self.session.commit()
 
 
-    def baja(self, dni_usuario):
+    def baja(self, id_tipo_usuario):
         """
-        Borra el usuario especificado por el dni.
+        Borra el tipo_usuario especificado por el id.
         :rtype: bool
         """
         try:
-            self.session.delete(self.buscar_dni(dni_usuario))
-        except DniRepetido:
+            self.session.delete(self.buscar_id(id_tipo_usuario))
+        except NoExisteId:
             raise
         except:
             raise
         else:
             self.session.commit()
 
-    def modificacion(self, usuario):
+    def modificacion(self, tipo_usuario):
         """
-        Guarda un usuario con sus datos modificados.
-        :type socio: Socio
+        Guarda un TipoUsuario con sus datos modificados de acuerdo a su id.
+        :type tipo_usuario: TipoUsuario
         """
-        soc = self.session.query(Usuario).filter(Usuario.dni == usuario.dni).all()
+        tip = self.session.query(TipoUsuario).filter(TipoUsuario.id_tipo_usuario == tipo_usuario.id_tipo_usuario).all()
         try:
-            if not soc:
-                raise NoExisteDni
-            self.session.query(Usuario).filter(Usuario.dni == usuario.dni).update({Usuario.nombre:usuario.nombre, Usuario.apellido:usuario.apellido, Usuario.direccion:usuario.direccion})
+            if not tip:
+                raise NoExisteId
+            self.session.query(TipoUsuario).filter(TipoUsuario.id_tipo_usuario == tipo_usuario.id_tipo_usuario).update({TipoUsuario.descripcion:tipo_usuario.descripcion})
         except:
             raise
         else:
