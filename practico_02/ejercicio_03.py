@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Implementar la clase Persona que cumpla las siguientes condiciones:
+=======
+# 3)Implementar la clase Persona que cumpla las siguientes condiciones:
+>>>>>>> 128b4c1881e401039672e9a890828153d18666bd
 # Atributos:
 # - nombre.
 # - edad.
@@ -11,6 +15,7 @@
 # - generar_dni(): genera un número aleatorio de 8 cifras y lo guarda dentro del atributo dni.
 import random
 
+<<<<<<< HEAD
 
 class Persona:
     sexosValidos = {"H", "M"}
@@ -33,10 +38,25 @@ class Persona:
 
     def es_mayor_edad(self):
         if(self.edad > 17):
+=======
+class Persona:
+
+    def __init__(self, nombre, edad, sexo, peso, altura):
+        self.nombre = nombre
+        self.edad = int(edad)
+        self.sexo = sexo
+        self.peso = float(peso)
+        self.altura = float(altura)
+        self.dni = self.generar_dni()
+
+    def es_mayor_edad(self):
+        if self.edad >= 18:
+>>>>>>> 128b4c1881e401039672e9a890828153d18666bd
             return True
         else:
             return False
 
+<<<<<<< HEAD
     # llamarlo desde __init__
     def generar_dni(self):
         return random.randint(1, 99999999)
@@ -50,3 +70,18 @@ per = Persona("Pepito Manolo", 25, "H", 87.6, 1.70)
 per.print_data()
 #assert(per.sexo) == "H"
 assert(per.es_mayor_edad()) == True
+=======
+   # llamarlo desde __init__
+    def generar_dni(self):
+        dni=random.randrange(100000000)
+        return dni
+
+    def print_data(self):
+        print("Datos personales: ")
+        print("Nombre: ", self.nombre)
+        print("Edad: ", self.edad)
+        print("Sexo: ", self.sexo)
+        print("Peso: ", self.peso)
+        print("Altura: ", self.altura)
+        print("Dni: ", self.dni)
+>>>>>>> 128b4c1881e401039672e9a890828153d18666bd
