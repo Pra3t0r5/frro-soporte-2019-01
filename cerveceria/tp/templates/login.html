@@ -9,6 +9,9 @@
         integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
         integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
+
+    <link rel="import" href="/static/vendor/jquery/jquery.min.js">
+    <link rel="import" href="/static/vendor/jquery/jquery.blockUI.js">
     <title>Ingresar</title>
 </head>
 
@@ -46,6 +49,7 @@
         <button class="btn btn-info btn-block my-4" type="submit">Registrarse</button>
 
         <button class="btn btn-info btn-block my-4" type="submit">Volver</button>
+        <button id="demo2">BlockUI</button>
 
         <!-- Social login -->
         <p>O ingresa con:</p>
@@ -61,3 +65,27 @@
 </body>
 
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#demo2').click(function () {
+            $.blockUI({
+                message: 'Loading Next Project',
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: '.5',
+                    color: '#fff',
+                    fontSize: '18px',
+                    fontFamily: 'Verdana,Arial',
+                    fontWeight: 200,
+                }
+            });
+
+            setTimeout($.unblockUI, 2000);
+        });
+    });
+</script>

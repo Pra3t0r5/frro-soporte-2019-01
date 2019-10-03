@@ -11,10 +11,10 @@
   <title>CerveWeb</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static',    filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/full-width-pics.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static',    filename='css/full-width-pics.css') }}">
 
 
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"
@@ -57,8 +57,8 @@
   </nav>
 
   <!-- Header - set the background image for the header in the line below -->
-  <header class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1076');">
-    <img class="img-fluid d-block mx-auto" src="http://placehold.it/200x200&text=Logo" alt="">
+  <header class="py-5 bg-image-full">
+    <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png" alt="">
   </header>
 
   <!-- Content section -->
@@ -72,7 +72,7 @@
   </section>
 
   <!-- Image Section - set the background image for the header in the line below -->
-  <section class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1081');">
+  <section class="py-5 bg-image-full" style="background-image: url('/static/img/14812.jpg');">
     <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
     <div style="height: 200px;"></div>
   </section>
@@ -96,8 +96,8 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

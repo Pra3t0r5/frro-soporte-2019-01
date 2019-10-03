@@ -14,3 +14,11 @@ body {
   background-size: cover;
   -o-background-size: cover;
 }
+
+.bg-image-full {
+  background-image: url("/static/img/summer.jpg");
+}
+
+.logotipo {
+  background-image: url("/static/img/logotipo.png");
+}
