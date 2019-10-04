@@ -15,10 +15,23 @@ body {
   -o-background-size: cover;
 }
 
-.bg-image-full {
+.bgpic1 {
   background-image: url("/static/img/summer.jpg");
+  background-position: center top;
+}
+
+.bgpic2 {
+  background-image: url("/static/img/sword.jpg");
 }
 
 .logotipo {
   background-image: url("/static/img/logotipo.png");
+}
+
+.parallax, .bg-image-full {
+  min-height: 500px; 
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
