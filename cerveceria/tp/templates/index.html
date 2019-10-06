@@ -1,107 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block title %}CerveWeb{% endblock %}
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+{% block head %}
+<!--Adicion/Sobreescritura de atributos del template padre
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>-->
+{% endblock %}
 
-  <title>CerveWeb</title>
+{% block header %}
+<div class="py-5 bg-image-full bgpic1"></div>
+<img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png" alt="">
+{% endblock %}
 
-  <!-- Bootstrap core CSS -->
-  <link href="{{ url_for('static',    filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1>Section Heading</h1>
+    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat
+      architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+  </div>
+</section>
 
-  <!-- Custom styles for this template -->
-  <link rel="stylesheet" href="{{ url_for('static',    filename='css/full-width-pics.css') }}">
+<!-- Image Section - set the background image for the header in the line below -->
+<section class="py-5 bg-image-full bgpic2">
+  <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
+  <div style="height: 200px;"></div>
+</section>
 
+<!-- Content section -->
+<section class="py-5">
+  <div class="container">
+    <h1>Section Heading</h1>
+    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat
+      architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+  </div>
+</section>
 
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
-    integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
-
-
-</head>
-
-<body>
-
-  <!-- Navigation -->
-  <nav id = "navbar" class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">CerveWeb</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/ingresar">Ingresar
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Nosotros</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contactanos</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Header - set the background image for the header in the line below -->
-  <header class="py-5 bg-image-full bgpic1">
-    <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png" alt="">
-  </header>
-
-  <!-- Content section -->
-  <section class="py-5">
-    <div class="container">
-      <h1>Section Heading</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat
-        architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
-    </div>
-  </section>
-
-  <!-- Image Section - set the background image for the header in the line below -->
-  <section class="py-5 bg-image-full bgpic2">
-    <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
-    <div style="height: 200px;"></div>
-  </section>
-
-  <!-- Content section -->
-  <section class="py-5">
-    <div class="container">
-      <h1>Section Heading</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat
-        architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="/static/vendor/jquery/jquery.min.js"></script>
-  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+{% endblock %}
 
 <script>
   var prevScrollpos = window.pageYOffset;

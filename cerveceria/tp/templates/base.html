@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{% block title %}{% endblock %}</title>
+
+  <link href="{{ url_for('static',    filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static',    filename='css/full-width-pics.css') }}" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
+    integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
+
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  {% block head %}
+  <!--Adiciones al head standard-->
+  {% endblock %}
+</head>
+
+<body>
+  <!--Nav Estandarizado-->
+  <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">CerveWeb</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!--Contenido Nav Dinamico-->
+      {% block nav %}
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          {% if g.user %}
+          <li class="nav-item active"><span>{{ g.user['username'] }}</span>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.logout') }}">Salir</a>
+            {% else %}
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.register') }}">Registrate</a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Ingresar</a>
+            {% endif %}
+        </ul>
+      </div>
+      {% endblock %}
+    </div>
+  </nav>
+
+  <header>
+    <!--Headers-->
+    {% block header %}
+    <h1>Header Generico.</h1>
+    {% endblock %}
+  </header>
+
+  <section class="content">
+
+    <!--Notificaciones-->
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <!--Contenido Body-->
+    {% block content %}
+    <p>Body generico.</p>
+    {% endblock %}
+
+  </section>
+
+  <!--Footer Standard-->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+
+      <!--Contenido Footer -->
+      {% block footer %}
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+      {% endblock %}
+
+    </div>
+  </footer>
+
+
+</body>
