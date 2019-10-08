@@ -1,14 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from . import DB_URI
+from . import DB_URI, db
 
 # init SQLAlchemy para poder usarlo en todos los demas modelos
-db = SQLAlchemy()
+
 
 def create_app():
     app = Flask(__name__)
-    app.debug = True 
+    app.debug = True
     app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI.get('local')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -24,6 +24,7 @@ def create_app():
     app.register_blueprint(main_blueprint)
 
     return app
+
 
 if __name__ == '__main__':
     app = create_app()
