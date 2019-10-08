@@ -1,5 +1,3 @@
-from auth import *
-from cerveweb import *
-from constants import *
-from data import *
-from main import *
+DB_URI = {'local': 'mysql://cerveweb:beerjesus@localhost/cerveweb',
+          'remote': 'mysql://cerveweb:beerjesus@localhost/cerveweb'
+          }

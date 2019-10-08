@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from constants import DB_URI
+from . import DB_URI
 
 # init SQLAlchemy para poder usarlo en todos los demas modelos
 db = SQLAlchemy()
