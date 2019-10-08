@@ -1,91 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
-        integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
-
-    <link rel="import" href="/static/vendor/jquery/jquery.min.js">
-    <link rel="import" href="/static/vendor/jquery/jquery.blockUI.js">
-    <title>Ingresar</title>
-</head>
-
-<body>
-    <div style="margin-left: 30%; margin-right: 30%" />
-    <!-- Default form login -->
-    <form class="text-center border border-light p-5" action="#!">
-
-        <p class="h4 mb-4">Ingreso al Sistema</p>
-
-        <!-- Email -->
-        <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Correo Electronico">
-
-        <!-- Password -->
-        <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Contraseña">
-
-        <div class="d-flex justify-content-around">
-            <div>
-                <!-- Remember me -->
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Recordar mis datos</label>
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Login</h3>
+    <div class="box">
+        <form method="POST" action="/login">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
                 </div>
             </div>
-            <div>
-                <!-- Forgot password -->
-                <a href="">Olvidaste la contraseña?</a>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                </div>
             </div>
-        </div>
-
-        <!-- Sign in button -->
-        <button class="btn btn-info btn-block my-4" type="submit">Ingresar</button>
-
-        <!-- Register -->
-        <button class="btn btn-info btn-block my-4" type="submit">Registrarse</button>
-
-        <button class="btn btn-info btn-block my-4" type="submit">Volver</button>
-        <button id="demo2">BlockUI</button>
-
-        <!-- Social login -->
-        <p>O ingresa con:</p>
-
-        <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text">fa-facebook-f</i></a>
-        <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text">fa-twitter</i></a>
-        <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text">fa-linkedin-in</i></a>
-        <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text">fa-github</i></a>
-
-    </form>
-    <!-- Default form login -->
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
     </div>
-</body>
-
-</html>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#demo2').click(function () {
-            $.blockUI({
-                message: 'Loading Next Project',
-                css: {
-                    border: 'none',
-                    padding: '15px',
-                    backgroundColor: '#000',
-                    '-webkit-border-radius': '10px',
-                    '-moz-border-radius': '10px',
-                    opacity: '.5',
-                    color: '#fff',
-                    fontSize: '18px',
-                    fontFamily: 'Verdana,Arial',
-                    fontWeight: 200,
-                }
-            });
-
-            setTimeout($.unblockUI, 2000);
-        });
-    });
-</script>
+</div>
+{% endblock %}
