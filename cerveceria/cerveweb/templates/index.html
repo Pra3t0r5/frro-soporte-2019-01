@@ -5,11 +5,6 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static',    filename='css/blurry-load.min.css') }}" />
 <script src="{{ url_for('static',    filename='js/blurry-load.min.js') }}"></script>
-<!--Adicion/Sobreescritura de atributos del template padre
-  {{ super() }}
-  <style type="text/css">
-    .important { color: #336699; }
-  </style>-->
 {% endblock %}
 
 {% block header %}
@@ -45,6 +40,10 @@
   </div>
 </section>
 
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
 {% endblock %}
 
 <script>

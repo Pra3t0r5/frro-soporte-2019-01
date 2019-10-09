@@ -7,6 +7,21 @@ body {
   padding-top: 40px;
 }
 
+a:link {
+  color: darkorange;
+}
+
+a:visited {
+  color: #ff3300;
+}
+
+a:hover {
+  color: #ff3300;
+  TEXT-DECORATION: none;
+  font-weight: none
+}
+
+
 .bg-image-full {
   background: no-repeat center center scroll;
   -webkit-background-size: cover;
@@ -17,7 +32,7 @@ body {
 
 .bgpic1 {
   background-image: url("/static/img/summer.jpg");
-  background-position: center top;  
+  background-position: center top;
 }
 
 .bgpic2 {
@@ -44,7 +59,7 @@ body {
   -ms-transform: rotate(2deg) scale(1);
   -webkit-transform: rotate(2deg) scale(1);
   transform: rotate(2deg) scale(1) skew(2deg);
-  
+
 }
 
 .rotate-m5 {
