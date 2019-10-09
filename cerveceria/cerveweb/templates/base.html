@@ -14,9 +14,11 @@
     integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
     integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
+  <script src="{{ url_for('static',    filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static',    filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static',    filename='css/blurry-load.min.css') }}" />
+  <script src="{{ url_for('static',    filename='js/blurry-load.min.js') }}"></script>
 
-  <script src="/static/vendor/jquery/jquery.min.js"></script>
-  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   {% block head %}
   <!--Adiciones al head standard-->
   {% endblock %}
@@ -84,3 +86,4 @@
 
 
 </body>
+
