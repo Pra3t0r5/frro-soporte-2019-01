@@ -1,68 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}CerveWeb{% endblock %}
+{% block header %}
+<div class="py-5">
+<img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
-        integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
 
-    <link rel="import" href="/static/vendor/jquery/jquery.min.js">
-    <link rel="import" href="/static/vendor/jquery/jquery.blockUI.js">
-    <title>Ingresar</title>
-</head>
+{% endblock %}
+{% block content %}
+<div style="margin-left: 30%; margin-right: 30%" />
+<!-- Default form login -->
+<form class="text-center border border-light p-5" action="#!">
 
-<body>
-    <div style="margin-left: 30%; margin-right: 30%" />
-    <!-- Default form login -->
-    <form class="text-center border border-light p-5" action="#!">
+    <p class="h4 mb-4">Ingreso al Sistema</p>
 
-        <p class="h4 mb-4">Ingreso al Sistema</p>
+    <!-- Email -->
+    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Correo Electronico">
 
-        <!-- Email -->
-        <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Correo Electronico">
+    <!-- Password -->
+    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Contraseña">
 
-        <!-- Password -->
-        <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Contraseña">
-
-        <div class="d-flex justify-content-around">
-            <div>
-                <!-- Remember me -->
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Recordar mis datos</label>
-                </div>
-            </div>
-            <div>
-                <!-- Forgot password -->
-                <a href="">Olvidaste la contraseña?</a>
+    <div class="d-flex justify-content-around">
+        <div>
+            <!-- Remember me -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                <label class="custom-control-label" for="defaultLoginFormRemember">Recordar mis datos</label>
             </div>
         </div>
-
-        <!-- Sign in button -->
-        <button class="btn btn-info btn-block my-4" type="submit">Ingresar</button>
-
-        <!-- Register -->
-        <button class="btn btn-info btn-block my-4" type="submit">Registrarse</button>
-
-        <button class="btn btn-info btn-block my-4" type="submit">Volver</button>
-        <button id="demo2">BlockUI</button>
-
-        <!-- Social login -->
-        <p>O ingresa con:</p>
-
-        <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text">fa-facebook-f</i></a>
-        <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text">fa-twitter</i></a>
-        <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text">fa-linkedin-in</i></a>
-        <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text">fa-github</i></a>
-
-    </form>
-    <!-- Default form login -->
+        <div>
+            <!-- Forgot password -->
+            <a href="">Olvidaste la contraseña?</a>
+        </div>
     </div>
-</body>
+
+    <!-- Sign in button -->
+    <button class="btn btn-info btn-block my-4" type="submit">Ingresar</button>
+
+    <!-- Register -->
+    <button class="btn btn-info btn-block my-4" type="submit">Registrarse</button>
+
+    <button class="btn btn-info btn-block my-4" type="submit">Volver</button>
+    <button id="demo2">BlockUI</button>
+
+    <!-- Social login -->
+    <p>O ingresa con:</p>
+
+    <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text">fa-facebook-f</i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text">fa-twitter</i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text">fa-linkedin-in</i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text">fa-github</i></a>
+
+</form>
+<!-- Default form login -->
+</div>
+{% endblock %}
+</div>
 
 </html>
 

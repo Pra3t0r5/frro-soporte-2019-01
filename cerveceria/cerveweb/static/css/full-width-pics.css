@@ -92,3 +92,23 @@ nav * {
   color: black;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 100px;
+  /* bottom = footer height */
+  padding-top: 50px;
+  padding-bottom: 220px;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 220px;
+  width: 100%;
+  overflow: hidden;
+}
