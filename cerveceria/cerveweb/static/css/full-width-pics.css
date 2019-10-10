@@ -151,9 +151,9 @@ div#bg{
 
 
 footer {
-  /* position: absolute;
+  position: absolute;
   left: 0;
-  bottom: 0;*/
+  bottom: 0;
   height: 220px; 
   width: 100%;
   overflow: hidden;
