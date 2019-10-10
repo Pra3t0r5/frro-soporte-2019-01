@@ -7,14 +7,14 @@ auth = Blueprint('auth', __name__)
 def login():
     return render_template('login.html')
 
-@auth.route('/contacto')
-def contacto():
+@auth.route('/contact')
+def contact():
     return render_template('contact.html')
 
-@auth.route("/registro", methods=['GET', 'POST'])
+@auth.route('/register')
 def register():
-    form = RegistrationForm() #create an instance of RegistrationForm Class. we have given our object a name form
-    if form.validate_on_submit(): # check if all form fields are valid
-        flash(f'Account created for {form.username.data}!', 'success') # show an alert message to the user on screen
-        return redirect(url_for('home')) # Redirect the user back to the home after successful login
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html')
+
+@auth.route('/index_login')
+def index_login():
+    return render_template('index_login.html')
