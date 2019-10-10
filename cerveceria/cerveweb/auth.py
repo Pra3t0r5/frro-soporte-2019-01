@@ -10,5 +10,8 @@ def login():
 
 @auth.route('/contacto')
 def contacto():
-    return render_template('contacto.html')
+    return render_template('contact.html')
 
+@auth.route('/registro')
+def registro():
+    return render_template('register.html')
