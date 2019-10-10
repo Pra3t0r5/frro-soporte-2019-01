@@ -31,12 +31,18 @@ a:hover {
 }
 
 .bgpic1 {
+  min-height: 500px;
   background-image: url("/static/img/summer.jpg");
   background-position: center top;
 }
 
 .bgpic2 {
+  min-height: 500px;
   background-image: url("/static/img/sword.jpg");
+}
+
+.bgpic3 {
+  background-image: url("/static/img/greenish.jpg");
 }
 
 .logotipo {
@@ -48,7 +54,6 @@ a:hover {
 
 .parallax,
 .bg-image-full {
-  min-height: 500px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -119,11 +124,38 @@ body {
   padding-bottom: 220px;
 }
 
-footer {
+
+.hp1{
+  max-height: 200px;
+  width: auto;
+}
+
+div#fg{
   position: absolute;
+  top: 5%;
+  left: 20%;
+  color: white;
+  z-index: 1;
+  height: 100%;
+  width: 60%;
+}
+
+div#bg{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+
+footer {
+  /* position: absolute;
   left: 0;
-  bottom: 0;
-  height: 220px;
+  bottom: 0;*/
+  height: 220px; 
   width: 100%;
   overflow: hidden;
+  z-index: 9999;
 }
