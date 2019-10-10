@@ -2,3 +2,87 @@
 
 {% block title %}CerveWeb{% endblock %}
 
+{% block head%}
+
+{% endblock %}
+
+{%block header%}
+
+<div class="py-5">
+    <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
+</div>
+
+{% endblock%}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+                <h2 class="h1-responsive font-weight-bold text-center my-4">Ingresa tus datos para que podamos conocerte</h2>            <!-- Extended default form grid -->
+<form>
+    <!-- Grid row -->
+    <div class="form-row">
+      <!-- Default input -->
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Correo Electronico</label>
+        <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
+      </div>
+      <!-- Default input -->
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Contraseña</label>
+        <input type="password" class="form-control border-warning" id="inputPassword4" placeholder="">
+      </div>
+      
+      <!-- Default input -->
+      <div class="form-group col-md-12">
+        <label for="inputEmail4">Nombre de Usuario</label>
+        <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="inputEmail4">Nombre</label>
+        <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
+      </div>
+
+      <div class="form-group col-md-12">
+        <label for="inputEmail4">Apellido</label>
+        <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">CUIT</label>
+        <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
+      </div>
+      <!-- Default input -->
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">DNI</label>
+        <input type="password" class="form-control border-warning" id="inputPassword4" placeholder="">
+      </div>
+     
+    </div>
+    <!-- Grid row -->
+  
+    <!-- Default input -->
+    <div class="form-group">
+      <label for="inputAddress">Razon Social</label>
+      <input type="text" class="form-control border-warning" id="inputAddress" placeholder="">
+    </div>
+
+    <div class="form-group">
+        <label for="inputAddress">Domicilio</label>
+        <input type="text" class="form-control border-warning" id="inputAddress" placeholder="">
+      </div>
+
+    <!-- Grid row -->
+    <div class="text-center">
+        <a class="btn btn-warning btn-lg" style="color: black;" onclick="document.getElementById('contact-form').submit();">Registrarme</a>
+    </div>
+  </form>
+  <!-- Extended default form grid -->
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+{% endblock %}

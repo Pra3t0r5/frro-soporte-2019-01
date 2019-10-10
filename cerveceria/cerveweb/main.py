@@ -11,3 +11,7 @@ def index():
 @main.route('/profile')
 def profile():
     return render_template('profile.html')
+
+@main.route('/admin')
+def admin():
+    return render_template('admin.html')

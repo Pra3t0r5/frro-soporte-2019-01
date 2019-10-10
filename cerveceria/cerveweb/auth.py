@@ -8,10 +8,14 @@ auth = Blueprint('auth', __name__)
 def login():
     return render_template('login.html')
 
-@auth.route('/contacto')
-def contacto():
+@auth.route('/contact')
+def contact():
     return render_template('contact.html')
 
-@auth.route('/registro')
-def registro():
+@auth.route('/register')
+def register():
     return render_template('register.html')
+
+@auth.route('/index_login')
+def index_login():
+    return render_template('index_login.html')
