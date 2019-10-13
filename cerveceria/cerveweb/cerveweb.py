@@ -1,12 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from . import DB_URI, db
-
-# init SQLAlchemy para poder usarlo en todos los demas modelos
-
+from . import DB_URI, db, models
 
 def create_app():
+    """Crea la aplicacion, inicializando el ORM y los dos controladores principales (auth y main)"""
     app = Flask(__name__)
     app.debug = True
     app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
