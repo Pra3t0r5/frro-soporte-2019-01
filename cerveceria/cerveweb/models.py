@@ -1,128 +1,149 @@
 from sqlalchemy import (Column, DateTime, Float, ForeignKey, Integer, String,
                         text, create_engine)
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.declarative import declarative_db.Model
 from sqlalchemy.orm import relationship, sessionmaker
 
 from . import db
 
-Base = declarative_base()
-metadata = Base.metadata
-
-
-class CabeceraDetalle(Base):
+class CabeceraDetalle(db.Model):
     __tablename__ = 'cabecera_detalle'
 
-    idcabecera = Column(Integer, primary_key=True)
-    importe_total = Column(Float(asdecimal=True), server_default=text("'0'"))
-    pedido = Column(ForeignKey('pedido.idpedido',
-                               onupdate='CASCADE'), nullable=False, index=True)
+    idcabecera = db.Column(Integer, primary_key=True)
+    importe_total = db.Column(Float(asdecimal=True),
+                              server_default=text("'0'"))
+    pedido = db.Column(ForeignKey('pedido.idpedido',
+                                  onupdate='CASCADE'), nullable=False, index=True)
 
-    pedido1 = relationship('Pedido')
+    pedido1 = db.relationship('Pedido')
+
+    def __repr__(self):
+        return '<DetailHead {}>'.format(self.idcabecera)
 
 
-class HistorialStock(Base):
+class HistorialStock(db.Model):
     __tablename__ = 'historial_stock'
 
-    idhistorial_stock = Column(Integer, primary_key=True)
-    fecha_hora_movimiento = Column(DateTime, nullable=False, server_default=text(
+    idhistorial_stock = db.Column(Integer, primary_key=True)
+    fecha_hora_movimiento = db.Column(DateTime, nullable=False, server_default=text(
         "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-    cantidad = Column(Float(asdecimal=True), nullable=False,
-                      server_default=text("'0'"))
-    unidad = Column(Integer, nullable=False)
-    signo = Column(Integer, nullable=False, server_default=text("'0'"))
-    linea_detalle = Column(Integer)
+    cantidad = db.Column(Float(asdecimal=True), nullable=False,
+                         server_default=text("'0'"))
+    unidad = db.Column(Integer, nullable=False)
+    signo = db.Column(Integer, nullable=False, server_default=text("'0'"))
+    linea_detalle = db.Column(Integer)
+
+    def __repr__(self):
+        return '<History {}>'.format(self.idhistorial_stock)
 
 
-class Ingrediente(Base):
+class Ingrediente(db.Model):
     __tablename__ = 'ingrediente'
 
-    idingrediente = Column(Integer, primary_key=True)
-    nombre = Column(String(45), nullable=False)
-    descripcion = Column(String(120))
-    cantidad = Column(Float(asdecimal=True), nullable=False)
-    unidad = Column(ForeignKey('unidad.idunidad',
-                               onupdate='CASCADE'), nullable=False, index=True)
+    idingrediente = db.Column(Integer, primary_key=True)
+    nombre = db.Column(String(45), nullable=False)
+    descripcion = db.Column(String(120))
+    cantidad = db.Column(Float(asdecimal=True), nullable=False)
+    unidad = db.Column(ForeignKey('unidad.idunidad',
+                                  onupdate='CASCADE'), nullable=False, index=True)
 
-    unidad1 = relationship('Unidad')
+    unidad1 = db.relationship('Unidad')
+
+    def __repr__(self):
+        return '<Ingredient {}>'.format(self.nombre)
 
 
-class LineaDetalle(Base):
+class LineaDetalle(db.Model):
     __tablename__ = 'linea_detalle'
 
-    idlinea_detalle = Column(Integer, primary_key=True)
-    cabecera = Column(ForeignKey('cabecera_detalle.idcabecera',
-                                 onupdate='CASCADE'), nullable=False, index=True)
-    producto = Column(ForeignKey('producto.idproducto',
-                                 onupdate='CASCADE'), nullable=False, index=True)
-    cantidad = Column(Float(asdecimal=True))
-    subtotal = Column(Float(asdecimal=True))
+    idlinea_detalle = db.Column(Integer, primary_key=True)
+    cabecera = db.Column(ForeignKey('cabecera_detalle.idcabecera',
+                                    onupdate='CASCADE'), nullable=False, index=True)
+    producto = db.Column(ForeignKey('producto.idproducto',
+                                    onupdate='CASCADE'), nullable=False, index=True)
+    cantidad = db.Column(Float(asdecimal=True))
+    subtotal = db.Column(Float(asdecimal=True))
 
-    cabecera_detalle = relationship('CabeceraDetalle')
-    producto1 = relationship('Producto')
+    cabecera_detalle = db.relationship('CabeceraDetalle')
+    producto1 = db.relationship('Producto')
+
+    def __repr__(self):
+        return '<DetailLine {}>'.format(self.idlinea_detalle)
 
 
-class Pedido(Base):
+class Pedido(db.Model):
     __tablename__ = 'pedido'
 
-    idpedido = Column(Integer, primary_key=True)
-    nro_pedido = Column(Integer, nullable=False)
-    estado = Column(String(45))
-    fecha_hora_entrega = Column(DateTime)
-    orden_fabricacion = Column(Integer)
-    solicitante = Column(ForeignKey('usuario.id_usuario'),
-                         nullable=False, index=True)
+    idpedido = db.Column(Integer, primary_key=True)
+    nro_pedido = db.Column(Integer, nullable=False)
+    estado = db.Column(String(45))
+    fecha_hora_entrega = db.Column(DateTime)
+    orden_fabricacion = db.Column(Integer)
+    solicitante = db.Column(ForeignKey('usuario.id_usuario'),
+                            nullable=False, index=True)
 
-    usuario = relationship('Usuario')
+    usuario = db.relationship('Usuario')
+    def __repr__(self):
+        return '<Delivery {}>'.format(self.nro_pedido)
 
 
-class Producto(Base):
+class Producto(db.Model):
     __tablename__ = 'producto'
 
-    idproducto = Column(Integer, primary_key=True)
-    nombre = Column(String(45), nullable=False)
-    descripcion = Column(String(256))
-    importe_unitario = Column(Float(asdecimal=True), nullable=False)
-    unidad = Column(ForeignKey('unidad.idunidad',
-                               onupdate='CASCADE'), nullable=False, index=True)
-    ingrediente = Column(ForeignKey(
+    idproducto = db.Column(Integer, primary_key=True)
+    nombre = db.Column(String(45), nullable=False)
+    descripcion = db.Column(String(256))
+    importe_unitario = db.Column(Float(asdecimal=True), nullable=False)
+    unidad = db.Column(ForeignKey('unidad.idunidad',
+                                  onupdate='CASCADE'), nullable=False, index=True)
+    ingrediente = db.Column(ForeignKey(
         'ingrediente.idingrediente', onupdate='CASCADE'), nullable=False, index=True)
 
-    ingrediente1 = relationship('Ingrediente')
-    unidad1 = relationship('Unidad')
+    ingrediente1 = db.relationship('Ingrediente')
+    unidad1 = db.relationship('Unidad')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def __repr__(self):
+        return '<Product {}>'.format(self.nombre)
 
-class TipoUsuario(Base):
+
+class TipoUsuario(db.Model):
     __tablename__ = 'tipo_usuario'
 
-    id_tipo_usuario = Column(Integer, primary_key=True)
-    descripcion = Column(String(120))
+    id_tipo_usuario = db.Column(Integer, primary_key=True)
+    descripcion = db.Column(String(120))
+    
+    def __repr__(self):
+        return '<User {}>'.format(self.id_tipo_usuario)
 
 
-class Unidad(Base):
+class Unidad(db.Model):
     __tablename__ = 'unidad'
 
-    idunidad = Column(Integer, primary_key=True)
-    abreviacion = Column(String(10), nullable=False)
-    descripcion = Column(String(120))
+    idunidad = db.Column(Integer, primary_key=True)
+    abreviacion = db.Column(String(10), nullable=False)
+    descripcion = db.Column(String(120))
+    def __repr__(self):
+        return '<User {}>'.format(self.abreviacion)
 
 
-class Usuario(Base):
+class Usuario(db.Model):
     __tablename__ = 'usuario'
 
-    id_usuario = Column(Integer, primary_key=True)
-    username = Column(String(45), nullable=False, unique=True)
-    password = Column(String(45), nullable=False)
-    email = Column(String(120), nullable=False, unique=True)
-    nombre = Column(String(120))
-    apellido = Column(String(120))
-    cuit = Column(Integer, unique=True)
-    es_usuario = Column(Integer)
-    dni = Column(Integer, unique=True)
-    razon_social = Column(String(120))
-    tipo_usuario = Column(ForeignKey(
+    id_usuario = db.Column(Integer, primary_key=True)
+    username = db.Column(String(45), nullable=False, unique=True)
+    password = db.Column(String(45), nullable=False)
+    email = db.Column(String(120), nullable=False, unique=True)
+    nombre = db.Column(String(120))
+    apellido = db.Column(String(120))
+    cuit = db.Column(Integer, unique=True)
+    es_usuario = db.Column(Integer)
+    dni = db.Column(Integer, unique=True)
+    razon_social = db.Column(String(120))
+    tipo_usuario = db.Column(ForeignKey(
         'tipo_usuario.id_tipo_usuario'), nullable=False, index=True)
 
-    tipo_usuario1 = relationship('TipoUsuario')
+    tipo_usuario1 = db.relationship('TipoUsuario')
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
