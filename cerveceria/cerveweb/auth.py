@@ -20,7 +20,7 @@ def register():
     """Crea un usuario"""
     #completa objeto form con datos de la request
     form = forms.RegistroUsuarioForm(request.form)
-    #accede el bloque a continuacion unicamente si es post y valida
+    #entra al bloque a continuacion unicamente si es post y valida
     if request.method == 'POST' and form.validate():
         #instancia objeto user con la data de la form
         user = models.User(form.username.data, form.email.data,
