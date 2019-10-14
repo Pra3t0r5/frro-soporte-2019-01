@@ -1,9 +1,9 @@
 from sqlalchemy import (Column, DateTime, Float, ForeignKey, Integer, String,
                         text, create_engine)
-from sqlalchemy.ext.declarative import declarative_db.Model
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship
 
 from . import db
+
 
 class CabeceraDetalle(db.Model):
     __tablename__ = 'cabecera_detalle'
@@ -16,7 +16,7 @@ class CabeceraDetalle(db.Model):
 
     pedido1 = db.relationship('Pedido')
 
-    def __repr__(self):
+    def ver(self):
         return '<DetailHead {}>'.format(self.idcabecera)
 
 
@@ -32,7 +32,7 @@ class HistorialStock(db.Model):
     signo = db.Column(Integer, nullable=False, server_default=text("'0'"))
     linea_detalle = db.Column(Integer)
 
-    def __repr__(self):
+    def ver(self):
         return '<History {}>'.format(self.idhistorial_stock)
 
 
@@ -48,7 +48,7 @@ class Ingrediente(db.Model):
 
     unidad1 = db.relationship('Unidad')
 
-    def __repr__(self):
+    def ver(self):
         return '<Ingredient {}>'.format(self.nombre)
 
 
@@ -66,7 +66,7 @@ class LineaDetalle(db.Model):
     cabecera_detalle = db.relationship('CabeceraDetalle')
     producto1 = db.relationship('Producto')
 
-    def __repr__(self):
+    def ver(self):
         return '<DetailLine {}>'.format(self.idlinea_detalle)
 
 
@@ -82,7 +82,8 @@ class Pedido(db.Model):
                             nullable=False, index=True)
 
     usuario = db.relationship('Usuario')
-    def __repr__(self):
+
+    def ver(self):
         return '<Delivery {}>'.format(self.nro_pedido)
 
 
@@ -104,7 +105,7 @@ class Producto(db.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def __repr__(self):
+    def ver(self):
         return '<Product {}>'.format(self.nombre)
 
 
@@ -113,8 +114,8 @@ class TipoUsuario(db.Model):
 
     id_tipo_usuario = db.Column(Integer, primary_key=True)
     descripcion = db.Column(String(120))
-    
-    def __repr__(self):
+
+    def ver(self):
         return '<User {}>'.format(self.id_tipo_usuario)
 
 
@@ -124,7 +125,8 @@ class Unidad(db.Model):
     idunidad = db.Column(Integer, primary_key=True)
     abreviacion = db.Column(String(10), nullable=False)
     descripcion = db.Column(String(120))
-    def __repr__(self):
+
+    def ver(self):
         return '<User {}>'.format(self.abreviacion)
 
 
@@ -145,5 +147,33 @@ class Usuario(db.Model):
         'tipo_usuario.id_tipo_usuario'), nullable=False, index=True)
 
     tipo_usuario1 = db.relationship('TipoUsuario')
-    def __repr__(self):
+
+    def ver(self):
         return '<User {}>'.format(self.username)
+
+def crear(objeto):
+    try:
+        db.session.add(objeto)
+        db.session.commit()        
+    except:
+        db.session.rollback() 
+        return False
+    return True
+
+def crearMuchos(*objetos):
+    try:
+        db.session.bulk_save_objects(objetos)
+        db.session.commit()
+    except:
+        db.session.rollback() 
+        return False
+    return True
+
+def borrarTodos(objeto):
+    try:
+        num_rows_deleted = db.session.query(objeto).delete()
+        db.session.commit()
+    except:
+        db.session.rollback() 
+        return 0
+    return num_rows_deleted

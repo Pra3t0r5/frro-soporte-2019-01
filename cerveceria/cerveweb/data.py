@@ -1,3 +1,3 @@
-from cerveweb.data import *
-from . import db
+"""from cerveweb.data import *
+from . import db"""
 
