@@ -148,6 +148,17 @@ class Usuario(db.Model):
 
     tipo_usuario1 = db.relationship('TipoUsuario')
 
+    def __init__(self, idu, passw, username, email):
+        self.id_usuario=idu
+        self.password=passw
+        self.username=username
+        self.email=email
+        self.nombre="nombre"
+        self.apellido="apellido"
+        self.es_usuario=True
+        self.razon_social="albertecno"
+        self.tipo_usuario=1
+
     def ver(self):
         return '<User {}>'.format(self.username)
 

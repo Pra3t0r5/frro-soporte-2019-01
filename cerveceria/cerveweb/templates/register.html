@@ -28,13 +28,7 @@
         {{ render_field(form.password) }}
         {{ render_field(form.username) }}     
         {{ render_field(form.confirm_password) }}
-        {{ render_field(form.nombre) }}
-        {{ render_field(form.apellido) }}
-        {{ render_field(form.cuit) }}
-        {{ render_field(form.dni) }}
-        {{ render_field(form.razon_social) }}
-        {{ render_field(form.domicilio) }}
-
+        
         <p><input class="btn btn-warning btn-lg" style="color: black;" type=submit value=Registrame>
       </form>
 
@@ -43,56 +37,4 @@
   </div>
 </div>
 
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Correo Electronico</label>
-      <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Contraseña</label>
-      <input type="password" class="form-control border-warning" id="inputPassword4" placeholder="">
-    </div>
-
-    <div class="form-group col-md-12">
-      <label for="inputEmail4">Nombre de Usuario</label>
-      <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
-    </div>
-
-    <div class="form-group col-md-12">
-      <label for="inputEmail4">Nombre</label>
-      <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
-    </div>
-
-    <div class="form-group col-md-12">
-      <label for="inputEmail4">Apellido</label>
-      <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
-    </div>
-
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">CUIT</label>
-      <input type="email" class="form-control border-warning" id="inputEmail4" placeholder="">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">DNI</label>
-      <input type="password" class="form-control border-warning" id="inputPassword4" placeholder="">
-    </div>
-
-  </div>
-
-  <div class="form-group">
-    <label for="inputAddress">Razon Social</label>
-    <input type="text" class="form-control border-warning" id="inputAddress" placeholder="">
-  </div>
-
-  <div class="form-group">
-    <label for="inputAddress">Domicilio</label>
-    <input type="text" class="form-control border-warning" id="inputAddress" placeholder="">
-  </div>
-
-  <div class="text-center">
-    <a class="btn btn-warning btn-lg" style="color: black;"
-      onclick="document.getElementById('contact-form').submit();">Registrarme</a>
-  </div>
-</form>
 {% endblock %}

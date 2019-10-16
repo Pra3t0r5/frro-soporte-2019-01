@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from . import db, forms, models, FLASH_MSG
+from random import *
 
 
 auth = Blueprint('auth', __name__)
@@ -18,20 +19,26 @@ def contact():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     """Crea un usuario"""
-    #completa objeto form con datos de la request
+    # completa objeto form con datos de la request
+    
     form = forms.RegistroUsuarioForm(request.form)
-    #entra al bloque a continuacion unicamente si es post y valida
-    if request.method == 'POST' and form.validate():
-        #instancia objeto user con la data de la form
-        user = models.User(form.username.data, form.email.data,
-                           form.password.data)
-        #persiste modelo usuario instanciado en la db                   
-        if models.crear(user):
-            flash(FLASH_MSG.get("USU_REG_OK"))
-            return redirect(url_for('login')) #envia usuario a login (testear si puede autocompletar login)
-        else:
-            flash(FLASH_MSG.get("USU_REG_FALLA"))        
-    return render_template('register.html', form=form) #carga register con la data presente en el form para poder editar
+    # entra al bloque a continuacion unicamente si es post y valida
+    if request.method == 'POST':
+        print("paso validacion")
+        # instancia objeto user con la data de la form
+        user = models.Usuario(randrange(100),randrange(100),randrange(100), randrange(100) )
+        print("creacion")
+        # persiste modelo usuario instanciado en la db
+        db.session.add(user)
+        db.session.commit()    
+        print("persistido")
+        flash(FLASH_MSG.get("USU_REG_OK"))
+        # envia usuario a login (testear si puede autocompletar login)
+        return redirect(url_for('auth.login'))
+    else:
+        flash(FLASH_MSG.get("USU_REG_FALLA"))
+    # carga register con la data presente en el form para poder editar
+    return render_template('register.html', form=form)
 
 
 @auth.route('/index_login')
