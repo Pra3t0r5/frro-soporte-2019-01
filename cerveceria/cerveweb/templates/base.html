@@ -45,8 +45,8 @@
         <ul class="navbar-nav ml-auto">
           {% if g.user %}
           <li class="nav-item active"><span>{{ g.user['username'] }}</span>
-            <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.contact') }}">Mis Pedidos</a>
-              <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Mi Perfil</a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.contact') }}">Mis Pedidos</a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Mi Perfil</a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.logout') }}">Salir</a>
             {% else %}
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.contact') }}">Conocenos</a>
@@ -67,10 +67,20 @@
 
   <section class="content">
 
-
-    {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-    {% endfor %}
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-info alert-dismissible" role="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+    </div>
 
 
     {% block content %}
@@ -80,9 +90,9 @@
   </section>
 
 
-  <footer class="py-5 bg-dark">
+  <footer class="bg-dark">
     <div class="container">
-      <footer align="center" class="page-footer font-small darken-3">
+      <footer align="center" class="page-footer font-small darken-5">
         <div class="container">
           <div class="row">
             <div class="col-md-12 py-5">
@@ -111,7 +121,7 @@
             </div>
           </div>
         </div>
-        <div class="footer-copyright text-center py-3 white-text">
+        <div class="footer-copyright text-center white-text">
           © 2019 Copyright:CerveWeb
         </div>
       </footer>
@@ -120,3 +130,12 @@
 
 
 </body>
+<script>
+  $(document).ready(function () {
+    var messages = "{{ get_flashed_messages() }}";
+
+    if (typeof messages != 'undefined' && messages != '[]') {
+      $("#myModal").modal();
+    };
+  });
+</script>
