@@ -24,10 +24,9 @@ def admin():
 def pedidom():   
     if request.method == 'POST':  # and form.validate():
         mocked = randint(10, 1000)
-        # instancia objeto user con la data de la form
+        # instancia objeto user con la data de la formx
         pedido = models.Pedido(form.username.data, form.email.data,
                            form.password.data,21, 21, 21, 21, 21, 21, 1)
-
         print("creacion")
         # persiste modelo usuario instanciado en la db
         db.session.add(user)

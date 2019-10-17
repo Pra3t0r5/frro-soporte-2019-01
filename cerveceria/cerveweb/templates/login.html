@@ -1,13 +1,26 @@
 {% extends "base.html" %}
 {% block title %}CerveWeb{% endblock %}
+
 {% block header %}
 <div class="py-5">
     <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
     {% endblock %}
 
-    {% block content %}
+{% block content %}    
     <div style="margin-left: 30%; margin-right: 30%" />
-    <form class="text-center border border-light p-5" action="#!">
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post>
+        <div class="form-row">
+            {{ render_field(form.email, "big") }}
+            {{ render_field(form.password, "big") }}
+        </div>
+        <p><input class="btn btn-warning btn-block my-4" style="color:white;" type=submit value=Ingresar>
+        <a href="/register" class="btn btn-warning btn-block my-4" style="color: white;">Registrarse</a>
+        <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
+
+    </form>
+</div>
+<!--<form class="text-center border border-light p-5" action="#!">
         <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Correo Electronico">
 
         <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Contraseña">
@@ -30,39 +43,12 @@
 
         <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
 
-        <!--
+        
         <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text">fa-facebook-f</i></a>
         <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text">fa-twitter</i></a>
         <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text">fa-linkedin-in</i></a>
         <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text">fa-github</i></a>
         -->
-    </form>
 
-    {% endblock %}
-</div>
+{% endblock %}
 
-</html>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#demo2').click(function () {
-            $.blockUI({
-                message: 'Loading Next Project',
-                css: {
-                    border: 'none',
-                    padding: '15px',
-                    backgroundColor: '#000',
-                    '-webkit-border-radius': '10px',
-                    '-moz-border-radius': '10px',
-                    opacity: '.5',
-                    color: '#fff',
-                    fontSize: '18px',
-                    fontFamily: 'Verdana,Arial',
-                    fontWeight: 200,
-                }
-            });
-
-            setTimeout($.unblockUI, 2000);
-        });
-    });
-</script>

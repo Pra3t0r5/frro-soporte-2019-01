@@ -16,3 +16,10 @@ class RegistroUsuarioForm(FlaskForm):
                                      DataRequired(),
                                      EqualTo('password')])
     submit = SubmitField('Registrame')
+
+
+class LoginUsuarioForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(),
+                                             Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Ingresar')
