@@ -20,17 +20,17 @@ def contact():
 def register():
     """Crea un usuario"""
     # completa objeto form con datos de la request
-    
     form = forms.RegistroUsuarioForm(request.form)
     # entra al bloque a continuacion unicamente si es post y valida
     if request.method == 'POST':
         print("paso validacion")
         # instancia objeto user con la data de la form
-        user = models.Usuario(randrange(100),randrange(100),randrange(100), randrange(100) )
+        user = models.Usuario(form.username.data, form.email.data,
+                           form.password.data, 9, 9, 9, 9, 9, 9, 9, 1)
         print("creacion")
         # persiste modelo usuario instanciado en la db
         db.session.add(user)
-        db.session.commit()    
+        db.session.commit()
         print("persistido")
         flash(FLASH_MSG.get("USU_REG_OK"))
         # envia usuario a login (testear si puede autocompletar login)
@@ -39,8 +39,3 @@ def register():
         flash(FLASH_MSG.get("USU_REG_FALLA"))
     # carga register con la data presente en el form para poder editar
     return render_template('register.html', form=form)
-
-
-@auth.route('/index_login')
-def index_login():
-    return render_template('index_login.html')

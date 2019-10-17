@@ -148,43 +148,51 @@ class Usuario(db.Model):
 
     tipo_usuario1 = db.relationship('TipoUsuario')
 
-    def __init__(self, idu, passw, username, email):
-        self.id_usuario=idu
-        self.password=passw
-        self.username=username
-        self.email=email
-        self.nombre="nombre"
-        self.apellido="apellido"
-        self.es_usuario=True
-        self.razon_social="albertecno"
-        self.tipo_usuario=1
+    def __init__(self, idu, passw, username, email, nombre, apellido, cuit, es_usuario, dni, razon, tipo):
+        self.password = passw
+        self.username = username
+        self.email = email
+        self.nombre = nombre
+        self.apellido = apellido
+        self.cuit = cuit
+        self.es_usuario = True
+        self.dni = dni
+        self.razon_social = razon
+        self.tipo_usuario = 1
+        print('<User {}>:{}'.format(self.username, self.__dict__))
+
+    def __str__(self):
+        return str(self.__class__) + ": " + str(self.__dict__)
 
     def ver(self):
         return '<User {}>'.format(self.username)
 
+
 def crear(objeto):
     try:
         db.session.add(objeto)
-        db.session.commit()        
+        db.session.commit()
     except:
-        db.session.rollback() 
+        db.session.rollback()
         return False
     return True
+
 
 def crearMuchos(*objetos):
     try:
         db.session.bulk_save_objects(objetos)
         db.session.commit()
     except:
-        db.session.rollback() 
+        db.session.rollback()
         return False
     return True
+
 
 def borrarTodos(objeto):
     try:
         num_rows_deleted = db.session.query(objeto).delete()
         db.session.commit()
     except:
-        db.session.rollback() 
+        db.session.rollback()
         return 0
     return num_rows_deleted

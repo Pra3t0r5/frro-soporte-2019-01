@@ -1,21 +1,26 @@
-{% macro render_field(field) %}
-<div class="form-row">
-    <div class="form-group col-md-6">
-        {{ field.label }}
-        {{ field(class_="form-control border-warning", **kwargs)|safe }}
-        {% if field.errors %}
-        <ul class=errors>
-            {% for error in field.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+{% macro render_field(field, size) %}
+
+{% if size=="small" %}
+<div class="form-group col-md-6">
+  {% elif size=="big" %}
+  <div class="form-group col-md-12">
+    {% else %}
+    <div class="form-group">
+      {% endif %}
+      {{ field.label }}
+      {{ field(class_="form-control border-warning", **kwargs)|safe }}
+      {% if field.errors %}
+      <ul class=errors>
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
 
     </div>
-</div>
-{% endmacro %} 
+    {% endmacro %}
 
-<!--<form>
+    <!--<form>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputEmail4">Correo Electronico</label>
