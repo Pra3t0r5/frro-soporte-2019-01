@@ -19,6 +19,12 @@ class CabeceraDetalle(db.Model):
     def ver(self):
         return '<DetailHead {}>'.format(self.idcabecera)
 
+    def __init__(self,imp_tot, ped , ped1):
+        self.importe_total = imp_tot 
+        self.pedido = ped
+        self.pedido1 = ped1
+        print('<CabeceraDetalle {}>:{}'.format(self.idcabecera, self.__dict__))
+
 
 class HistorialStock(db.Model):
     __tablename__ = 'historial_stock'
@@ -35,6 +41,14 @@ class HistorialStock(db.Model):
     def ver(self):
         return '<History {}>'.format(self.idhistorial_stock)
 
+    def __init__(self,fecha_h_m, cant, uni, sig, linea_det):
+        self.fecha_hora_movimiento = fecha_h_m
+        self.cantidad = cant
+        self.unidad = uni
+        self.signo = sig
+        self.linea_detalle = linea_det 
+        print('<HistorialStock {}>:{}'.format(self.idhistorial_stock, self.__dict__))
+
 
 class Ingrediente(db.Model):
     __tablename__ = 'ingrediente'
@@ -50,6 +64,13 @@ class Ingrediente(db.Model):
 
     def ver(self):
         return '<Ingredient {}>'.format(self.nombre)
+
+    def __init__(self, nom, desc, cant, uni):
+        self.nombre = nom 
+        self.descripcion = desc
+        self.cantidad = cant
+        self.unidad = uni
+        print('<Ingrediente {}>:{}'.format(self.nombre, self.__dict__))
 
 
 class LineaDetalle(db.Model):
@@ -69,6 +90,13 @@ class LineaDetalle(db.Model):
     def ver(self):
         return '<DetailLine {}>'.format(self.idlinea_detalle)
 
+    def __init__(self,cabe, prod, cant, subt ):
+        self.cabecera = cabe
+        self.producto = prod
+        self.cantidad = cant
+        self.subtotal = subt
+        print('<LineaDetalle {}>:{}'.format(self.idlinea_detalle, self.__dict__))
+
 
 class Pedido(db.Model):
     __tablename__ = 'pedido'
@@ -86,6 +114,14 @@ class Pedido(db.Model):
     def ver(self):
         return '<Delivery {}>'.format(self.nro_pedido)
 
+    def __init__(self,nro_ped, est, fecha_h_e, orden_fab, solic ):
+        self.nro_pedido = nro_ped
+        self.estado = est
+        self.fecha_hora_entrega = fecha_h_e
+        self.orden_fabricacion = orden_fab
+        self.solicitante = solic
+        print('<Pedido {}>:{}'.format(self.nro_pedido, self.__dict__))
+
 
 class Producto(db.Model):
     __tablename__ = 'producto'
@@ -102,8 +138,14 @@ class Producto(db.Model):
     ingrediente1 = db.relationship('Ingrediente')
     unidad1 = db.relationship('Unidad')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self,nom, desc, imp_unitario, uni, ingred):
+        self.nombre = nom
+        self.descripcion = desc
+        self.importe_unitario = imp_unitario
+        self.unidad = uni
+        self.ingrediente = ingred
+        print('<Producto {}>:{}'.format(self.nombre, self.__dict__))
+
 
     def ver(self):
         return '<Product {}>'.format(self.nombre)
@@ -118,6 +160,10 @@ class TipoUsuario(db.Model):
     def ver(self):
         return '<User {}>'.format(self.id_tipo_usuario)
 
+    def __init__(self, desc):
+        self.descripcion = desc
+        print('<TipoUsuario {}>:{}'.format(self.id_tipo_usuario, self.__dict__))
+
 
 class Unidad(db.Model):
     __tablename__ = 'unidad'
@@ -128,6 +174,11 @@ class Unidad(db.Model):
 
     def ver(self):
         return '<User {}>'.format(self.abreviacion)
+
+    def __init__(self, abre, desc):
+        self.abreviacion = abre
+        self.descripcion = desc
+        print('<Unidad {}>:{}'.format(self.idunidad, self.__dict__))
 
 
 class Usuario(db.Model):
