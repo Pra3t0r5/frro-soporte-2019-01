@@ -19,6 +19,9 @@ def profile():
 def admin():
     return render_template('admin.html')
 
+@main.route('/productos')
+def productos():
+    return render_template('productos.html')
 
 @main.route('/pedidom')
 def pedidom():   
