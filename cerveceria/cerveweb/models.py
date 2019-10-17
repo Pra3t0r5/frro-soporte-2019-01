@@ -148,7 +148,7 @@ class Usuario(db.Model):
 
     tipo_usuario1 = db.relationship('TipoUsuario')
 
-    def __init__(self, idu, passw, username, email, nombre, apellido, cuit, es_usuario, dni, razon, tipo):
+    def __init__(self, username, email, passw, nombre, apellido, cuit, es_usuario, dni, razon, tipo):
         self.password = passw
         self.username = username
         self.email = email
