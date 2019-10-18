@@ -1,15 +1,23 @@
-from flask import Blueprint, render_template, request, redirect, flash, url_for
-from . import db, forms, models, FLASH_MSG
-from random import *
+import os
 import traceback
+from random import *
+
+from flask import Blueprint
+from flask import current_app as app
+from flask import flash, redirect, render_template, request, session, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from . import FLASH_MSG, db, forms, login_manager, models
+from .forms import *
+from .models import Usuario, db
 
 auth = Blueprint('auth', __name__)
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """Valida ingreso de un Usuario"""
-    formLogin = forms.LoginUsuarioForm(request.form)
+    formLogin = LoginUsuarioForm(request.form)
     if request.method == 'POST':
         try:
             # exists = db.session.query(models.Usuario.id_usuario).filter_by(
@@ -19,8 +27,8 @@ def login():
             #   email=formLogin.email.data, passw=formLogin.password.data, tipo=1)
             print('INSTANCIADO')
             if db.session.query(db.exists().where(db.and_(
-                models.Usuario.email == formLogin.email.data,
-                models.Usuario.password == formLogin.password.data))
+                Usuario.email == formLogin.email.data,
+                Usuario.password == formLogin.password.data))
             ).scalar():
                 flash(FLASH_MSG.get("USU_BIENVENIDO"))
                 print('EXISTE')
@@ -40,16 +48,16 @@ def login():
 def register():
     """Crea un usuario"""
     # completa objeto form con datos de la request
-    formRegistro = forms.RegistroUsuarioForm(request.form)
+    formRegistro = RegistroUsuarioForm(request.form)
     # entra al bloque a continuacion unicamente si es post y valida
     if request.method == 'POST':  # and form.validate():
         mocked = randint(10, 1000)
         # instancia objeto user con la data de la form
-        user = models.Usuario(formRegistro.username.data, formRegistro.email.data,
+        nuevoUsuario = Usuario(formRegistro.username.data, formRegistro.email.data,
                               formRegistro.password.data, mocked, mocked, mocked, mocked, mocked, mocked, 1)
 
         # persiste modelo usuario instanciado en la db
-        db.session.add(user)
+        db.session.add(nuevoUsuario)
         db.session.commit()
 
         flash(FLASH_MSG.get("USU_REG_OK"))

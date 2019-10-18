@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import flask_login
 
 from . import DB_URI, db, models
 
@@ -8,11 +9,16 @@ def create_app():
     """Crea el core de la aplicacion, inicializando el ORM y los dos controladores principales (auth y main)"""
     app = Flask(__name__)
     app.debug = True
-    app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
+    app.config['SECRET_KEY'] = 'C3rVew38bIrR4ru1e5'
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI.get('local2')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+    #app.config.from_object('config.Config')
+
+    login_manager = flask_login.LoginManager()
+
     db.init_app(app)
+    login_manager.init_app(app)
     
     with app.app_context():
         # blueprint for auth routes in our app
