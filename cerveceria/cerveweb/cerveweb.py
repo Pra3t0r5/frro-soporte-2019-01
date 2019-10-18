@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import flask_login
 
-from . import DB_URI, db, models
+from . import DB_URI, db, models, lm
 
 
 def create_app():
@@ -18,7 +18,7 @@ def create_app():
     login_manager = flask_login.LoginManager()
 
     db.init_app(app)
-    login_manager.init_app(app)
+    lm.init_app(app)
     
     with app.app_context():
         # blueprint for auth routes in our app

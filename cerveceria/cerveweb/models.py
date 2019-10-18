@@ -10,28 +10,28 @@ from . import db
 class CabeceraDetalle(db.Model):
     __tablename__ = 'cabecera_detalle'
 
-    idcabecera = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     importe_total = db.Column(Float(asdecimal=True),
                               server_default=text("'0'"))
-    pedido = db.Column(ForeignKey('pedido.idpedido',
+    pedido = db.Column(ForeignKey('pedido.id',
                                   onupdate='CASCADE'), nullable=False, index=True)
 
     pedido1 = db.relationship('Pedido')
 
     def ver(self):
-        return '<DetailHead {}>'.format(self.idcabecera)
+        return '<DetailHead {}>'.format(self.id)
 
     def __init__(self,imp_tot, ped , ped1):
         self.importe_total = imp_tot 
         self.pedido = ped
         self.pedido1 = ped1
-        print('<CabeceraDetalle {}>:{}'.format(self.idcabecera, self.__dict__))
+        print('<CabeceraDetalle {}>:{}'.format(self.id, self.__dict__))
 
 
 class HistorialStock(db.Model):
     __tablename__ = 'historial_stock'
 
-    idhistorial_stock = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     fecha_hora_movimiento = db.Column(DateTime, nullable=False, server_default=text(
         "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     cantidad = db.Column(Float(asdecimal=True), nullable=False,
@@ -41,7 +41,7 @@ class HistorialStock(db.Model):
     linea_detalle = db.Column(Integer)
 
     def ver(self):
-        return '<History {}>'.format(self.idhistorial_stock)
+        return '<History {}>'.format(self.id)
 
     def __init__(self,fecha_h_m, cant, uni, sig, linea_det):
         self.fecha_hora_movimiento = fecha_h_m
@@ -49,17 +49,17 @@ class HistorialStock(db.Model):
         self.unidad = uni
         self.signo = sig
         self.linea_detalle = linea_det 
-        print('<HistorialStock {}>:{}'.format(self.idhistorial_stock, self.__dict__))
+        print('<HistorialStock {}>:{}'.format(self.id, self.__dict__))
 
 
 class Ingrediente(db.Model):
     __tablename__ = 'ingrediente'
 
-    idingrediente = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     nombre = db.Column(String(45), nullable=False)
     descripcion = db.Column(String(120))
     cantidad = db.Column(Float(asdecimal=True), nullable=False)
-    unidad = db.Column(ForeignKey('unidad.idunidad',
+    unidad = db.Column(ForeignKey('unidad.id',
                                   onupdate='CASCADE'), nullable=False, index=True)
 
     unidad1 = db.relationship('Unidad')
@@ -78,10 +78,10 @@ class Ingrediente(db.Model):
 class LineaDetalle(db.Model):
     __tablename__ = 'linea_detalle'
 
-    idlinea_detalle = db.Column(Integer, primary_key=True)
-    cabecera = db.Column(ForeignKey('cabecera_detalle.idcabecera',
+    id = db.Column(Integer, primary_key=True)
+    cabecera = db.Column(ForeignKey('cabecera_detalle.id',
                                     onupdate='CASCADE'), nullable=False, index=True)
-    producto = db.Column(ForeignKey('producto.idproducto',
+    producto = db.Column(ForeignKey('producto.id',
                                     onupdate='CASCADE'), nullable=False, index=True)
     cantidad = db.Column(Float(asdecimal=True))
     subtotal = db.Column(Float(asdecimal=True))
@@ -90,25 +90,25 @@ class LineaDetalle(db.Model):
     producto1 = db.relationship('Producto')
 
     def ver(self):
-        return '<DetailLine {}>'.format(self.idlinea_detalle)
+        return '<DetailLine {}>'.format(self.id)
 
     def __init__(self,cabe, prod, cant, subt ):
         self.cabecera = cabe
         self.producto = prod
         self.cantidad = cant
         self.subtotal = subt
-        print('<LineaDetalle {}>:{}'.format(self.idlinea_detalle, self.__dict__))
+        print('<LineaDetalle {}>:{}'.format(self.id, self.__dict__))
 
 
 class Pedido(db.Model):
     __tablename__ = 'pedido'
 
-    idpedido = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     nro_pedido = db.Column(Integer, nullable=False)
     estado = db.Column(String(45))
     fecha_hora_entrega = db.Column(DateTime)
     orden_fabricacion = db.Column(Integer)
-    solicitante = db.Column(ForeignKey('usuario.id_usuario'),
+    solicitante = db.Column(ForeignKey('usuario.id'),
                             nullable=False, index=True)
 
     usuario = db.relationship('Usuario')
@@ -128,14 +128,14 @@ class Pedido(db.Model):
 class Producto(db.Model):
     __tablename__ = 'producto'
 
-    idproducto = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     nombre = db.Column(String(45), nullable=False)
     descripcion = db.Column(String(256))
     importe_unitario = db.Column(Float(asdecimal=True), nullable=False)
-    unidad = db.Column(ForeignKey('unidad.idunidad',
+    unidad = db.Column(ForeignKey('unidad.id',
                                   onupdate='CASCADE'), nullable=False, index=True)
     ingrediente = db.Column(ForeignKey(
-        'ingrediente.idingrediente', onupdate='CASCADE'), nullable=False, index=True)
+        'ingrediente.id', onupdate='CASCADE'), nullable=False, index=True)
 
     ingrediente1 = db.relationship('Ingrediente')
     unidad1 = db.relationship('Unidad')
@@ -156,21 +156,21 @@ class Producto(db.Model):
 class TipoUsuario(db.Model):
     __tablename__ = 'tipo_usuario'
 
-    id_tipo_usuario = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     descripcion = db.Column(String(120))
 
     def ver(self):
-        return '<User {}>'.format(self.id_tipo_usuario)
+        return '<User {}>'.format(self.id)
 
     def __init__(self, desc):
         self.descripcion = desc
-        print('<TipoUsuario {}>:{}'.format(self.id_tipo_usuario, self.__dict__))
+        print('<TipoUsuario {}>:{}'.format(self.id, self.__dict__))
 
 
 class Unidad(db.Model):
     __tablename__ = 'unidad'
 
-    idunidad = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     abreviacion = db.Column(String(10), nullable=False)
     descripcion = db.Column(String(120))
 
@@ -180,7 +180,7 @@ class Unidad(db.Model):
     def __init__(self, abre, desc):
         self.abreviacion = abre
         self.descripcion = desc
-        print('<Unidad {}>:{}'.format(self.idunidad, self.__dict__))
+        print('<Unidad {}>:{}'.format(self.id, self.__dict__))
 
 
 class Usuario(UserMixin, db.Model):
@@ -188,7 +188,7 @@ class Usuario(UserMixin, db.Model):
 
     __tablename__ = 'usuario'
 
-    id_usuario = db.Column(Integer, primary_key=True)
+    id = db.Column(Integer, primary_key=True)
     username = db.Column(String(45), nullable=False, unique=True)
     password = db.Column(String(45), nullable=False)
     email = db.Column(String(120), nullable=False, unique=True)
@@ -199,7 +199,7 @@ class Usuario(UserMixin, db.Model):
     dni = db.Column(Integer, unique=True)
     razon_social = db.Column(String(120))
     tipo_usuario = db.Column(ForeignKey(
-        'tipo_usuario.id_tipo_usuario'), nullable=False, index=True)
+        'tipo_usuario.id'), nullable=False, index=True)
 
     tipo_usuario1 = db.relationship('TipoUsuario')
 
@@ -213,7 +213,7 @@ class Usuario(UserMixin, db.Model):
         self.es_usuario = True
         self.dni = dni
         self.razon_social = razon
-        self.tipo_usuario = 1
+        self.tipo_usuario = tipo
         print('<User {}>:{}'.format(self.username, self.__dict__))
 
     def __str__(self):
