@@ -4,56 +4,59 @@ from random import *
 
 from flask import Blueprint
 from flask import current_app as app
-from flask import flash, redirect, render_template, request, session, url_for
+from flask import url_for, redirect, render_template, flash, g, session, request
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from . import FLASH_MSG, db, forms, lm, models
+from . import FLASH_MSG, db, forms,  models
 from .forms import *
 from .models import Usuario
 
 auth = Blueprint('auth', __name__)
 
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-
     """Valida ingreso de un Usuario"""
-    
-    formLogin = LoginUsuarioForm(request.form)
-    if current_user.is_authenticated:
+    print(g)
+    print(g.user.is_authenticated)
+    print(current_user)
+    if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('main.index'))
-    if request.method == 'POST':
+    formLogin = LoginUsuarioForm(request.form)
+    if form.validate_on_submit():
+        login_user(g.user)
+    '''if request.method == 'POST':
         try:
             # exists = db.session.query(models.Usuario.id_usuario).filter_by(
             #    email=form.email.data).scalar() is not None
             print('ENTRA POST')
             # user = models.Usuario(
             #   email=formLogin.email.data, passw=formLogin.password.data, tipo=1)
-            #print('INSTANCIADO')
-            #if db.session.query(db.exists().where(db.and_(
+            # print('INSTANCIADO')
+            # if db.session.query(db.exists().where(db.and_(
             #    Usuario.email == formLogin.email.data,
             #    Usuario.password == formLogin.password.data))
-            #).scalar():
-            usuarioEntrante = Usuario.query.filter_by(email=formLogin.email.data).first()
+            # ).scalar():
+            usuarioEntrante = Usuario.query.filter_by(
+                email=formLogin.email.data).first()
             print('INSTANCIADO')
             if usuarioEntrante:
-                if usuarioEntrante.password==formLogin.password.data:
+                if usuarioEntrante.password == formLogin.password.data:
                     login_user(usuarioEntrante)
-                    flash(FLASH_MSG.get("USU_BIENVENIDO"))
+                    flash(FLASH_MSG.get("USU_BIENVENIDO"), 'success')
                     print('ENTRO')
                     next_pag = request.args.get('next')
                     return redirect(next_pag or url_for('main.index'))
             else:
                 print('NO ENTRO')
-                flash(FLASH_MSG.get("USU_REG_FALLA"))
+                flash(FLASH_MSG.get("USU_REG_FALLA"), 'danger')
                 return render_template('login.html', form=formLogin)
         except:
             print('ERROR')
             print(traceback.format_exc())
-    else:
-        return render_template('login.html', form=formLogin)
-    
+    else:'''
+    return render_template('login.html', form=formLogin)
+
     """
     Dejo comentado esto, estaba probando a ver si andaba(reemplazaria a lo de arriba)
     @auth.route('/login', methods=['GET', 'POST'])
@@ -79,6 +82,15 @@ def login():
                 return flask.render_template('login.html', form=form)
     """
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    if session.get('was_once_logged_in'):
+        # prevent flashing automatically logged out message
+        del session['was_once_logged_in']
+    flash('You have successfully logged yourself out.')
+    return redirect('auth.login')
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -97,7 +109,7 @@ def register():
         db.session.add(nuevoUsuario)
         db.session.commit()
 
-        flash(FLASH_MSG.get("USU_REG_OK"))
+        flash(FLASH_MSG.get("USU_REG_OK"), 'success')
         #formlogin = forms.LoginUsuarioForm(form.email.data)
         # envia usuario a login (testear si puede autocompletar login)
         return redirect(url_for('auth.login'))
@@ -110,3 +122,9 @@ def register():
 @auth.route('/contact')
 def contact():
     return render_template('contact.html')
+
+
+@auth.before_request
+def before_request():
+    g.user = current_user
+

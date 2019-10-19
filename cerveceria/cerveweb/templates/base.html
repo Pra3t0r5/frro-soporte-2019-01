@@ -45,11 +45,12 @@
         <ul class="navbar-nav ml-auto">
           {% if g.user %}
           <li class="nav-item active"><span>{{ g.user['username'] }}</span>
-            <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.productos') }}">Productos</a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.productos') }}">Productos</a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.contact') }}">Mis Pedidos</a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Mi Perfil</a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.logout') }}">Salir</a>
             {% else %}
+            <li class="nav-item active"><span>{{ g.user['username'] }}</span>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.pedidom') }}"><strong>Pedido Express</strong></a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.contact') }}">Conocenos</a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Ingresar</a>
