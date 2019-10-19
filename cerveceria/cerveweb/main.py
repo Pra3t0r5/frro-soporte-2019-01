@@ -7,6 +7,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
+    flash(FLASH_MSG.get("USU_BIENVENIDO"))
     return render_template('index.html')
 
 
@@ -25,21 +26,8 @@ def productos():
 
 @main.route('/pedidom')
 def pedidom():   
-    if request.method == 'POST':  # and form.validate():
+    if request.method == 'POST':
         mocked = randint(10, 1000)
-        # instancia objeto user con la data de la formx
-        pedido = models.Pedido(form.username.data, form.email.data,
-                           form.password.data,21, 21, 21, 21, 21, 21, 1)
-        print("creacion")
-        # persiste modelo usuario instanciado en la db
-        db.session.add(user)
-        db.session.commit()
-        print("persistido")
-        flash(FLASH_MSG.get("USU_REG_OK"))
-        # envia usuario a login (testear si puede autocompletar login)
-        return redirect(url_for('auth.login'))
-    else:
-        flash(FLASH_MSG.get("USU_REG_FALLA"))
-    # carga register con la data presente en el form para poder editar
-    
+        flash(FLASH_MSG.get("PED_MAIL_SENT"))
+            
     return render_template('mario.html')
