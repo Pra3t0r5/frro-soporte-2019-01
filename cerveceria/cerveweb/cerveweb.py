@@ -16,6 +16,7 @@ def create_app():
     #app.config.from_object('config.Config')
 
     login_manager = flask_login.LoginManager()
+    login_manager.init_app(app)
 
     db.init_app(app)
     lm.init_app(app)
