@@ -1,6 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask import Blueprint
+from flask import url_for, redirect, render_template, flash, g, session, request
+from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.security import check_password_hash, generate_password_hash
+
 
 DB_URI = {'local': 'mysql://cerveweb:beerjesus@localhost/cerveweb',
           'local2': 'mysql+mysqlconnector://cerveweb:beerjesus@localhost/cerveweb'
@@ -39,6 +44,11 @@ def create_app():
         def load_user(id):
             # since the user_id is just the primary key of our user table, use it in the query for the user
             return Usuario.query.get(int(id))
+        
+        @app.before_request
+        def before_request():
+            g.user = current_user
+
 
         # blueprint for auth routes in our app
         from .auth import auth as auth_blueprint

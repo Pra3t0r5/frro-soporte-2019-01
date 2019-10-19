@@ -38,7 +38,11 @@ def admin():
 def productos():
     return render_template('productos.html')
 
+@main.route('/contact')
+def contact():
+    return render_template('contact.html')
 
+  
 @main.route('/pedidom')
 @login_required
 def pedidom():

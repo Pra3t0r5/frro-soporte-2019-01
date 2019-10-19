@@ -14,6 +14,9 @@ from .models import Usuario
 
 auth = Blueprint('auth', __name__)
 
+
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """Valida ingreso de un Usuario"""
@@ -23,8 +26,24 @@ def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('main.index'))
     formLogin = LoginUsuarioForm(request.form)
-    if form.validate_on_submit():
-        login_user(g.user)
+    if request.method == 'POST':
+        usuarioEntrante = Usuario.query.filter_by(
+            email=formLogin.email.data).first()
+        if usuarioEntrante:
+            if usuarioEntrante.password == formLogin.password.data:
+                login_user(usuarioEntrante)
+                print(g)
+                print(g.user.is_authenticated)
+                print(current_user)
+                flash(FLASH_MSG.get("USU_BIENVENIDO"), 'success')
+                print('ENTRO')
+                next_pag = request.args.get('next')
+                return redirect(next_pag or url_for('main.index'))
+        else:
+            print('NO ENTRO')
+            flash(FLASH_MSG.get("USU_REG_FALLA"), 'danger')
+            return render_template('login.html', form=formLogin)
+
     '''if request.method == 'POST':
         try:
             # exists = db.session.query(models.Usuario.id_usuario).filter_by(
@@ -82,8 +101,8 @@ def login():
                 return flask.render_template('login.html', form=form)
     """
 
-@app.route('/logout')
-@login_required
+
+@auth.route('/logout')
 def logout():
     logout_user()
     if session.get('was_once_logged_in'):
@@ -91,6 +110,7 @@ def logout():
         del session['was_once_logged_in']
     flash('You have successfully logged yourself out.')
     return redirect('auth.login')
+
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -110,7 +130,7 @@ def register():
         db.session.commit()
 
         flash(FLASH_MSG.get("USU_REG_OK"), 'success')
-        #formlogin = forms.LoginUsuarioForm(form.email.data)
+        # formlogin = forms.LoginUsuarioForm(form.email.data)
         # envia usuario a login (testear si puede autocompletar login)
         return redirect(url_for('auth.login'))
         # flash(FLASH_MSG.get("USU_REG_FALLA"))
@@ -119,12 +139,8 @@ def register():
         return render_template('register.html', form=formRegistro)
 
 
-@auth.route('/contact')
-def contact():
-    return render_template('contact.html')
 
 
 @auth.before_request
 def before_request():
     g.user = current_user
-
