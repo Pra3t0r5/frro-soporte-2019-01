@@ -25,14 +25,46 @@
 </head>
 
 <body style="background-color: #263238;text-align: center;">
-
-    <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png">
-
-    <div class="bg-dark" style="background-color: #263238;text-align: center;">
-        <button class="btn btn-warning btn-lg"
-            style=" width: 500px; height: 250px; position: absolute ;top: 40%; left: 37%; font-size : 60px;" type="submit"><strong>Hacer
-                pedido</strong></button>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+            {% if messages %}
+            {% for category, message in messages %}
+            {% if category != "message" %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
     </div>
+    <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png">
+    <form method=post>
+        <div class="form-row">
+            <div class="bg-dark" style="background-color: #263238;text-align: center;">
+                <button class="btn btn-warning btn-lg"
+                    style=" width: 500px; height: 250px; position: absolute ;top: 40%; left: 37%; font-size : 60px;"
+                    type="submit"><strong>Hacer
+                        pedido</strong></button>
+            </div>
+        </div>
+    </form>
 </body>
 
 </html>
+<script>
+    $(document).ready(function () {
+        var messages = "{{ get_flashed_messages() }}";
+
+        if (typeof messages != 'undefined' && messages != '[]') {
+            $("#myModal").modal();
+        };
+    });
+</script>

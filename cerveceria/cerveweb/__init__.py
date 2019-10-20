@@ -15,7 +15,8 @@ FLASH_MSG = {'USU_REG_OK': 'Gracias por registrarte!',
              'USU_REG_FALLA': 'Error, Revisa los campos y reintenta.',
              'USU_REG_EXISTE': 'Error, ya existe un usuario con esos datos',
              'USU_BIENVENIDO': 'Bienvenido de nuevo',
-             'PED_MAIL_SENT': 'Gracias! Enviamos una copia de tu pedido a tu email',
+             'PED_MAIL_SENT': 'Gracias! Hemos enviado el email!',
+             'PED_MAIL_FAIL': 'Lo sentimos. Fallo el envio del email.',
              '500': 'Se ha producido un error en el servidor, contacte al administrador.',
              '404': 'Contenido no encontrado, vuelva por donde vino.'}
 

@@ -43,7 +43,7 @@
       {% block nav %}
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-            {% if session.logged_in %}
+          {% if session.logged_in %}
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.pedidom') }}"><strong>Pedido
                 Express</strong><i class="fas fa-shipping-fast"></i></a>
           <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.productos') }}">Productos <i
@@ -82,9 +82,15 @@
         <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
         {% if messages %}
         {% for category, message in messages %}
+        {% if category != "message" %}
         <div class="alert alert-{{ category }} alert-dismissible" role="alert">
           {{ message }}
         </div>
+        {% else %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          {{ message }}
+        </div>
+        {% endif %}
         {% endfor %}
         {% endif %}
         {% endwith %}
