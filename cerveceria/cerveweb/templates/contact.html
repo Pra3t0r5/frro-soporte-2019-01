@@ -39,9 +39,9 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <section class="mb-4>
+            <section class="mb-4">
 
-                <h2 class=" h1-responsive font-weight-bold text-center my-4">Contactanos</h2>
+                <h2 class="h1-responsive font-weight-bold text-center my-4">Contactanos</h2>
                 <p class="text-center w-responsive mx-auto mb-5">¿Tenes alguna pregunta?
                     Por favor no dudes en contactarnos directamente. Nuestro equipo se pondrá en
                     contacto con vos en cuestión de horas para ayudarte.</p>
@@ -49,55 +49,21 @@
                 <div class="row">
 
                     <div class="col-md-9 mb-md-0 mb-5">
-                        <form id="contact-form" name="contact-form" action="mail.php" method="POST">
+                        {% from "_formhelpers.html" import render_field %}
+                        <form id="contact-form" name="contact-form" method="POST">
 
                             <div class="row">
-
-                                <div class="col-md-6">
-                                    <div class="md-form mb-0">
-                                        <input type="text" id="name" name="name" class="form-control">
-                                        <label for="name" class="">Nombre</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="md-form mb-0">
-                                        <input type="text" id="email" name="email" class="form-control">
-                                        <label for="email" class="">Email</label>
-                                    </div>
-                                </div>
-
+                                {{ render_field(form.contacto, "big") }}
                             </div>
-
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="md-form mb-0">
-                                        <input type="text" id="subject" name="subject" class="form-control">
-                                        <label for="subject" class="">Asunto</label>
-                                    </div>
-                                </div>
+                                {{ render_field(form.mensaje, "big") }}
                             </div>
 
-                            <div class="row">
-
-                                <div class="col-md-12">
-
-                                    <div class="md-form">
-                                        <textarea type="text" id="message" name="message" rows="2"
-                                            class="form-control md-textarea"></textarea>
-                                        <label for="message">Mensaje</label>
-                                    </div>
-
-                                </div>
-                            </div>
-
+                            <p><input class="btn btn-warning btn-block my-4" style="color:white;" type=submit
+                                    value=Enviar>
+                                <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
                         </form>
 
-                        <div class="text-center text-md-left">
-                            <a class="btn btn-warning" style="color: black;"
-                                onclick="document.getElementById('contact-form').submit();">Enviar</a>
-                        </div>
-                        <div class="status"></div>
                     </div>
 
                     <div class="col-md-3 text-center">

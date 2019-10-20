@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, IntegerField, TextAreaField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
@@ -40,5 +40,5 @@ class LoginUsuarioForm(FlaskForm):
 
 class ContactoForm(FlaskForm):
     contacto = StringField('Nombre/Email', validators=[DataRequired()])
-    mensaje = StringField('Mensaje', validators=[DataRequired()])
+    mensaje = TextAreaField('Mensaje', validators=[DataRequired()])
     submit = SubmitField('Enviar')

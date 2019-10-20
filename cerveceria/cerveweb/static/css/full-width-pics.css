@@ -125,12 +125,12 @@ body {
 }
 
 
-.hp1{
+.hp1 {
   max-height: 200px;
   width: auto;
 }
 
-div#fg{
+div#fg {
   position: absolute;
   top: 5%;
   left: 20%;
@@ -140,7 +140,7 @@ div#fg{
   width: 60%;
 }
 
-div#bg{
+div#bg {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -154,8 +154,22 @@ footer {
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 220px; 
+  height: 220px;
   width: 100%;
   overflow: hidden;
   z-index: 9999;
+}
+
+.shrink {
+  -webkit-transform: scale(0.5);
+  -moz-transform: scale(0.5);
+  -ms-transform: scale(0.5);
+  transform: scale(0.5);
+}
+
+.expand {
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
 }

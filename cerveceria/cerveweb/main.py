@@ -48,13 +48,13 @@ def productos():
 
 @main.route('/contact', methods=['GET', 'POST'])
 def contact():
+    contactoForm = ContactoForm(request.form)
     if request.method == 'POST':
-        contactoForm = ContactoForm(request.form)
         sendEmail("[Contacto] %s" %
                   contactoForm.contacto.data, contactoForm.mensaje.data)
         return redirect(url_for('main.index'))
     else:
-        return render_template('contact.html')
+        return render_template('contact.html', form=contactoForm)
 
 
 @main.route('/pedidom', methods=['GET', 'POST'])
