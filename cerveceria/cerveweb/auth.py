@@ -57,9 +57,10 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     if request.method == 'POST':
-        mocked = randint(10, 1000)
         nuevoUsuario = Usuario(formRegistro.username.data, formRegistro.email.data,
-                               formRegistro.password.data, mocked, mocked, mocked, mocked, mocked, mocked, 1)
+                               formRegistro.password.data, formRegistro.nombre.data,
+                               formRegistro.apellido.data, formRegistro.cuit.data,
+                               True, formRegistro.dni.data, formRegistro.razon.data, 1)
         db.session.add(nuevoUsuario)
         db.session.commit()
         flash(FLASH_MSG.get("USU_REG_OK"), 'success')
