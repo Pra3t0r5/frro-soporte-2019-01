@@ -19,14 +19,22 @@ auth = Blueprint('auth', __name__)
 def login():
     """Valida ingreso de un Usuario"""
 
-    if g.user is not None and g.user.is_authenticated:
+    #Si el usuario ya esta logueado redirije a index
+    if g.user is not None and g.user.is_authenticated:        
         return redirect(url_for('main.index'))
-    formLogin = LoginUsuarioForm(request.form)
+    #al recibir un GET, instancia el formulario para poder renderizarlo
+    form = LoginUsuarioForm(request.form)    
     if request.method == 'POST':
+        #al recibir un POST (submit) evalua los validadores del form, si no pasan avisa
+        if not form.validate_on_submit():
+            flash(FLASH_MSG.get("USU_REG_FALLA"), 'danger')
+            return render_template('login.html', form=form)
+        #en este punto se recibio un form valido, se procede a buscar el usuario
         usuarioEntrante = Usuario.query.filter_by(
-            email=formLogin.email.data).first()
+            email=form.email.data).first()
         if usuarioEntrante:
-            if usuarioEntrante.password == formLogin.password.data:
+            #el usuario existe, se procede a validar sus datos
+            if usuarioEntrante.password == form.password.data:
                 login_user(usuarioEntrante)
                 session['logged_in'] = True
                 printDatos()
@@ -34,9 +42,12 @@ def login():
                 next_pag = request.args.get('next')
                 return redirect(next_pag or url_for('main.index'))
         else:
+            #el usuario no existe, avisa
             flash(FLASH_MSG.get("USU_REG_FALLA"), 'danger')
-            return render_template('login.html', form=formLogin)
-    return render_template('login.html', form=formLogin)
+            return render_template('login.html', form=form)
+    else:
+        return render_template('login.html', form=form)
+
 
 
 @auth.route('/logout')
@@ -45,7 +56,7 @@ def logout():
     session['logged_in'] = False
     if session.get('was_once_logged_in'):
         del session['was_once_logged_in']
-    flash('You have successfully logged yourself out.')
+    flash(FLASH_MSG.get("USU_SALIENDO"), 'warning')
     return redirect(url_for('auth.login'))
 
 
@@ -53,21 +64,21 @@ def logout():
 def register():
     """Crea un usuario"""
 
-    formRegistro = RegistroUsuarioForm(request.form)
+    form = RegistroUsuarioForm(request.form)
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     if request.method == 'POST':
-        nuevoUsuario = Usuario(formRegistro.username.data, formRegistro.email.data,
-                               formRegistro.password.data, formRegistro.nombre.data,
-                               formRegistro.apellido.data, formRegistro.cuit.data,
-                               True, formRegistro.dni.data, formRegistro.razon.data, 1)
+        nuevoUsuario = Usuario(form.username.data, form.email.data,
+                               form.password.data, form.nombre.data,
+                               form.apellido.data, form.cuit.data,
+                               True, form.dni.data, form.razon.data, 1)
         db.session.add(nuevoUsuario)
         db.session.commit()
         flash(FLASH_MSG.get("USU_REG_OK"), 'success')
         return redirect(url_for('auth.login'))
 
     else:
-        return render_template('register.html', form=formRegistro)
+        return render_template('register.html', form=form)
 
 
 def printDatos():

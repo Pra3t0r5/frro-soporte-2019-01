@@ -24,6 +24,7 @@
       {% from "_formhelpers.html" import render_field %}
       <form method=post>
         <div class="form-row">
+          {{ form.hidden_tag() }}
           {{ render_field(form.username, "big") }}
           {{ render_field(form.email, "big") }}
           {{ render_field(form.password, "small") }}
@@ -34,8 +35,8 @@
           {{ render_field(form.cuit,"small") }}
           {{ render_field(form.razon,"big") }}
         </div>
-        <p><input class="btn btn-warning btn-block my-4" style="color:white;" type=submit value=Registrarse>
-          <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
+        {{ form.submit(class="btn btn-warning btn-block my-4",style="color: white;") }}
+        <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
       </form>
 
     </div>
