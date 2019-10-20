@@ -21,12 +21,12 @@ class RegistroUsuarioForm(FlaskForm):
     apellido = StringField('Apellido', validators=[
         DataRequired(),
         Length(min=2, max=20)])
-    dni = IntegerField('DNI', validators=[
+    dni = StringField('DNI', validators=[
         DataRequired(),
         Length(min=8, max=15)])
-    cuit = IntegerField('CUIT', validators=[
+    cuit = StringField('CUIT', validators=[
         DataRequired(),
-        Length(min=11, max=11)])
+        Length(min=10, max=15)])
     razon = StringField('Empresa', validators=[
         Length(min=2, max=30)])
     submit = SubmitField('Registrame')

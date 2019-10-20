@@ -194,9 +194,9 @@ class Usuario(UserMixin, db.Model):
     email = db.Column(String(120), nullable=False, unique=True)
     nombre = db.Column(String(120))
     apellido = db.Column(String(120))
-    cuit = db.Column(Integer, unique=True)
+    cuit = db.Column(String(45), unique=True)
     es_usuario = db.Column(Integer)
-    dni = db.Column(Integer, unique=True)
+    dni = db.Column(String(45), unique=True)
     razon_social = db.Column(String(120))
     tipo_usuario = db.Column(ForeignKey(
         'tipo_usuario.id'), nullable=False, index=True)
