@@ -210,7 +210,7 @@ class Usuario(UserMixin, db.Model):
         self.nombre = nombre
         self.apellido = apellido
         self.cuit = cuit
-        self.es_usuario = True
+        self.es_usuario = 1
         self.dni = dni
         self.razon_social = razon
         self.tipo_usuario = tipo

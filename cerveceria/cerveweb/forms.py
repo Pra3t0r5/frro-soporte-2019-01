@@ -26,7 +26,7 @@ class RegistroUsuarioForm(FlaskForm):
         Length(min=8, max=15)])
     cuit = IntegerField('CUIT', validators=[
         DataRequired(),
-        Length(min=11, max=11)])
+        Length(min=10, max=12)])
     razon = StringField('Empresa', validators=[
         Length(min=2, max=30)])
     submit = SubmitField('Registrame')

@@ -63,7 +63,7 @@ def pedidom():
     if request.method == 'POST':
         mocked = randint(10, 1000)
         sendEmail("Gracias por tu pedido!",
-                  "Tu ID de pedido es 2001%s200%s, puedes utilizarlo para consultar el estado del mismo desde nuestro sitio. Recuerda que los pedidos express se retiran en nuestros locales si no nos das mas detalles!" % (mocked*23,mocked))
+                  "Tu numero de pedido es 2001%s200%s, puedes utilizarlo para consultar el estado del mismo desde nuestro sitio. Recuerda que los pedidos express se retiran en nuestros locales si no nos das mas detalles!" % (mocked*23,mocked))
         return render_template('mario.html')
 
     return render_template('mario.html')
