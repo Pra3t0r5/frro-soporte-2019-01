@@ -18,7 +18,6 @@
     </button>
   </div>
 </div>
-
 {% endblock %}
 
 {% block content %}
@@ -63,24 +62,13 @@
     $.ajax({
       url: "{{url_for('main.buscar')}}",
       type: 'POST',
-      data: {'data':texto},
-      contentType: 'application/json;charset=UTF-8'      
+      data: JSON.stringify(texto),
+      contentType: 'application/json;charset=UTF-8',
     });
   };
 
   $("#btnBusqueda").click(function(){    
     buscar();
-  });  
-
-  var prevScrollpos = window.pageYOffset;
-  window.onscroll = function () {
-    var currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
-      document.getElementById("navbar").style.top = "0";
-    } else {
-      document.getElementById("navbar").style.top = "-50px";
-    }
-    prevScrollpos = currentScrollPos;
-  };  
+  });
 </script>
 {% endblock %}

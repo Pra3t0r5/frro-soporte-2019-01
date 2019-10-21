@@ -1,6 +1,7 @@
 import os
 import traceback
 import smtplib
+import json
 from random import *
 
 from flask import Blueprint
@@ -27,25 +28,25 @@ main = Blueprint('main', __name__)
 def index():
     print("GET index")
     if request.method == "POST":
+
+        flash("PRD_BSQ_FAIL", "warning")
         print("POST index")
     return render_template('index.html')
 
 
 @main.route('/buscar', methods=['GET', 'POST'])
 def buscar():
-    # Viene de un AJAX
-
     print("GET buscar")
     if request.method == "POST":
         print("POST buscar")        
-        print("POST texto: {}".format(request.json['data']))
-        text = request.json['data']
+        print("POST texto: {0}".format(request.get_json(force=True)))
+        text = request.get_json(force=True)
         if text == '':
             results = db.session.query(Pedido).all()
             print("POST text")
         else:
-            flash("Has buscado: {}".format(text), "info")
-            print("POST text: {}".format(text))
+            flash("Has buscado: {0}".format(text), "info")
+            print("POST text: {0}".format(text))
             similar = '%{0}%'.format(text)
 
             results = Producto.query.filter_by(
@@ -58,10 +59,10 @@ def buscar():
                 print("POST results: {}".format(results))
 
                 flash("BIRRAS FOUND!", "success")
-                return render_template('index.html', data=results)
+                return render_template('index.html', Texto=results)
         print("POST fail")
         flash("PRD_BSQ_FAIL %s" % text, "warning")
-        return render_template('index.html')
+        return redirect(url_for('main.index'))
     else:
         return render_template('index.html')
 
