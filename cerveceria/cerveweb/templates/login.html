@@ -6,15 +6,17 @@
     <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
     {% endblock %}
 
-{% block content %}    
+    {% block content %}
     <div style="margin-left: 30%; margin-right: 30%" />
     {% from "_formhelpers.html" import render_field %}
     <form method=post>
         <div class="form-row">
+            {{ form.hidden_tag() }}
             {{ render_field(form.email, "big") }}
             {{ render_field(form.password, "big") }}
         </div>
-        <p><input class="btn btn-warning btn-block my-4" style="color:white;" type=submit value=Ingresar>
+        {{ form.submit(class="btn btn-warning btn-block my-4",style="color: white;") }}
+        <!-- <p><input class="btn btn-warning btn-block my-4" style="color:white;" type=submit value=Ingresar> -->
         <a href="/register" class="btn btn-warning btn-block my-4" style="color: white;">Registrarse</a>
         <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
 
@@ -51,4 +53,3 @@
         -->
 
 {% endblock %}
-
