@@ -25,32 +25,42 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
+    print("GET index")
+    if request.method == "POST":
+        print("POST index")
     return render_template('index.html')
 
 
-@main.route('/buscar/', methods=['GET', 'POST'])
+@main.route('/buscar', methods=['GET', 'POST'])
 def buscar():
     # Viene de un AJAX
+
+    print("GET buscar")
     if request.method == "POST":
-        texto = request.json['data']
-        if texto == '':
-            resultados = db.session.query(Pedido).all()
+        print("POST buscar")        
+        print("POST texto: {}".format(request.json['data']))
+        text = request.json['data']
+        if text == '':
+            results = db.session.query(Pedido).all()
+            print("POST text")
         else:
-            flash("Has buscado: {}".format(texto), "info")
+            flash("Has buscado: {}".format(text), "info")
+            print("POST text: {}".format(text))
+            similar = '%{0}%'.format(text)
 
-            similar = '%{0}%'.format(texto)
+            results = Producto.query.filter_by(
+                nombre=similar, descripcion=similar).first()    
+            print("POST coincidences: {}".format(results))        
 
-            resultados = Producto.query.filter_by(
-                nombre=similar, descripcion=similar).first()
-
-            if resultados:
-                resultados = Producto.query.filter_by(
+            if results:                
+                results = Producto.query.filter_by(
                     nombre=similar, descripcion=similar).all()
+                print("POST results: {}".format(results))
 
                 flash("BIRRAS FOUND!", "success")
-                return render_template('index.html', data=resultados)
-
-        flash("PRD_BSQ_FAIL %s" % texto, "warning")
+                return render_template('index.html', data=results)
+        print("POST fail")
+        flash("PRD_BSQ_FAIL %s" % text, "warning")
         return render_template('index.html')
     else:
         return render_template('index.html')

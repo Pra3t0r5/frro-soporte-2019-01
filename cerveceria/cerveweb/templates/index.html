@@ -53,20 +53,22 @@
 {{ super() }}
 {% endblock %}
 
+
+{% block scripts %}
+{{ super() }}
 <script type="text/JavaScript">
   function buscar(){
-    alert("2");
     var texto = $("#txtBusqueda").val();
+    console.log(texto);
     $.ajax({
-      url: "{{url_for('buscar')}}",
+      url: "{{url_for('main.buscar')}}",
       type: 'POST',
       data: {'data':texto},
       contentType: 'application/json;charset=UTF-8'      
     });
   };
 
-  $("#btnBusqueda").click(function(){
-    console.log("1");
+  $("#btnBusqueda").click(function(){    
     buscar();
   });  
 
@@ -81,3 +83,4 @@
     prevScrollpos = currentScrollPos;
   };  
 </script>
+{% endblock %}
