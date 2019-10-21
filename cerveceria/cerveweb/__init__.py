@@ -19,6 +19,7 @@ FLASH_MSG = {'USU_REG_OK': 'Gracias por registrarte!',
              'NO_PERMITIDO':'Debes ingresar para ver este contenido.',
              'PED_MAIL_SENT': 'Gracias! Hemos enviado el email!',
              'PED_MAIL_FAIL': 'Lo sentimos. Fallo el envio del email.',
+             'PRD_BSQ_FAIL':'No tenemos productos que coincidan con: ',
              '500': 'Se ha producido un error en el servidor, contacte al administrador.',
              '404': 'Contenido no encontrado, vuelva por donde vino.'}
 

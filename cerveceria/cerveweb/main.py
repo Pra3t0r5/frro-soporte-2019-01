@@ -17,7 +17,7 @@ from email.mime.text import MIMEText
 
 from . import FLASH_MSG, db, forms, models
 from .forms import *
-from .models import Usuario
+from .models import *
 from .auth import *
 
 main = Blueprint('main', __name__)
@@ -26,6 +26,34 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     return render_template('index.html')
+
+
+@main.route('/buscar/', methods=['GET', 'POST'])
+def buscar():
+    # Viene de un AJAX
+    if request.method == "POST":
+        texto = request.json['data']
+        if texto == '':
+            resultados = db.session.query(Pedido).all()
+        else:
+            flash("Has buscado: {}".format(texto), "info")
+
+            similar = '%{0}%'.format(texto)
+
+            resultados = Producto.query.filter_by(
+                nombre=similar, descripcion=similar).first()
+
+            if resultados:
+                resultados = Producto.query.filter_by(
+                    nombre=similar, descripcion=similar).all()
+
+                flash("BIRRAS FOUND!", "success")
+                return render_template('index.html', data=resultados)
+
+        flash("PRD_BSQ_FAIL %s" % texto, "warning")
+        return render_template('index.html')
+    else:
+        return render_template('index.html')
 
 
 @main.route('/profile')
@@ -63,7 +91,7 @@ def pedidom():
     if request.method == 'POST':
         mocked = randint(10, 1000)
         sendEmail("Gracias por tu pedido!",
-                  "Tu ID de pedido es 2001%s200%s, puedes utilizarlo para consultar el estado del mismo desde nuestro sitio. Recuerda que los pedidos express se retiran en nuestros locales si no nos das mas detalles!" % (mocked*23,mocked))
+                  "Tu ID de pedido es 2001%s200%s, puedes utilizarlo para consultar el estado del mismo desde nuestro sitio. Recuerda que los pedidos express se retiran en nuestros locales si no nos das mas detalles!" % (mocked*23, mocked))
         return render_template('mario.html')
 
     return render_template('mario.html')

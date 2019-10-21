@@ -5,11 +5,18 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static',    filename='css/blurry-load.min.css') }}" />
 <script src="{{ url_for('static',    filename='js/blurry-load.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static',    filename='scss/search-bar.css') }}" />
 {% endblock %}
 
 {% block header %}
 <div class="py-5 bg-image-full bgpic1">
   <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png">
+  <div class="searchBox">
+    <input id="txtBusqueda" class="searchInput" type="text" placeholder="Buscar">
+    <button id="btnBusqueda" class="searchButton">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
 </div>
 
 {% endblock %}
@@ -46,7 +53,23 @@
 {{ super() }}
 {% endblock %}
 
-<script>
+<script type="text/JavaScript">
+  function buscar(){
+    alert("2");
+    var texto = $("#txtBusqueda").val();
+    $.ajax({
+      url: "{{url_for('buscar')}}",
+      type: 'POST',
+      data: {'data':texto},
+      contentType: 'application/json;charset=UTF-8'      
+    });
+  };
+
+  $("#btnBusqueda").click(function(){
+    console.log("1");
+    buscar();
+  });  
+
   var prevScrollpos = window.pageYOffset;
   window.onscroll = function () {
     var currentScrollPos = window.pageYOffset;
@@ -56,12 +79,5 @@
       document.getElementById("navbar").style.top = "-50px";
     }
     prevScrollpos = currentScrollPos;
-  }
-</script>
-
-<script type="text/JavaScript">
-  /*
-  window.onload = () => {
-    document.querySelector(".bg-image-full").classList.add(".bgpic2");
-  };*/
+  };  
 </script>
