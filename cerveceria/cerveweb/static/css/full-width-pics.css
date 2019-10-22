@@ -173,3 +173,18 @@ footer {
   -ms-transform: scale(1.5);
   transform: scale(1.5);
 }
+
+div.containercentered {
+  height: 4em;
+  display: flex;
+  align-items: center;
+  justify-content: center }
+div.containercentered h2 {
+  margin: 0 }
+
+.motto{
+  color: #f2f2f2;
+  font: 100 35px/1.3 'Lobster Two', Helvetica, sans-serif;
+  /*font: 100 35px/1.3 'Arizonia', Helvetica, sans-serif;*/
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.7);
+}
