@@ -79,10 +79,12 @@ def admin():
     return render_template('admin.html')
 
 
-@main.route('/productos')
+@main.route('/productos', methods=['GET', 'POST'])
 @login_required
 def productos():
-    return render_template('productos.html')
+    if request.method == "GET":
+        productos = db.session.query(Producto).all()
+        return render_template('productos.html', productos=productos)
 
 
 @main.route('/contact', methods=['GET', 'POST'])
