@@ -42,3 +42,10 @@ class ContactoForm(FlaskForm):
     contacto = StringField('Nombre/Email', validators=[DataRequired()])
     mensaje = TextAreaField('Mensaje', validators=[DataRequired()])
     submit = SubmitField('Enviar')
+
+#class ProductosForm(FlaskForm):
+#    nombre = StringField()
+#    descripcion = StringField()
+#    importe_unitario = 
+#    unidad = 
+#    ingrediente = 

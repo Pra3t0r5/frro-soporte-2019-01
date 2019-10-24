@@ -34,12 +34,12 @@
               <td>
                 <div class="def-number-input number-input safari_only">
                   <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                  <input class="quantity" min="0" name="quantity" value="1" type="number">
+                  <input id="inpCantidad" class="quantity" min="0" name="quantity" type="number">
                   <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
                 </div>
               </td>
               <td>
-                <button type="button" class="btn btn-warning btn-circle"><i class="fas fa-beer"> </i></button>
+                <button type="submit" id="btnPedido" class="btn btn-warning btn-circle"><i class="fas fa-beer"> </i></button>
               </td>
             {%endfor%}
         </tr>
@@ -62,4 +62,27 @@
 
 {% block footer %}
 {{ super() }}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script type="text/JavaScript">
+  function getDatos(){
+    var jsonstring = { 'cantidad' :$('#inpCantidad').val() }
+    //var texto = $("#tdID").val();
+    //var texto2 = $("#inpCantidad").val();
+    console.log(jsonstring);
+    $.ajax({
+      url: "{{url_for('main.productos')}}",
+      type: 'POST',
+      data: jsonstring,
+      contentType: 'application/json;charset=UTF-8',
+    });
+  };
+
+  $("#btnPedido").click(function(){    
+    getDatos();
+  });
+</script>
 {% endblock %}
