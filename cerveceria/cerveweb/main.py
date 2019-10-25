@@ -88,9 +88,17 @@ def admin():
 @main.route('/productos', methods=['GET', 'POST'])
 @login_required
 def productos():
-    if request.method == "GET":
+    print("llego aca")
+    if request.method == "POST":
+        print("POST hijo de puta")
+        text = request['cantidad']
+        print(text)        
+    else:
         productos = db.session.query(Producto).all()
         return render_template('productos.html', productos=productos)
+
+
+
 
 
 @main.route('/contact', methods=['GET', 'POST'])
