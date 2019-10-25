@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+
+{% block busqueda %}
+{% if session['results'] %}
+<h2>Resultados Busqueda</h2>
+
+{{ session['results'] }}
+{% else %}
+{{ super() }}
+{% endif %}
+{% endblock %}
+

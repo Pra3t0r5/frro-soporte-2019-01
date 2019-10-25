@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask import Flask
+from flask_admin import Admin
 from flask import Blueprint
 from flask import url_for, redirect, render_template, flash, g, session, request
 from flask_login import current_user, login_required, login_user, logout_user
@@ -41,6 +43,9 @@ def create_app():
         lm = LoginManager()
         lm.login_view = 'auth.login'
         lm.init_app(app)
+        #admin = Admin(app)
+        #admin.init_app(app)
+      
 
         from .models import Usuario
 
@@ -52,7 +57,6 @@ def create_app():
         @app.before_request
         def before_request():
             g.user = current_user
-
 
         # blueprint for auth routes in our app
         from .auth import auth as auth_blueprint

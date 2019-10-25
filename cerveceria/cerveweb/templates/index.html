@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}CerveWeb{% endblock %}
+<title>{% block title %}CerveWeb{% endblock %}</title>
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static',    filename='css/blurry-load.min.css') }}" />
@@ -27,10 +27,12 @@
 {% block content %}
 <section class="py-5">
   <div id="divResultados " class="container">
+    {% block busqueda %}
     <h1>Cervezas Artesanales</h1>
     <p class="lead">Ricas, Frescas y al instante!</p>
     <p>Disponemos de un catalogo completo de birras frescas, artesanales y de excelente calidad. Inicia una busqueda
       tocando la lupa, y hace tu pedido al por mayor y menor ahora mismo!</p>
+    {% endblock %}
   </div>
 </section>
 
@@ -66,13 +68,18 @@
 {{ super() }}
 <script type="text/JavaScript">
   function buscar(){
-    var texto = $("#txtBusqueda").val();
+    var texto = JSON.stringify($("#txtBusqueda").val());
     console.log(texto);
     $.ajax({
       url: "{{url_for('main.buscar')}}",
       type: 'POST',
       data: JSON.stringify(texto),
       contentType: 'application/json;charset=UTF-8',
+      success: function(response) {
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
+      }
     });
   };
 

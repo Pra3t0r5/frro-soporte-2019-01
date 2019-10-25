@@ -1,25 +1,24 @@
-import os
-import traceback
-import smtplib
 import json
-from random import *
-
-from flask import Blueprint
-from flask import current_app as app
-from flask import url_for, redirect, render_template, flash, g, session, request
-from flask_login import current_user, login_required, login_user, logout_user
-from werkzeug.security import check_password_hash, generate_password_hash
-
+import os
+import smtplib
+import traceback
 from email import encoders
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEBase, MIMEMultipart
 from email.mime.text import MIMEText
+from random import *
 
+from flask import Blueprint
+from flask import current_app as app
+from flask import (flash, g, jsonify, redirect, render_template, request,
+                   session, url_for)
+from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import FLASH_MSG, db, forms, models
+from .auth import *
 from .forms import *
 from .models import *
-from .auth import *
 
 main = Blueprint('main', __name__)
 
@@ -37,34 +36,41 @@ def index():
 @main.route('/buscar', methods=['GET', 'POST'])
 def buscar():
     print("GET buscar")
+
     if request.method == "POST":
-        print("POST buscar")        
-        print("POST texto: {0}".format(request.get_json(force=True)))
+        print("POST buscar")
+        print("POST texto json: {0}".format(request.get_json(force=True)))
         text = request.get_json(force=True)
         if text == '':
             results = db.session.query(Pedido).all()
-            print("POST text")
+            print("POST todo")
         else:
-            flash("Has buscado: {0}".format(text), "info")
-            print("POST text: {0}".format(text))
             similar = '%{0}%'.format(text)
 
             results = Producto.query.filter_by(
-                nombre=similar, descripcion=similar).first()    
-            print("POST coincidences: {}".format(results))        
+                nombre=similar, descripcion=similar).first()
 
-            if results:                
+            print("POST coincidences: {}".format(results))            
+
+            if results:
                 results = Producto.query.filter_by(
                     nombre=similar, descripcion=similar).all()
                 print("POST results: {}".format(results))
 
-                flash("BIRRAS FOUND!", "success")
-                return render_template('index.html', Texto=results)
-        print("POST fail")
-        flash("PRD_BSQ_FAIL %s" % text, "warning")
-        return redirect(url_for('main.index'))
+                flash("BIRRAS '%s' FOUND!" % text, "success")
+                return render_template('busqueda.html', results=results)
+
+        flash("%s%s" % (FLASH_MSG.get("PRD_BSQ_FAIL"),text), "warning")
+        #results = text
+        
+        return jsonify(dict(redirect=url_for('main.buscar'), results=results))
+
+        #flash("PRD_BSQ_FAIL %s" % text, "warning")
+        # return redirect(url_for('main.index'))
+
+        # return render_template('busqueda.html', results=results)
     else:
-        return render_template('index.html')
+        return render_template('busqueda.html')
 
 
 @main.route('/profile')
