@@ -12,6 +12,7 @@ from flask import Blueprint
 from flask import current_app as app
 from flask import (flash, g, jsonify, redirect, render_template, request,
                    session, url_for)
+from sqlalchemy import or_
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -19,6 +20,7 @@ from . import FLASH_MSG, db, forms, models
 from .auth import *
 from .forms import *
 from .models import *
+from . import enconder
 
 main = Blueprint('main', __name__)
 
@@ -35,40 +37,56 @@ def index():
 
 @main.route('/buscar', methods=['GET', 'POST'])
 def buscar():
-    print("GET buscar")
+    print("GET buscar")   
 
     if request.method == "POST":
+        #Inicializacion y obtencion de request
+        session['results'] = ''
         print("POST buscar")
         print("POST texto json: {0}".format(request.get_json(force=True)))
         text = request.get_json(force=True)
+        
         if text == '':
-            results = db.session.query(Pedido).all()
+            #si entra vacia obtiene todo
+            results = db.session.query(Producto).all()
             print("POST todo")
         else:
-            similar = '%{0}%'.format(text)
+            #sino, busca una coincidencia
+            # similar = '%{0}%'.format(text)
+            # Producto.query.filter_by(nombre=similar, descripcion=similar).first_or_404(description='No se encontraron coincidencias con {}'.format(similar))
 
-            results = Producto.query.filter_by(
-                nombre=similar, descripcion=similar).first()
-
-            print("POST coincidences: {}".format(results))            
+            results = Producto.query.filter(
+                or_(Producto.nombre.like(text), Producto.descripcion.like(text)))\
+                .first()
+                
+            print("POST coincidences: {}".format(results))
+            
 
             if results:
-                results = Producto.query.filter_by(
-                    nombre=similar, descripcion=similar).all()
+                #si encontro coincidencia, trae todas las que coincidan
+                results = Producto.query.filter(
+                    or_(Producto.nombre.like(text), Producto.descripcion.like(text)))\
+                    .all()
                 print("POST results: {}".format(results))
-
                 flash("BIRRAS '%s' FOUND!" % text, "success")
-                return render_template('busqueda.html', results=results)
+            else:
+                #sino retorna que no hay nada
+                flash("%s%s" % (FLASH_MSG.get("PRD_BSQ_FAIL"), text), "warning")
+                return redirect(url_for('main.buscar'))     
+            
+        #Es necesario serializar el contenido
+        serialResults = []
+        for prod in results:
+                serialResults.append(prod.to_dict())
+        print(serialResults)
+        #jsonResults = '/"results/":/"'+json.dumps([ob.to_dict() for ob in results])+'/"'
+        #jsonResults = (json.dumps(row) for row in serialResults)
+        print(jsonResults)
+        session['results'] = jsonResults
 
-        flash("%s%s" % (FLASH_MSG.get("PRD_BSQ_FAIL"),text), "warning")
-        #results = text
         
-        return jsonify(dict(redirect=url_for('main.buscar'), results=results))
 
-        #flash("PRD_BSQ_FAIL %s" % text, "warning")
-        # return redirect(url_for('main.index'))
-
-        # return render_template('busqueda.html', results=results)
+        return jsonify(dict(redirect=url_for('main.buscar'), results=jsonResults))
     else:
         return render_template('busqueda.html')
 
@@ -92,13 +110,10 @@ def productos():
     if request.method == "POST":
         print("POST hijo de puta")
         text = request['cantidad']
-        print(text)        
+        print(text)
     else:
         productos = db.session.query(Producto).all()
         return render_template('productos.html', productos=productos)
-
-
-
 
 
 @main.route('/contact', methods=['GET', 'POST'])

@@ -73,7 +73,7 @@
     $.ajax({
       url: "{{url_for('main.buscar')}}",
       type: 'POST',
-      data: JSON.stringify(texto),
+      data: texto,
       contentType: 'application/json;charset=UTF-8',
       success: function(response) {
         if (response.redirect) {
