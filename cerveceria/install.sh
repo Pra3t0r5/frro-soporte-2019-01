@@ -6,7 +6,7 @@ else (
         apt install python3
         apt install python3-pip
         source bin/activate
-        pip3 install flask flask-sqlalchemy sqlalchemy wtforms flask-wtf mysql-connector-python flask-login flask-admin
+        pip3 install flask flask-sqlalchemy sqlalchemy wtforms flask-wtf mysql-connector-python flask-login flask-admin SQLAlchemy-serializer
         mysql -e "create user 'cerveweb'@'localhost' identified by 'beerjesus'; grant all privileges on *.* to 'cerveweb'@'localhost'; flush privileges; drop database if exists cerveweb; create database cerveweb;"
         wget https://trello-attachments.s3.amazonaws.com/5d952a113b1ad84a91fb61a1/5d952f57131cda03c5780e94/9c0f01676468c6c0dea6935fdcd430e6/cerveweb.sql
         #wget https://trello-attachments.s3.amazonaws.com/5d952a113b1ad84a91fb61a1/5d952f57131cda03c5780e94/ad4f57509c4a8ee9a5f225c5d8683ae0/cerveweb.sql
