@@ -2,12 +2,13 @@ from sqlalchemy import (Column, DateTime, Float, ForeignKey, Integer, String,
                         text, create_engine)
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
+from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import db
 
 
-class CabeceraDetalle(db.Model):
+class CabeceraDetalle(db.Model, SerializerMixin):
     __tablename__ = 'cabecera_detalle'
 
     id = db.Column(Integer, primary_key=True)
@@ -28,7 +29,7 @@ class CabeceraDetalle(db.Model):
         print('<CabeceraDetalle {}>:{}'.format(self.id, self.__dict__))
 
 
-class HistorialStock(db.Model):
+class HistorialStock(db.Model, SerializerMixin):
     __tablename__ = 'historial_stock'
 
     id = db.Column(Integer, primary_key=True)
@@ -52,7 +53,7 @@ class HistorialStock(db.Model):
         print('<HistorialStock {}>:{}'.format(self.id, self.__dict__))
 
 
-class Ingrediente(db.Model):
+class Ingrediente(db.Model, SerializerMixin):
     __tablename__ = 'ingrediente'
 
     id = db.Column(Integer, primary_key=True)
@@ -75,7 +76,7 @@ class Ingrediente(db.Model):
         print('<Ingrediente {}>:{}'.format(self.nombre, self.__dict__))
 
 
-class LineaDetalle(db.Model):
+class LineaDetalle(db.Model, SerializerMixin):
     __tablename__ = 'linea_detalle'
 
     id = db.Column(Integer, primary_key=True)
@@ -100,7 +101,7 @@ class LineaDetalle(db.Model):
         print('<LineaDetalle {}>:{}'.format(self.id, self.__dict__))
 
 
-class Pedido(db.Model):
+class Pedido(db.Model, SerializerMixin):
     __tablename__ = 'pedido'
 
     id = db.Column(Integer, primary_key=True)
@@ -125,7 +126,7 @@ class Pedido(db.Model):
         print('<Pedido {}>:{}'.format(self.nro_pedido, self.__dict__))
 
 
-class Producto(db.Model):
+class Producto(db.Model, SerializerMixin):
     __tablename__ = 'producto'
 
     id = db.Column(Integer, primary_key=True)
@@ -153,7 +154,7 @@ class Producto(db.Model):
         return '<Product {}>'.format(self.nombre)
 
 
-class TipoUsuario(db.Model):
+class TipoUsuario(db.Model, SerializerMixin):
     __tablename__ = 'tipo_usuario'
 
     id = db.Column(Integer, primary_key=True)
@@ -167,7 +168,7 @@ class TipoUsuario(db.Model):
         print('<TipoUsuario {}>:{}'.format(self.id, self.__dict__))
 
 
-class Unidad(db.Model):
+class Unidad(db.Model, SerializerMixin):
     __tablename__ = 'unidad'
 
     id = db.Column(Integer, primary_key=True)
@@ -183,7 +184,7 @@ class Unidad(db.Model):
         print('<Unidad {}>:{}'.format(self.id, self.__dict__))
 
 
-class Usuario(UserMixin, db.Model):
+class Usuario(UserMixin, db.Model, SerializerMixin):
     """Modelo de cuenta de usuario"""
 
     __tablename__ = 'usuario'
@@ -262,3 +263,4 @@ def borrarTodos(objeto):
         db.session.rollback()
         return 0
     return num_rows_deleted
+
