@@ -72,19 +72,15 @@ def buscar():
             else:
                 #sino retorna que no hay nada
                 flash("%s%s" % (FLASH_MSG.get("PRD_BSQ_FAIL"), text), "warning")
-                return redirect(url_for('main.buscar'))     
-            
-        #Es necesario serializar el contenido
-        serialResults = []
-        for prod in results:
-                serialResults.append(prod.to_dict())
-        print(serialResults)
-        #jsonResults = '/"results/":/"'+json.dumps([ob.to_dict() for ob in results])+'/"'
-        #jsonResults = (json.dumps(row) for row in serialResults)
-        print(jsonResults)
-        session['results'] = jsonResults
 
-        
+        #Mapea el resultado de acuerdo a la clase de SQLAlchemy correspondiente
+        prod_schema = ProductoSchema(many=True)
+        print(prod_schema)
+        print(prod_schema.dump(results))
+        #funciona
+        session['results'] = prod_schema.dump(results)
+        #no detecta variable en frontend
+        jsonResults = prod_schema.dump(results)      
 
         return jsonify(dict(redirect=url_for('main.buscar'), results=jsonResults))
     else:

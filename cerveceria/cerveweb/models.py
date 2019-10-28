@@ -5,7 +5,7 @@ from flask_login import UserMixin
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from . import db
+from . import db, ma
 
 
 class CabeceraDetalle(db.Model, SerializerMixin):
@@ -22,8 +22,8 @@ class CabeceraDetalle(db.Model, SerializerMixin):
     def ver(self):
         return '<DetailHead {}>'.format(self.id)
 
-    def __init__(self,imp_tot, ped , ped1):
-        self.importe_total = imp_tot 
+    def __init__(self, imp_tot, ped, ped1):
+        self.importe_total = imp_tot
         self.pedido = ped
         self.pedido1 = ped1
         print('<CabeceraDetalle {}>:{}'.format(self.id, self.__dict__))
@@ -44,12 +44,12 @@ class HistorialStock(db.Model, SerializerMixin):
     def ver(self):
         return '<History {}>'.format(self.id)
 
-    def __init__(self,fecha_h_m, cant, uni, sig, linea_det):
+    def __init__(self, fecha_h_m, cant, uni, sig, linea_det):
         self.fecha_hora_movimiento = fecha_h_m
         self.cantidad = cant
         self.unidad = uni
         self.signo = sig
-        self.linea_detalle = linea_det 
+        self.linea_detalle = linea_det
         print('<HistorialStock {}>:{}'.format(self.id, self.__dict__))
 
 
@@ -69,7 +69,7 @@ class Ingrediente(db.Model, SerializerMixin):
         return '<Ingredient {}>'.format(self.nombre)
 
     def __init__(self, nom, desc, cant, uni):
-        self.nombre = nom 
+        self.nombre = nom
         self.descripcion = desc
         self.cantidad = cant
         self.unidad = uni
@@ -93,7 +93,7 @@ class LineaDetalle(db.Model, SerializerMixin):
     def ver(self):
         return '<DetailLine {}>'.format(self.id)
 
-    def __init__(self,cabe, prod, cant, subt ):
+    def __init__(self, cabe, prod, cant, subt):
         self.cabecera = cabe
         self.producto = prod
         self.cantidad = cant
@@ -117,7 +117,7 @@ class Pedido(db.Model, SerializerMixin):
     def ver(self):
         return '<Delivery {}>'.format(self.nro_pedido)
 
-    def __init__(self,nro_ped, est, fecha_h_e, orden_fab, solic ):
+    def __init__(self, nro_ped, est, fecha_h_e, orden_fab, solic):
         self.nro_pedido = nro_ped
         self.estado = est
         self.fecha_hora_entrega = fecha_h_e
@@ -141,14 +141,13 @@ class Producto(db.Model, SerializerMixin):
     ingrediente1 = db.relationship('Ingrediente')
     unidad1 = db.relationship('Unidad')
 
-    def __init__(self,nom, desc, imp_unitario, uni, ingred):
+    def __init__(self, nom, desc, imp_unitario, uni, ingred):
         self.nombre = nom
         self.descripcion = desc
         self.importe_unitario = imp_unitario
         self.unidad = uni
         self.ingrediente = ingred
         print('<Producto {}>:{}'.format(self.nombre, self.__dict__))
-
 
     def ver(self):
         return '<Product {}>'.format(self.nombre)
@@ -222,7 +221,7 @@ class Usuario(UserMixin, db.Model, SerializerMixin):
 
     def ver(self):
         return '<User {}>'.format(self.username)
-        
+
     def set_password(self, password):
         """Create hashed password."""
         self.password = generate_password_hash(password, method='sha256')
@@ -264,3 +263,56 @@ def borrarTodos(objeto):
         return 0
     return num_rows_deleted
 
+
+class CabeceraSchema(ma.ModelSchema):
+    class Meta:
+        model = CabeceraDetalle
+        sqla_session = db.session
+
+
+class HistorialSchema(ma.ModelSchema):
+    class Meta:
+        model = HistorialStock
+        sqla_session = db.session
+
+
+class IngredienteSchema(ma.ModelSchema):
+    class Meta:
+        model = Ingrediente
+        sqla_session = db.session
+
+
+class LineaSchema(ma.ModelSchema):
+    class Meta:
+        model = LineaDetalle
+        sqla_session = db.session
+
+
+class PedidoSchema(ma.ModelSchema):
+    class Meta:
+        model = Pedido
+        sqla_session = db.session
+
+
+class ProductoSchema(ma.ModelSchema):
+    class Meta:
+        model = Producto
+        sqla_session = db.session
+
+
+class TipoUsuarioSchema(ma.ModelSchema):
+    class Meta:
+        model = TipoUsuario
+        sqla_session = db.session
+
+
+class UnidadSchema(ma.ModelSchema):
+    class Meta:
+        model = Unidad
+        sqla_session = db.session
+
+
+class UsuarioSchema(ma.ModelSchema):
+    class Meta:
+        model = Usuario
+        sqla_session = db.session

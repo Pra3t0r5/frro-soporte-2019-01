@@ -7,6 +7,7 @@ from flask import Blueprint
 from flask import url_for, redirect, render_template, flash, g, session, request
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_marshmallow import Marshmallow
 
 
 DB_URI = {'local': 'mysql://cerveweb:beerjesus@localhost/cerveweb',
@@ -26,7 +27,7 @@ FLASH_MSG = {'USU_REG_OK': 'Gracias por registrarte!',
              '404': 'Contenido no encontrado, vuelva por donde vino.'}
 
 db = SQLAlchemy()
-
+ma = ''
 
 def create_app():
     """Crea el core de la aplicacion, inicializando el ORM y los dos controladores principales (auth y main)"""
@@ -37,12 +38,17 @@ def create_app():
     app.config['SECRET_KEY'] = 'C3rVew38bIrR4ru1e5'
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI.get('local2')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    
 
+    
     db.init_app(app)
     with app.app_context():
         lm = LoginManager()
         lm.login_view = 'auth.login'
         lm.init_app(app)
+        
+        global ma
+        ma = Marshmallow(app)
         #admin = Admin(app)
         #admin.init_app(app)
       
