@@ -37,50 +37,36 @@ def index():
 
 @main.route('/buscar', methods=['GET', 'POST'])
 def buscar():
-    print("GET buscar")   
+    print("GET buscar")
 
     if request.method == "POST":
-        #Inicializacion y obtencion de request
+        # Inicializacion y obtencion de request
         session['results'] = ''
-        print("POST buscar")
-        print("POST texto json: {0}".format(request.get_json(force=True)))
         text = request.get_json(force=True)
-        
         if text == '':
-            #si entra vacia obtiene todo
+            # si entra vacia obtiene todo
             results = db.session.query(Producto).all()
-            print("POST todo")
         else:
-            #sino, busca una coincidencia
-            # similar = '%{0}%'.format(text)
-            # Producto.query.filter_by(nombre=similar, descripcion=similar).first_or_404(description='No se encontraron coincidencias con {}'.format(similar))
-
+            # sino, busca una coincidencia
             results = Producto.query.filter(
                 or_(Producto.nombre.like(text), Producto.descripcion.like(text)))\
                 .first()
-                
-            print("POST coincidences: {}".format(results))
-            
 
             if results:
-                #si encontro coincidencia, trae todas las que coincidan
+                # si encontro coincidencia, trae todas las que coincidan
                 results = Producto.query.filter(
                     or_(Producto.nombre.like(text), Producto.descripcion.like(text)))\
                     .all()
-                print("POST results: {}".format(results))
-                flash("BIRRAS '%s' FOUND!" % text, "success")
             else:
-                #sino retorna que no hay nada
+                # sino retorna que no hay nada
                 flash("%s%s" % (FLASH_MSG.get("PRD_BSQ_FAIL"), text), "warning")
 
-        #Mapea el resultado de acuerdo a la clase de SQLAlchemy correspondiente
+        # Mapea el resultado de acuerdo a la clase de SQLAlchemy correspondiente
         prod_schema = ProductoSchema(many=True)
-        print(prod_schema)
-        print(prod_schema.dump(results))
-        #funciona
+        # funciona
         session['results'] = prod_schema.dump(results)
-        #no detecta variable en frontend
-        jsonResults = prod_schema.dump(results)      
+        # no detecta variable en frontend
+        jsonResults = prod_schema.dump(results)
 
         return jsonify(dict(redirect=url_for('main.buscar'), results=jsonResults))
     else:
