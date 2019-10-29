@@ -18,7 +18,7 @@
     <tbody>
         {% for p in session['results'] %}
         <tr>
-            <td>{{ p['id'] }}</td>
+            <td id="tdID">{{ p['id'] }}</td>
             <td>{{ p['nombre'] }}</td>
             <td>{{ p['descripcion'] }}</td>
             <td>{{ p['importe_unitario'] }}</td>
@@ -35,7 +35,7 @@
             <td>
                 <button type="submit" id="btnPedido" class="btn btn-warning btn-circle"><i class="fas fa-beer">
                     </i></button>
-            </td>            
+            </td>
         </tr>
         {%endfor%}
     </tbody>
@@ -50,15 +50,20 @@
 {{ super() }}
 <script type="text/JavaScript">
     function getDatos(){
-    var jsonstring = { 'cantidad' :$('#inpCantidad').val() }
+    var jsonstring = { 'id':$("#tdID").text(), 'cantidad' :$('#inpCantidad').val() }
     //var texto = $("#tdID").val();
     //var texto2 = $("#inpCantidad").val();
     console.log(jsonstring);
     $.ajax({
-      url: "{{url_for('main.productos')}}",
+      url: "{{url_for('main.pedido')}}",
       type: 'POST',
-      data: jsonstring,
+      data: JSON.stringify(jsonstring),
       contentType: 'application/json;charset=UTF-8',
+      success: function(response) {
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
+      }
     });
   };
 

@@ -1,13 +1,15 @@
--- MySQL dump 10.17  Distrib 10.3.17-MariaDB, for debian-linux-gnu (x86_64)
+CREATE DATABASE  IF NOT EXISTS `cerveweb` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `cerveweb`;
+-- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
 --
--- Host: localhost    Database: cerveweb
+-- Host: 127.0.0.1    Database: cerveweb
 -- ------------------------------------------------------
--- Server version	10.3.17-MariaDB-0+deb10u1
+-- Server version	5.7.27-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -18,15 +20,13 @@
 --
 -- Table structure for table `cabecera_detalle`
 --
-DROP DATABASE IF EXISTS cerveweb;
-CREATE DATABASE cerveweb;
 
 DROP TABLE IF EXISTS `cabecera_detalle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cabecera_detalle` (
   `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
-  `importe_total` double DEFAULT 0,
+  `importe_total` double DEFAULT '0',
   `pedido` int(9) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cabecera_detalle_1_idx` (`pedido`),
@@ -52,10 +52,10 @@ DROP TABLE IF EXISTS `historial_stock`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `historial_stock` (
   `id` int(15) unsigned NOT NULL AUTO_INCREMENT,
-  `fecha_hora_movimiento` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `cantidad` double NOT NULL DEFAULT 0,
+  `fecha_hora_movimiento` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `cantidad` double NOT NULL DEFAULT '0',
   `unidad` int(9) unsigned NOT NULL,
-  `signo` int(1) NOT NULL DEFAULT 0,
+  `signo` int(1) NOT NULL DEFAULT '0',
   `linea_detalle` int(9) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -86,7 +86,7 @@ CREATE TABLE `ingrediente` (
   PRIMARY KEY (`id`),
   KEY `fk_ingrediente_uni_idx` (`unidad`),
   CONSTRAINT `fk_ingrediente_uni` FOREIGN KEY (`unidad`) REFERENCES `unidad` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `producto` (
   KEY `fk_producto_ingrediente_idx` (`ingrediente`),
   CONSTRAINT `fk_producto_ingrediente` FOREIGN KEY (`ingrediente`) REFERENCES `ingrediente` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_producto_unidad` FOREIGN KEY (`unidad`) REFERENCES `unidad` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,6 +185,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (1,'ipa','amarga',123,1,0);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +263,7 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `dni_UNIQUE` (`dni`),
   KEY `fk_usuario_tipo_idx` (`tipo_usuario`),
   CONSTRAINT `fk_usuario_tipo` FOREIGN KEY (`tipo_usuario`) REFERENCES `tipo_usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +272,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (12,'Pra3t0r5','beerjesus','webmaster.cerveweb@gmail.com','Webmaster','Cerveweb','20370776378',1,'37077637','Cerveweb SA',1);
+INSERT INTO `usuario` VALUES (12,'Pra3t0r5','beerjesus','webmaster.cerveweb@gmail.com','Webmaster','Cerveweb','20370776378',1,'37077637','Cerveweb SA',1),(13,'Lucas','123','lucas@gmail.com','Lucas','Pavan','1234',1,'37447864','123',1);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -284,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-20 20:02:23
+-- Dump completed on 2019-10-24 20:19:21

@@ -117,10 +117,9 @@ class Pedido(db.Model, SerializerMixin):
     def ver(self):
         return '<Delivery {}>'.format(self.nro_pedido)
 
-    def __init__(self, nro_ped, est, fecha_h_e, orden_fab, solic):
+    def __init__(self, nro_ped, est, orden_fab, solic):
         self.nro_pedido = nro_ped
         self.estado = est
-        self.fecha_hora_entrega = fecha_h_e
         self.orden_fabricacion = orden_fab
         self.solicitante = solic
         print('<Pedido {}>:{}'.format(self.nro_pedido, self.__dict__))
