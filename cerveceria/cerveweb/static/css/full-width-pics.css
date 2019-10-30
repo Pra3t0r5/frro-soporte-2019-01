@@ -21,6 +21,9 @@ a:hover {
   font-weight: none
 }
 
+table#dt-select tr td button.btnPedido { display:none;}
+table#dt-select tr:hover td button.btnPedido { display:inline-block;}
+
 
 .bg-image-full {
   background: no-repeat center center scroll;

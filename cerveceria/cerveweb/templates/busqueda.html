@@ -4,41 +4,40 @@
 {% if session['results'] %}
 <h2>Resultados de tu busqueda</h2>
 <table id="dt-select" class="table table-striped table-bordered mt-5" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Importe Unitario</th>
-            <th>Medida</th>
-            <th>Cantidad Solicitada</th>
-            <th><i class="fas fa-check"> </i></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in session['results'] %}
-        <tr>
-            <td id="tdID">{{ p['id'] }}</td>
-            <td>{{ p['nombre'] }}</td>
-            <td>{{ p['descripcion'] }}</td>
-            <td>{{ p['importe_unitario'] }}</td>
-            <td>{{ p['unidad1'] }}</td>
-            <td>
-                <div class="def-number-input number-input safari_only">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                        class="minus"></button>
-                    <input id="inpCantidad" class="quantity" min="0" name="quantity" type="number">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                        class="plus"></button>
-                </div>
-            </td>
-            <td>
-                <button type="submit" id="btnPedido" class="btn btn-warning btn-circle"><i class="fas fa-beer">
-                    </i></button>
-            </td>
-        </tr>
-        {%endfor%}
-    </tbody>
+  <thead>
+    <tr>
+      <th>Codigo</th>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th>Importe Unitario</th>
+      <th>Medida</th>
+      <th>Cantidad Solicitada</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in session['results'] %}
+    <tr>
+      <td>{{ p['id'] }}</td>
+      <td>{{ p['nombre'] }}</td>
+      <td>{{ p['descripcion'] }}</td>
+      <td>{{ p['importe_unitario'] }}</td>
+      <td>{{ p['unidad1'] }}</td>
+      <td>
+        <div class="def-number-input number-input safari_only">
+          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+          <input class="quantity inpCantidad" min="0" name="quantity" type="number" placeholder="0">
+          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+        </div>
+      </td>
+      <td class="">
+        <button type="submit" value="0" class="btn btn-info btn-circle btnAgregar"> Agregar</button>
+        <button type="submit" value="{{ p['id'] }}" class="btn btn-warning btn-circle btnPedido"><i class="fas fa-beer">
+          </i></button>
+      </td>
+    </tr>
+    {%endfor%}
+  </tbody>
 </table>
 </div>
 {% else %}
@@ -48,11 +47,9 @@
 
 {% block scripts %}
 {{ super() }}
+
 <script type="text/JavaScript">
-    function getDatos(){
-    var jsonstring = { 'id':$("#tdID").text(), 'cantidad' :$('#inpCantidad').val() }
-    //var texto = $("#tdID").val();
-    //var texto2 = $("#inpCantidad").val();
+  function setPedido(jsonstring){
     console.log(jsonstring);
     $.ajax({
       url: "{{url_for('main.pedido')}}",
@@ -67,8 +64,32 @@
     });
   };
 
-  $("#btnPedido").click(function(){    
-    getDatos();
+  $(".btnPedido").click(function(){
+    var jsonstring = []
+
+    $(function() {
+      var agregados = $(".btnAgregar.active")
+      for(var i = 0; i < agregados.length; i++) {
+        console.log(agregados[i]);
+        jsonstring.push({ 
+          'id':$(agregados[i]).closest("tr").find('.btnPedido').val(), 
+          'cantidad' :$(agregados[i]).closest("tr").find('.inpCantidad').val()
+        });
+      }
+    });
+    setPedido(jsonstring);
   });
+
+  $(".btnAgregar").click(function(){
+    if($(this).val() == 0){
+      $(this).val(1);
+      $(this).text("Agregado");
+    }else{
+      $(this).val(0);
+      $(this).text("Agregar");
+    }
+    $(this).toggleClass('btn-info btn-success active');
+  });
+
 </script>
 {% endblock %}

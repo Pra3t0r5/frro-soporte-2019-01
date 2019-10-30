@@ -44,6 +44,7 @@ def buscar():
         # Inicializacion y obtencion de request
         session['results'] = ''
         text = request.get_json(force=True)
+        
         if text == '':
             # si entra vacia obtiene todo
             results = db.session.query(Producto).all()
@@ -69,6 +70,7 @@ def buscar():
         # no detecta variable en frontend
         jsonResults = prod_schema.dump(results)
 
+        print("Usuario <{0}> busco:'{1}' -> Resultado:{2}".format(current_user.get_id(),text,jsonResults))
         return jsonify(dict(redirect=url_for('main.buscar'), results=jsonResults))
     else:
         return render_template('busqueda.html')
@@ -90,8 +92,12 @@ def admin():
 @login_required
 def pedido():
     if request.method == "POST":
+        print("POST")        
         json = request.get_json(force=True)
+        idProducto = json['0']['id']
+        print(json)
         idProducto = json['id']
+        print(idProducto)
         if idProducto:
             producto = Producto.query.filter(
                 Producto.id.like(idProducto)).first()
