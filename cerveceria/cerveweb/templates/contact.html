@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}CerveWeb{% endblock %}
+
+{% block head%}
+
+{% endblock %}
+
+{%block header%}
+
+<div class="py-5">
+    <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
+</div>
+
+{% endblock%}
+
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="card mt-5 mx-5 bg-warning">
+                <h2 class="h1-responsive font-weight-bold text-center my-4">Quienes somos?</h2>
+                <div class="card-body">
+                    Somos una empresa localizada en Rosario, contamos con amplia
+                    experiencia como proveedores de Cerveza artesanal.</br>
+                    Asimismo somos distribuidores
+                    mayoristas de marcas tradicionales y revolucionarias de Cerveza de importación,
+                    manteniendo un excelente nivel de calidad y seleccionadas desde el máximo de la
+                    experiencia. Contamos con las mejores marcas para el sector.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <section class="mb-4">
+
+                <h2 class="h1-responsive font-weight-bold text-center my-4">Contactanos</h2>
+                <p class="text-center w-responsive mx-auto mb-5">¿Tenes alguna pregunta?
+                    Por favor no dudes en contactarnos directamente. Nuestro equipo se pondrá en
+                    contacto con vos en cuestión de horas para ayudarte.</p>
+
+                <div class="row">
+
+                    <div class="col-md-9 mb-md-0 mb-5">
+                        {% from "_formhelpers.html" import render_field %}
+                        <form id="contact-form" name="contact-form" method="POST">
+
+                            <div class="row">
+                                {{ render_field(form.contacto, "big") }}
+                            </div>
+                            <div class="row">
+                                {{ render_field(form.mensaje, "big") }}
+                            </div>
+
+                            <p><input class="btn btn-warning btn-block my-4" style="color:white;" type=submit
+                                    value=Enviar>
+                                <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
+                        </form>
+
+                    </div>
+
+                    <div class="col-md-3 text-center">
+                        <ul class="list-unstyled mb-0">
+                            <li><i class="fas fa-map-marker-alt fa-2x text-warning"></i>
+                                <p>Rosario, Santa Fe, ARGENTINA</p>
+                            </li>
+
+                            <li><i class="fas fa-phone mt-4 fa-2x text-warning"></i>
+                                <p>+54 341 6188158</p>
+                            </li>
+
+                            <li><i class="fas fa-envelope mt-4 fa-2x text-warning"></i>
+                                <p>webmaster.cerveweb</br>@gmail.com</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}

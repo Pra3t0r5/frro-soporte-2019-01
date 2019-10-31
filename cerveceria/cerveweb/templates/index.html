@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+<title>{% block title %}CerveWeb{% endblock %}</title>
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/blurry-load.min.css') }}" />
+<script src="{{ url_for('static',    filename='js/blurry-load.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static',    filename='scss/search-bar.css') }}" />
+<link href='http://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block header %}
+<div class="py-5 bg-image-full bgpic1">
+  <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb_inverted.png">
+  <div class="containercentered">
+    <h2 class="motto">Love Life, Love Birra.</h2>
+  </div>
+  <div class="searchBox">
+    <input id="txtBusqueda" class="searchInput" type="text" placeholder="Buscar en Catalogo">
+    <button id="btnBusqueda" class="searchButton">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div id="divResultados " class="container">
+    {% block busqueda %}
+    <h1>Cervezas Artesanales</h1>
+    <p class="lead">Ricas, Frescas y al instante!</p>
+    <p>Disponemos de un catalogo completo de birras frescas, artesanales y de excelente calidad. Inicia una busqueda
+      tocando la lupa, y hace tu pedido al por mayor y menor ahora mismo!</p>
+    {% endblock %}
+  </div>
+</section>
+
+<!-- Image Section - set the background image for the header in the line below -->
+<section class="py-5 bg-image-full bgpic2">
+  <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
+  <div style="height: 200px;"></div>
+</section>
+
+<!-- Content section -->
+<section class="py-5">
+  <div class="container">
+    <h1>Somos Lideres Birreros!</h1>
+    <p class="lead">Asociate como productor</p>
+    <p>Tambien haces Birra? Cansado de la "birra" de produccion masiva? Queremos expandir el maravilloso mercado de la
+      birra verdaderamente artesanal! <a href="#">Registrate como Productor</a> y empieza a darle un impulso a tu marca
+      sin costo alguno!</p>
+    <p class="lead">Te gustaria distribuir?</p>
+    <p>Deseas distribuir el buen sabor de la birra? Unete a nuestro <a href="#">Programa de Distribuidores</a> y
+      transformate en un verdader Uber de buena la Birra!</p>
+
+  </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script type="text/JavaScript">
+  function buscar(){
+    var texto = JSON.stringify($("#txtBusqueda").val());
+    console.log(texto);
+    $.ajax({
+      url: "{{url_for('main.buscar')}}",
+      type: 'POST',
+      data: texto,
+      contentType: 'application/json;charset=UTF-8',
+      success: function(response) {
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
+      }
+    });
+  };
+
+  $("#btnBusqueda").click(function(){    
+    buscar();
+  });
+</script>
+{% endblock %}
