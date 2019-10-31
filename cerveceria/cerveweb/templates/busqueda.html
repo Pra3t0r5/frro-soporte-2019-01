@@ -49,12 +49,12 @@
 {{ super() }}
 
 <script type="text/JavaScript">
-  function setPedido(jsonstring){
-    console.log(jsonstring);
+  function setPedido(order){
+    console.log(order);
     $.ajax({
       url: "{{url_for('main.pedido')}}",
       type: 'POST',
-      data: JSON.stringify(jsonstring),
+      data: JSON.stringify(order),
       contentType: 'application/json;charset=UTF-8',
       success: function(response) {
         if (response.redirect) {
@@ -65,19 +65,17 @@
   };
 
   $(".btnPedido").click(function(){
-    var jsonstring = []
 
-    $(function() {
-      var agregados = $(".btnAgregar.active")
-      for(var i = 0; i < agregados.length; i++) {
-        console.log(agregados[i]);
-        jsonstring.push({ 
-          'id':$(agregados[i]).closest("tr").find('.btnPedido').val(), 
-          'cantidad' :$(agregados[i]).closest("tr").find('.inpCantidad').val()
+    var order = []
+      var lines = $(".btnAgregar.active")
+      for(var i = 0; i < lines.length; i++) {
+        console.log(lines[i]);
+        order.push({ 
+          'id': $(lines[i]).closest("tr").find('.btnPedido').val(), 
+          'cantidad' : $(lines[i]).closest("tr").find('.inpCantidad').val()
         });
       }
-    });
-    setPedido(jsonstring);
+    setPedido(order);
   });
 
   $(".btnAgregar").click(function(){

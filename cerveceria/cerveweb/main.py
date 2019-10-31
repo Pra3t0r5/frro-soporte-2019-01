@@ -44,7 +44,7 @@ def buscar():
         # Inicializacion y obtencion de request
         session['results'] = ''
         text = request.get_json(force=True)
-        
+
         if text == '':
             # si entra vacia obtiene todo
             results = db.session.query(Producto).all()
@@ -70,7 +70,8 @@ def buscar():
         # no detecta variable en frontend
         jsonResults = prod_schema.dump(results)
 
-        print("Usuario <{0}> busco:'{1}' -> Resultado:{2}".format(current_user.get_id(),text,jsonResults))
+        print("Usuario <{0}> busco:'{1}' -> Resultado:{2}".format(
+            current_user.get_id(), text, jsonResults))
         return jsonify(dict(redirect=url_for('main.buscar'), results=jsonResults))
     else:
         return render_template('busqueda.html')
@@ -92,19 +93,79 @@ def admin():
 @login_required
 def pedido():
     if request.method == "POST":
-        print("POST")        
-        json = request.get_json(force=True)
-        idProducto = json['0']['id']
-        print(json)
-        idProducto = json['id']
-        print(idProducto)
+
+        jsondata = request.get_json()
+        importeTotal = 0
+        mocked = randint(100, 9999)
+        usuarioActual = Usuario.query.filter_by(
+            id=current_user.get_id()).first()
+        pedidoActual = Pedido(mocked, "pendiente",
+                              mocked*37, current_user.get_id())
+        cabeceraDetalle = CabeceraDetalle(
+            importeTotal, pedidoActual.id, pedidoActual)
+        lineasDetalle = []
+
+        for linea in jsondata:
+            subtotal = 0
+            idProducto = linea['id']
+            cantidad = linea['cantidad']
+
+            if idProducto and cantidad != '':
+                producto = Producto.query.filter(
+                    Producto.id.like(idProducto)).first()
+
+                if producto:
+                    """aca se deberia descubrir si hay stock haciendo la sumatoria del historial, 
+                si la sumatoria del historial para ese id de producto es positiva entonces se 
+                deberia comparar contra la cantidad solicitada, si es coherente, levantar el pedido"""
+                subtotal = float(producto.importe_unitario)*int(cantidad)               
+                linea = LineaDetalle(cabeceraDetalle.id, producto.id, cantidad, subtotal)
+                lineasDetalle.append(linea)
+                importeTotal += subtotal
+                print(linea.__dict__)
+            else:
+                flash(FLASH_MSG.get("PROD_NOT_FOUND"), "danger")
+                return jsonify(dict(redirect=url_for('main.buscar'), result=session.get("request")))
+        cabeceraDetalle.importe_total = float(importeTotal)
+        try:
+            db.session.add(pedidoActual)
+            print(pedidoActual.__dict__)
+            db.session.flush()
+            db.session.add(cabeceraDetalle)
+            print(cabeceraDetalle.__dict__)
+            db.session.flush()
+            for linea in lineasDetalle:
+                linea.cabecera = cabeceraDetalle.id
+                print(linea.__dict__)
+            db.session.bulk_save_objects(lineasDetalle)
+            db.session.flush()
+            db.session.commit()
+            flash(FLASH_MSG.get("PED_PROD_SUCC"), "success")
+        except:
+            flash(FLASH_MSG.get("PED_PROD_FAIL"), "danger")  
+            traceback.print_exc()                  
+            db.session.rollback()   
+
+        pedidosUsuario = Pedido.query.filter_by(
+                    solicitante=current_user.get_id()).all()  
+        
+        for p in pedidosUsuario:
+            if(p.estado != "entregado"):
+                if p.estado == "pendiente":
+                    flash("Pedido %s"%p.nro_pedido, "info")            
+                else:
+                    flash("Pedido %s"%p.nro_pedido, "warning")
+
+
+        pedi_schema = PedidoSchema(many=True)        
+        session['pedidos'] = pedi_schema.dump(pedidosUsuario)
+
+        '''
+        #logica para un solo producto por pedido
         if idProducto:
             producto = Producto.query.filter(
                 Producto.id.like(idProducto)).first()
             if producto:
-                """aca se deberia descubrir si hay stock haciendo la sumatoria del historial, 
-                si la sumatoria del historial para ese id de producto es positiva entonces se 
-                deberia comparar contra la cantidad solicitada, si es coherente, levantar el pedido"""
 
                 #cantidadSolicitada = json['cantidad']
                 # if cantidadSolicitada <= producto.stock:
@@ -123,13 +184,13 @@ def pedido():
                     db.session.rollback()                    
             else:
                 flash(FLASH_MSG.get("PROD_NOT_FOUND"), "danger")
-        
+
 
         pedidosUsuario = Pedido.query.filter_by(
                     id=current_user.get_id()).all()        
 
         pedi_schema = PedidoSchema(many=True)        
-        session['pedidos'] = pedi_schema.dump(pedidosUsuario)        
+        session['pedidos'] = pedi_schema.dump(pedidosUsuario)     '''
 
         return jsonify(dict(redirect=url_for('main.buscar'), result=session.get("request")))
     else:
