@@ -200,9 +200,7 @@ def pedido():
 @main.route('/productos', methods=['GET', 'POST'])
 @login_required
 def productos():
-    print("llego aca")
     if request.method == "POST":
-        print("POST hijo de puta")
         text = request['cantidad']
         print(text)
     else:
