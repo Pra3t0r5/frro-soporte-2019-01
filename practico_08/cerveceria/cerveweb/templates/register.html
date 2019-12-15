@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}CerveWeb{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{%block header%}
+
+<div class="pt-5">
+  <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
+</div>
+
+{% endblock%}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+      <h2 class="h1-responsive font-weight-bold text-center my-4">Ingresa tus datos para que podamos conocerte</h2>
+      {% from "_formhelpers.html" import render_field %}
+      <form method=post>
+        <div class="form-row">
+          {{ form.hidden_tag() }}
+          {{ render_field(form.username, "big") }}
+          {{ render_field(form.email, "big") }}
+          {{ render_field(form.password, "small") }}
+          {{ render_field(form.confirm_password, "small") }}
+          {{ render_field(form.nombre,"small") }}
+          {{ render_field(form.apellido,"small") }}
+          {{ render_field(form.dni,"small") }}
+          {{ render_field(form.cuit,"small") }}
+          {{ render_field(form.razon,"big") }}
+        </div>
+        {{ form.submit(class="btn btn-warning btn-block my-4",style="color: white;") }}
+        <a href="/" class="btn btn-warning btn-block my-4" style="color:white;">Volver</a>
+      </form>
+
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+{% endblock %}

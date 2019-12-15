@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{% block title %}{% endblock %}</title>
+
+  <link href="{{ url_for('static',    filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static',    filename='css/full-width-pics.css') }}" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" , rel="stylesheet" ,
+    integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" , crossorigin="anonymous" />
+  <script src="{{ url_for('static',    filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static',    filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static',    filename='css/blurry-load.min.css') }}" />
+  <script src="{{ url_for('static',    filename='js/blurry-load.min.js') }}"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!--<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/mdb.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">-->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  {% block head %}
+
+  {% endblock %}
+</head>
+
+<body>
+
+  <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <div class="expand">
+        <a class="navbar-brand" href="/"><i class="fas fa-beer"> </i> CerveWeb</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </div>
+      </button>
+
+
+      {% block nav %}
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          {% if session.logged_in %}
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.pedidom') }}"><strong>Pedido
+                Express</strong><i class="fas fa-shipping-fast"></i></a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.productos') }}">Productos <i
+                class="fas fa-clipboard-list"></i></a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.contact') }}">Mis Pedidos <i
+                class="fas fa-truck-loading"></i></a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.profile') }}">{{ g.user['username'] }}
+              <i class="fas fa-user"></i></a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.logout') }}">Salir <i
+                class="fas fa-sign-out-alt"></i></a>
+            {% else %}
+
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('main.contact') }}">Conocenos <i
+                class="fas fa-users"></i></a>
+          <li class="nav-item active"><a class="nav-link" href="{{ url_for('auth.login') }}">Ingresar <i
+                class="fas fa-sign-in-alt"></i></a>
+            {% endif %}
+        </ul>
+      </div>
+      {% endblock %}
+    </div>
+  </nav>
+
+  <header>
+
+    {% block header %}
+    <h1>Header Generico.</h1>
+    {% endblock %}
+  </header>
+
+  <section class="content">
+
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %}
+        {% for category, message in messages %}
+        {% if category != "message" %}
+        <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+          {{ message }}
+        </div>
+        {% else %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          {{ message }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+
+
+    {% block content %}
+    <p>Body generico.</p>
+    {% endblock %}
+
+  </section>
+
+
+  <footer class="bg-dark">
+    <div class="container">
+      <footer align="center" class="page-footer font-small darken-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 py-5">
+              <div class="mb-5 flex-center">
+                {% block footer %}
+                <a class="fb-ic">
+                  <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"></i>
+                </a>
+                <a class="tw-ic">
+                  <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"></i>
+                </a>
+                <a class="gplus-ic">
+                  <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"></i>
+                </a>
+                <a class="li-ic">
+                  <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"></i>
+                </a>
+                <a class="ins-ic">
+                  <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"></i>
+                </a>
+                <a class="pin-ic">
+                  <i class="fab fa-pinterest fa-lg white-text fa-2x"></i>
+                </a>
+                {% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright text-center white-text">
+          © 2019 Copyright:CerveWeb
+        </div>
+      </footer>
+    </div>
+  </footer>
+
+
+</body>
+<script>
+  $(document).ready(function () {
+    var messages = "{{ get_flashed_messages() }}";
+
+    if (typeof messages != 'undefined' && messages != '[]') {
+      $("#myModal").modal();
+    };
+  });
+
+  var prevScrollpos = window.pageYOffset;
+  window.onscroll = function () {
+    var currentScrollPos = window.pageYOffset;
+    if (prevScrollpos > currentScrollPos) {
+      document.getElementById("navbar").style.top = "0";
+    } else {
+      document.getElementById("navbar").style.top = "-50px";
+    }
+    prevScrollpos = currentScrollPos;
+  };
+</script>
+
+
+{% block scripts %}
+
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}CerveWeb{% endblock %}
+
+{% block header %}
+<div class="pt-5">
+  <img class="logotipo img-fluid d-block mx-auto" src="/static/img/cerveweb.png">
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="mx-5">
+  <table id="dt-select" class="table table-striped table-bordered mt-5" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Importe Unitario</th>
+        <th>Medida</th>
+        <th>Cantidad Solicitada</th>
+        <th><i class="fas fa-check"> </i></th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for p in productos%}
+      <tr>
+        <td>{{ p['id'] }}</td>
+        <td>{{ p['nombre'] }}</td>
+        <td>{{ p['descripcion'] }}</td>
+        <td>{{ p['importe_unitario'] }}</td>
+        <td>{{ p['unidad'] }}</td>
+        <td>
+          <div class="def-number-input number-input safari_only">
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+            <input id="inpCantidad" class="quantity" min="0" name="quantity" type="number">
+            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+          </div>
+        </td>
+        <td>
+          <button type="submit" id="btnPedido" class="btn btn-warning btn-circle"><i class="fas fa-beer"> </i></button>
+        </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+    <!--<tfoot>
+    <tr>
+      <th>Id</th>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th>Importe Unitario</th>
+      <th>Unidad</th>
+      <th>Ingrediente</th>
+      <th>Cantidad Solicitada</th>
+      <th><i class="fas fa-check"> </i></th>
+    </tr>
+  </tfoot>-->
+  </table>
+</div>
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script type="text/JavaScript">
+  function getDatos(){
+    var jsonstring = { 'cantidad' :$('#inpCantidad').val() }
+    //var texto = $("#tdID").val();
+    //var texto2 = $("#inpCantidad").val();
+    console.log(jsonstring);
+    $.ajax({
+      url: "{{url_for('main.productos')}}",
+      type: 'POST',
+      data: jsonstring,
+      contentType: 'application/json;charset=UTF-8',
+    });
+  };
+
+  $("#btnPedido").click(function(){    
+    getDatos();
+  });
+</script>
+{% endblock %}

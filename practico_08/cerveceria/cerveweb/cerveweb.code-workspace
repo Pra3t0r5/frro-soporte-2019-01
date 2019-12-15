@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {		
+			"python.pythonPath": "/path/to/your/venv/bin/python",
+			"python.envFile":"${workspaceFolder}/.env"		
+	}
+}
